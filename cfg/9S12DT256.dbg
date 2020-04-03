@@ -1,0 +1,5 @@
+// After load the commands written below will be executed
+
+// Debugger attached flag -- RDRH == 0x01
+wb 0x00000263 0x01
+

@@ -1,0 +1,128 @@
+###############################################################################
+# WARNING DANGER BUGS WARNING DANGER BUGS WARNING DANGER BUGS WARNING DANGER  #
+# ***** no spaces allowed in path names to $(ROOTDIR) or in file names  ***** #
+###############################################################################
+
+# build/Makefile.cw7
+
+# install and tools location
+INSTALL = C:/Program Files/Freescale/CodeWarrior for ColdFire V7.2
+TOOLS = $(INSTALL)/ColdFire_Tools/Command_Line_Tools
+
+# system header file paths (sans $(INSTALL))
+SYSDIRS = ColdFire_Support/ewl/EWL_C/include
+
+# compiler and linker
+CC = $(TOOLS)/mwccmcf.exe
+LD = $(TOOLS)/mwldmcf.exe
+AS = $(TOOLS)/mwasmmcf.exe
+
+ifeq (52221,$(findstring 52221,$(CPU)))
+PROC=52221
+else ifeq (52233,$(findstring 52233,$(CPU)))
+PROC=52233
+else ifeq (52259,$(findstring 52259,$(CPU)))
+PROC=52259
+else ifeq (5211,$(findstring 5211,$(CPU)))
+PROC=5211
+else
+$(error Invalid CPU - $(CPU))
+endif
+
+# compiler flags
+CCFLAGS = -g \
+          -abi register \
+          -sdata 1023 \
+          -cpp_exceptions off -RTTI off \
+          -w err \
+          -proc $(PROC) \
+          $(foreach a,$(subst ., ,$(TARGET)),-d $(a)) \
+          $(foreach a,$(subst ., ,$(BUILD)),-d $(a)) \
+          $(foreach a,$(subst ., ,$(CPU)),-d $(a)) \
+          $(foreach a,$(subst ., ,$(MODE)),-d $(a)) \
+          $(DEFINES:%=-d %) \
+          $(foreach a,$(SOURCEDIRS:;= ),-I$(a)) \
+          -I- \
+          $(foreach a,$(SYSDIRS),-I"$(INSTALL)/$(a)")
+
+ifeq (RELEASE,$(findstring RELEASE,$(MODE)))
+ifeq (52259,$(findstring 52259,$(CPU)))
+CCFLAGS += -O4 -opt speed -coloring -peephole -noa6
+else
+CCFLAGS += -O4 -opt space -coloring -peephole -noa6
+endif
+endif
+
+# linker flags
+LDFLAGS = -force_active __cfm,__swvect \
+          -main __startup \
+          -dead \
+          -map keep \
+          -srec -sreclength 32
+
+# assembler flags
+ASFLAGS = -proc $(PROC)
+
+OBJECTS = $(SOURCES:%.c=%.o)
+OBJECTASMS = $(ASMS:%.s=%.o)
+OBJECTLIBS = $(LIBS:%=%.a)
+
+%.o: %.C
+	echo mwccmcf.exe -c $< >&2; \
+	"$(CC)" $(CCFLAGS) -c $<
+
+%.o: %.c
+	echo mwccmcf.exe -c $< >&2; \
+	"$(CC)" $(CCFLAGS) -c $<
+
+%.o: %.s
+	echo mwasmmcf.exe -c $< >&2; \
+	"$(AS)" $(ASFLAGS) -c $<
+
+ifeq (PROGRAM, $(TARGETTYPE))
+
+target: $(TARGET).elf
+$(TARGET).elf: $(LCFS) $(OBJECTS) $(OBJECTASMS) $(OBJECTLIBS) $(OBJECTLIBS)
+	echo mwldmcf.exe -o $@ $+ >&2; \
+	"$(LD)" $(LDFLAGS) -o $@ $+
+
+else ifeq (LIBRARY, $(TARGETTYPE))
+
+target: $(TARGET).a
+$(TARGET).a: $(OBJECTS) $(OBJECTASMS) $(OBJECTLIBS) $(OBJECTLIBS)
+	echo mwldmcf.exe -library -o $@ $+ >&2; \
+	"$(LD)" -library -o $@ $+
+
+else ifneq (NONE, $(TARGETTYPE))
+$(error Invalid TARGETTYPE - $(TARGETTYPE))
+endif
+
+DEPENDS = $(SOURCES:%.c=%.dep)
+
+# CC will emit paths that start with a drive letter
+# (c:\project\nichelite\nichelite.c).  In a Cygwin env ROOTDIR does
+# not start with a drive letter because pwd does not include it;
+# mksnt's ROOTDIR will start with a drive letter.  The awk usage below
+# is tolerate of a leading or missing drive letter.
+
+# remove the drive letter from rootdir since cygwin won't have one anyway
+TRIMDIR := $(shell echo "$(ROOTDIR)" | sed 's!.*:!!')
+
+%.dep: %.c
+	@"$(CC)" -E $(CCFLAGS) $< | \
+	grep '^#line 1 ' | sed 's!\\\\!/!g' | grep -i $(ROOTDIR) |  grep -v '//.$$' | \
+	sed 's!^.* "!$(notdir $(<:.c=.o)) $(notdir $(<:.c=.dep)): !; s!".*!!' | \
+	awk '{ i = index($$3, "$(TRIMDIR)"); p = length("$(TRIMDIR)"); c = substr($$3, i+p); print $$1, $$2, "$$(ROOTDIR)" c }' | \
+	grep -vi war""ning: >$@; :
+
+%.dep: %.C
+	@"$(CC)" -E $(CCFLAGS) $< | \
+	grep '^#line 1 ' | sed 's!\\\\!/!g' | grep -i $(ROOTDIR) |  grep -v '//.$$' | \
+	sed 's!^.* "!$(notdir $(<:.C=.o)) $(notdir $(<:.C=.dep)): !; s!".*!!' | \
+	awk '{ i = index($$3, "$(TRIMDIR)"); p = length("$(TRIMDIR)"); c = substr($$3, i+p); print $$1, $$2, "$$(ROOTDIR)" c }' | \
+	grep -vi war""ning: >$@; :
+
+depend: $(DEPENDS)
+
+-include *.dep
+

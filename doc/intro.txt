@@ -1,0 +1,9 @@
+StickOS for MCF52221 v1.02
+
+The product is a resident "StickOS BASIC" programming environment (including an easy-to-use editor, compiler, flasher, and debugger) that runs entirely within the Freescale MCF52221 ColdFire MCU.  In the StickOS BASIC programming environment, external MCU pins are mapped to special "pin variables" for manipulation or examination, and internal MCU peripherals are managed by BASIC control statements and BASIC interrupt handlers.  The MCF52221 may be directly connected to any USB host computer that supports an FTDI Serial Port (including Windows and Linux) and may then be controlled by any terminal emulator program, with no additional software or hardware required on the host computer.
+	
+In literally minutes, folks can be using most of the components and capabilities of the MCU, including digital I/O pins (via the General Purpose I/O Module), analog input pins (via the Analog-to-Digital Converters), analog output pins (via the Pulse-Width Modulation Module), frequency output pins (via the DMA Timer Module), UART I/O pins (via the UART Modules), interval timers (via the Programmable Interrupt Timers), and non-volatile storage (via the ColdFire Flash Module).
+
+If you are interested, there is more information on StickOS BASIC (and a simple CPUStick for wire-wrap or solderless breadboard use) at http://www.cpustick.com .
+
+You can run the .S19 ColdFire binary image on an M52221DEMO board with the CLK0 jumper installed (or basically any board using an MCF52221 ColdFire MCU and either an 8MHz crystal or the internal relaxation oscillator enabled).

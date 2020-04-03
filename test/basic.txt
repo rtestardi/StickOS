@@ -1,0 +1,5405 @@
+first we test parsing and running expressions
+1
+2
+7
+5
+9
+7
+15
+21
+81
+3
+3
+2
+8
+then we unparse them
+  10 print 1
+  20 print 1+1
+  30 print 1+2*3
+  40 print 1*2+3
+  50 print (1+2)*3
+  60 print 1+2*3
+  70 print 1+2*(3+4)
+  80 print (1+2)*(3+4)
+  90 print (1+2)*(3*(4+5))
+ 100 print 1+1+1
+ 110 print 1+(1+1)
+ 120 print 16/4/2
+ 130 print 16/(4/2)
+end
+1
+2
+7
+5
+9
+7
+15
+21
+81
+3
+3
+2
+8
+then we test format specifiers
+0x14 0x1e dec 20 30
+256 512 hex 0x100 0x200
+hex 0x14 0x1e dec 20 30
+dec 256 512 hex 0x100 0x200
+default 512
+default 30
+then we unparse them
+  10 print hex 20, 30, "dec", dec 20, 30
+  20 print dec 0x100, 0x200, "hex", hex 0x100, 0x200
+  30 print "hex", hex 20, 30, "dec", dec 20, 30
+  40 print "dec", dec 0x100, 0x200, "hex", hex 0x100, 0x200
+  50 print "default", 0x200
+  60 print "default", 30
+end
+0x14 0x1e dec 20 30
+256 512 hex 0x100 0x200
+hex 0x14 0x1e dec 20 30
+dec 256 512 hex 0x100 0x200
+default 512
+default 30
+then we test operators
+3 5
+-1 1
+6 9
+3 2
+1 0
+3 6
+0 2
+3 4
+1 1 0
+0 1 0
+1 0 0
+4 2
+1 0 0
+0 1 0
+1 0 1
+0 1 1
+0 0 1
+1 1 0
+then we unparse them
+   1 print 1+2, 3+2
+   2 print 1-2, 2-1
+   3 print 2*3, 3*3
+   4 print 7/2, 7/3
+   5 print 7%2, 8%2
+   6 print 1|2, 2|6
+   7 print 1&2, 2&6
+   8 print 1^2, 2^6
+   9 print 1||0, 1||1, 0||0
+  10 print 1&&0, 1&&1, 0&&0
+  11 print 1^^0, 1^^1, 0^^0
+  12 print 1<<2, 8>>2
+  13 print 1<2, 2<1, 1<1
+  14 print 1>2, 2>1, 1>1
+  15 print 1<=2, 2<=1, 1<=1
+  16 print 1>=2, 2>=1, 1>=1
+  17 print 1==2, 2==1, 1==1
+  18 print 1!=2, 2!=1, 1!=1
+end
+3 5
+-1 1
+6 9
+3 2
+1 0
+3 6
+0 2
+3 4
+1 1 0
+0 1 0
+1 0 0
+4 2
+1 0 0
+0 1 0
+1 0 1
+0 1 1
+0 0 1
+1 1 0
+then test unary operators
+1 0 -2
+0 1 -1
+3 1
+4 2
+2 -2
+6 -6
+6 -6
+1 0 1 0
+then we unparse them
+   1 print 1, !1, ~1
+   2 print 0, !0, ~0
+   3 print !1+3, ~1+3
+   4 print !0+3, ~0+3
+   5 print +2, -2
+   6 print 3*+2, 3*-2
+   7 print +2*3, -2*3
+   8 print !!4, !!0, !!(2+2), !!(2-2)
+end
+1 0 -2
+0 1 -1
+3 1
+4 2
+2 -2
+6 -6
+6 -6
+1 0 1 0
+then we test line input
+  10 rem line 10
+end
+  10 rem line 10
+  20 rem line 20
+end
+  10 rem line 10
+end
+  10 rem line 10
+  30 rem line 30
+end
+  10 rem line 10
+  15 rem line 15
+  30 rem line 30
+end
+  10 rem line 10
+  15 rem line 15
+  30 rem line 30
+end
+  10 rem new line 10
+  15 rem line 15
+  30 rem line 30
+end
+  10 rem new line 10
+  15 rem line 15
+  30 rem line 30
+end
+test undo
+  15 rem line 15
+  30 rem line 30
+end
+  10 rem new line 10
+  15 rem line 15
+  30 rem line 30
+end
+end
+then we test some math
+  10 dim a
+  20 dim r
+end
+5 0
+  10 dim a
+  20 dim r
+  25 let a = 5
+  30 print a, r
+  50 print 3+5*6
+  60 print (3+5)*6
+  70 print 3+5*6, 2, 1
+  80 print 3+5*6
+ 100 dim b, c, d, e
+ 110 let q = 4+7*(1+1)
+ 120 let qq = 44+77*(11+11)
+ 130 print q, qq
+end
+5 0
+33
+48
+33 2 1
+33
+var 'q' undefined
+STOP at line 110!
+   1 dim q, qq
+  10 dim a
+  20 dim r
+  25 let a = 5
+  30 print a, r
+  50 print 3+5*6
+  60 print (3+5)*6
+  70 print 3+5*6, 2, 1
+  80 print 3+5*6
+ 100 dim b, c, d, e
+ 110 let q = 4+7*(1+1)
+ 120 let qq = 44+77*(11+11)
+ 130 print q, qq
+end
+5 0
+33
+48
+33 2 1
+33
+18 1738
+test multiple assignments
+  10 dim a, b, c
+  20 let a = 5, b = 5+5, c = a+b
+  30 print a, b, c
+end
+5 10 15
+test some variable types
+   1 dim a as byte
+   2 dim b as short
+   3 dim c
+   4 let c = -1
+   5 let b = c
+   6 let a = b
+   7 print hex a, b, c
+   8 let c = 0x10011
+   9 let b = 0x10022
+  10 let a = 0x10033
+  11 print hex a, b, c
+end
+0xff 0xffff 0xffffffff
+0x33 0x22 0x10011
+test re-dim errors
+   1 dim a as byte
+   2 dim a as byte
+end
+var 'a' already declared at this scope
+STOP at line 2!
+   1 dim a as short
+   2 dim a as short
+end
+var 'a' already declared at this scope
+STOP at line 2!
+   1 dim a
+   2 dim a
+end
+var 'a' already declared at this scope
+STOP at line 2!
+test some assertions
+assertion failed
+STOP at line 20!
+assertion failed
+STOP at line 70!
+assertion failed
+STOP at line 100!
+test some more statements
+ 130 if x+y*2 then
+ 140 elseif 1 then
+ 150 else 
+ 160 endif 
+ 170 while 1 do
+ 180 endwhile 
+ 190 gosub other
+ 200 return 
+end
+then test delete
+  10 dim a
+  20 dim r
+  25 let a = 5
+  30 print a, r
+  50 print 3+5*6
+  60 print (3+5)*6
+  70 print 3+5*6, 2, 1
+  80 print 3+5*6
+  90 dim a
+ 100 dim b, c, d, e
+ 110 let q = 4+7*(1+1)
+ 130 if x+y*2 then
+ 140 elseif 1 then
+ 150 else 
+ 160 endif 
+ 170 while 1 do
+ 180 endwhile 
+ 190 gosub other
+ 200 return 
+end
+  10 dim a
+  20 dim r
+  25 let a = 5
+  30 print a, r
+  50 print 3+5*6
+  60 print (3+5)*6
+  70 print 3+5*6, 2, 1
+  80 print 3+5*6
+  90 dim a
+ 100 dim b, c, d, e
+ 110 let q = 4+7*(1+1)
+ 170 while 1 do
+ 180 endwhile 
+ 190 gosub other
+ 200 return 
+end
+  10 dim a
+  20 dim r
+  25 let a = 5
+  30 print a, r
+  50 print 3+5*6
+  60 print (3+5)*6
+  70 print 3+5*6, 2, 1
+  80 print 3+5*6
+  90 dim a
+end
+  50 print 3+5*6
+  60 print (3+5)*6
+  70 print 3+5*6, 2, 1
+  80 print 3+5*6
+  90 dim a
+end
+  50 print 3+5*6
+  60 print (3+5)*6
+  70 print 3+5*6, 2, 1
+  80 print 3+5*6
+  90 dim a
+end
+profile tests
+      0ms other
+      0ms   10 rem ### blinky ###
+      0ms   20 dim i
+      0ms   30 dim led as pin dtin2 for digital output
+      0ms   40 while 1 do
+      0ms   50   for i = 1 to 16
+      0ms   60     let led = !led
+      0ms   70     sleep 50 ms
+      0ms   80   next 
+      0ms   90   sleep 800 ms
+      0ms   95   break 
+      0ms  100 endwhile 
+      0ms  110 end 
+end
+      0ms other
+      0ms   10 rem ### blinky ###
+      0ms   20 dim i
+      0ms   30 dim led as pin dtin2 for digital output
+      0ms   40 while 1 do
+      4ms   50   for i = 1 to 16
+      3ms   60     let led = !led
+    804ms   70     sleep 50 ms
+      0ms   80   next 
+    801ms   90   sleep 800 ms
+      0ms   95   break 
+      0ms  100 endwhile 
+      0ms  110 end 
+end
+      0ms other
+      0ms   10 rem ### blinky ###
+            20 dim i
+            30 dim led as pin dtin2 for digital output
+      0ms   40 while 1 do
+            50   for i = 1 to 16
+            60     let led = !led
+      0ms   70     sleep 50 ms
+            80   next 
+            90   sleep 800 ms
+            95   break 
+      0ms  100 endwhile 
+           110 end 
+      0ms 9999 rem 
+end
+      0ms other
+      0ms   10 rem ### blinky ###
+            20 dim i
+            30 dim led as pin dtin2 for digital output
+      7ms   40 while 1 do
+            50   for i = 1 to 16
+            60     let led = !led
+   1605ms   70     sleep 50 ms
+            80   next 
+            90   sleep 800 ms
+            95   break 
+      0ms  100 endwhile 
+           110 end 
+      0ms 9999 rem 
+end
+larger tests
+   1 print 1, 2+2
+   2 dim a, x
+   3 let a = 5
+   4 print a
+   5 let x = 15
+   6 print a+x
+   7 rem dim a
+   8 rem dim a
+end
+1 4
+5
+20
+  10 dim a
+  20 let a = 0
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+  70   endif 
+  80   let a = a+1
+  90 endwhile 
+  91 gosub outer
+  92 gosub outer
+ 100 end 
+ 110 print "not reached"
+ 190 sub outer
+ 200   gosub inner
+ 210   return 
+ 220 endsub 
+ 290 sub inner
+ 300   print "here"
+ 310   return 
+ 320 endsub 
+ 400 on timer 1 do gosub timer
+ 410 end 
+ 490 sub timer
+ 500   print "timer"
+ 510   return 
+ 520 endsub 
+end
+0 0 0
+1 0 1
+1 odd 2 odd
+2 2 0
+3 2 1
+1 odd 2 odd
+4 4 0
+5 4 1
+1 odd 2 odd
+6 6 0
+7 6 1
+1 odd 2 odd
+8 8 0
+9 8 1
+1 odd 2 odd
+here
+here
+off
+on
+  10 dim a
+  20 let a = 0
+    let a = 0
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+0 0 0
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+  70   endif 
+  80   let a = a+1
+    let a = 1
+  90 endwhile 
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+1 0 1
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+1 odd 2 odd
+  70   endif 
+  80   let a = a+1
+    let a = 2
+  90 endwhile 
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+2 2 0
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+  70   endif 
+  80   let a = a+1
+    let a = 3
+  90 endwhile 
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+3 2 1
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+1 odd 2 odd
+  70   endif 
+  80   let a = a+1
+    let a = 4
+  90 endwhile 
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+4 4 0
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+  70   endif 
+  80   let a = a+1
+    let a = 5
+  90 endwhile 
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+5 4 1
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+1 odd 2 odd
+  70   endif 
+  80   let a = a+1
+    let a = 6
+  90 endwhile 
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+6 6 0
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+  70   endif 
+  80   let a = a+1
+    let a = 7
+  90 endwhile 
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+7 6 1
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+1 odd 2 odd
+  70   endif 
+  80   let a = a+1
+    let a = 8
+  90 endwhile 
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+8 8 0
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+  70   endif 
+  80   let a = a+1
+    let a = 9
+  90 endwhile 
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+9 8 1
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+1 odd 2 odd
+  70   endif 
+  80   let a = a+1
+    let a = 10
+  90 endwhile 
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+  70   endif 
+  80   let a = a+1
+  90 endwhile 
+  91 gosub outer
+ 190 sub outer
+ 200   gosub inner
+ 290 sub inner
+ 300   print "here"
+here
+ 310   return 
+ 210   return 
+  92 gosub outer
+ 190 sub outer
+ 200   gosub inner
+ 290 sub inner
+ 300   print "here"
+here
+ 310   return 
+ 210   return 
+ 100 end 
+off
+on
+STOP at line 10!
+STOP at line 20!
+STOP at line 30!
+0 0 0
+STOP at line 40!
+outer
+ 190 sub outer
+ 200   gosub inner
+ 210   return 
+ 220 endsub 
+inner
+ 290 sub inner
+ 300   print "here"
+ 310   return 
+ 320 endsub 
+delete inner
+  10 dim a
+  20 let a = 0
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+  70   endif 
+  80   let a = a+1
+  90 endwhile 
+  91 gosub outer
+  92 gosub outer
+ 100 end 
+ 110 print "not reached"
+ 190 sub outer
+ 200   gosub inner
+ 210   return 
+ 220 endsub 
+ 400 on timer 1 do gosub timer
+ 410 end 
+ 490 sub timer
+ 500   print "timer"
+ 510   return 
+ 520 endsub 
+end
+delete outer
+  10 dim a
+  20 let a = 0
+  30 while a<10 do
+  40   print a, a/2*2, a%2
+  50   if a%2 then
+  60     print 1, "odd", 2, "odd"
+  70   endif 
+  80   let a = a+1
+  90 endwhile 
+  91 gosub outer
+  92 gosub outer
+ 100 end 
+ 110 print "not reached"
+ 400 on timer 1 do gosub timer
+ 410 end 
+ 490 sub timer
+ 500   print "timer"
+ 510   return 
+ 520 endsub 
+end
+       ^ - error
+         ^ - error
+test some ifs and whiles
+  10 if 0 then
+  20   print 0
+  30   if 1 then
+  40     print 2
+  50   else 
+  60     print 3
+  70   endif 
+  80 elseif 1 then
+  90   print 1
+ 100   if 1 then
+ 110     print 11
+ 120   else 
+ 130     print 4
+ 140   endif 
+ 150 else 
+ 160   print 0
+ 170   if 1 then
+ 180     print 5
+ 190   else 
+ 200     print 6
+ 210   endif 
+ 220 endif 
+end
+1
+11
+ 100   if 1 then
+  10 if 0 then
+  20   print 0
+  30   if 1 then
+  40     print 2
+  50   else 
+  60     print 3
+  70   endif 
+  80 elseif 1 then
+  90   print 1
+ 100   if 1 then
+ 100   if 1 then
+ 110     print 11
+ 120   else 
+ 130     print 4
+ 140   endif 
+ 150 else 
+ 160   print 0
+ 170   if 1 then
+ 180     print 5
+ 190   else 
+ 200     print 6
+ 210   endif 
+ 220 endif 
+end
+  90   print 1
+ 100   if 1 then
+ 110     print 11
+  10 if 0 then
+  20   print 0
+  30   if 1 then
+  40     print 2
+  50   else 
+  60     print 3
+  70   endif 
+  80 elseif 1 then
+  90   print 1
+ 100   if 1 then
+ 110     print 11
+ 120   else 
+ 130     print 4
+ 140   endif 
+ 150 else 
+ 160   print 0
+ 170   if 1 then
+ 180     print 5
+ 190   else 
+ 200     print 6
+ 210   endif 
+ 220 endif 
+end
+test do/until
+  10 dim a
+  20 do 
+  30   print a
+  40   let a = a+1
+  50 until a==10
+  60 for a = 1 to 10
+  70 next 
+  80 print a
+end
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+  10 dim a
+  30 print a
+  40 let a = a+1
+missing block begins?
+  50 until a==10
+  60 for a = 1 to 10
+  70 next 
+  80 print a
+end
+  10 dim a
+  20 do 
+  30   print a
+  40   let a = a+1
+  60   for a = 1 to 10
+  70   next 
+  80   print a
+missing block ends?
+end
+test help
+for more information:
+  help about
+  help commands
+  help modes
+  help statements
+  help blocks
+  help devices
+  help expressions
+  help strings
+  help variables
+  help pins
+  help clone
+  help zigflea
+
+see also:
+  http://www.cpustick.com
+Welcome to StickOS for Freescale MCF52221 v1.92!
+Copyright (c) 2008-2012; all rights reserved.
+http://www.cpustick.com
+support@cpustick.com
+<Ctrl-C>                      -- stop program
+auto <line>                   -- automatically number program lines
+clear [flash]                 -- clear ram [and flash] variables
+clone [run]                   -- clone flash to slave MCU [and run]
+cls                           -- clear terminal screen
+cont [<line>]                 -- continue program from stop
+delete ([<line>][-][<line>]|<subname>) -- delete program lines
+download <slave Hz>           -- download flash to slave MCU
+dir                           -- list saved programs
+edit <line>                   -- edit program line
+help [<topic>]                -- online help
+list ([<line>][-][<line>]|<subname>) -- list program lines
+load <name>                   -- load saved program
+memory                        -- print memory usage
+new                           -- erase code ram and flash memories
+profile ([<line>][-][<line>]|<subname>) -- display profile info
+purge <name>                  -- purge saved program
+renumber [<line>]             -- renumber program lines (and save)
+reset                         -- reset the MCU!
+run [<line>]                  -- run program
+save [<name>|library]         -- save code ram to flash memory
+subs                          -- list sub names
+undo                          -- undo code changes since last save
+upgrade                       -- upgrade StickOS firmware!
+uptime                        -- print time since last reset
+
+for more information:
+  help modes
+analog [<millivolts>]             -- set/display analog voltage scale
+baud [<rate>]                     -- set/display uart console baud rate
+autorun [on|off]                  -- autorun mode (on reset)
+echo [on|off]                     -- terminal echo mode
+indent [on|off]                   -- listing indent mode
+keychars [<keychars>]             -- set/display keypad scan chars
+nodeid [<nodeid>|none]            -- set/display zigflea nodeid
+numbers [on|off]                  -- listing line numbers mode
+pins [<assign> [<pinname>|none]]  -- set/display StickOS pin assignments
+prompt [on|off]                   -- terminal prompt mode
+servo [<Hz>]                      -- set/display servo Hz (on reset)
+step [on|off]                     -- debugger single-step mode
+trace [on|off]                    -- debugger trace mode
+watchsmart [on|off]               -- low-overhead watchpoint mode
+
+pin assignments:
+  heartbeat  safemode*
+  qspi_cs*  clone_rst*  zigflea_rst*  zigflea_attn*  zigflea_rxtxen
+
+for more information:
+  help pins
+<line>                                 -- delete program line from code ram
+<line> <statement>  // comment         -- enter program line into code ram
+
+<variable>[$] = <expression> [, ...]   -- assign variable
+? [dec|hex|raw] <expression> [, ...] [;] -- print results
+assert <expression>                    -- break if expression is false
+data <n> [, ...]                       -- read-only data
+dim <variable>[$][[n]] [as ...] [, ...] -- dimension variables
+end                                    -- end program
+halt                                   -- loop forever
+input [dec|hex|raw] <variable>[$] [, ...] -- input data
+label <label>                          -- read/data label
+lcd <pos>, [dec|hex|raw] <expression> [, ...] [;] -- display results on lcd
+let <variable>[$] = <expression> [, ...] -- assign variable
+print [dec|hex|raw] <expression> [, ...] [;] -- print results
+read <variable> [, ...]                -- read read-only data into variables
+rem <remark>                           -- remark
+restore [<label>]                      -- restore read-only data pointer
+sleep <expression> (s|ms|us)           -- delay program execution
+stop                                   -- insert breakpoint in code
+vprint <variable>[$] = [dec|hex|raw] <expression> [, ...] -- print to variable
+
+for more information:
+  help blocks
+  help devices
+  help expressions
+  help strings
+  help variables
+if <expression> then
+[elseif <expression> then]
+[else]
+endif
+
+for <variable> = <expression> to <expression> [step <expression>]
+  [(break|continue) [n]]
+next
+
+while <expression> do
+  [(break|continue) [n]]
+endwhile
+
+do
+  [(break|continue) [n]]
+until <expression>
+
+gosub <subname> [<expression>, ...]
+
+sub <subname> [<param>, ...]
+  [return]
+endsub
+timers:
+  configure timer <n> for <n> (s|ms|us)
+  on timer <n> do <statement>                -- on timer execute statement
+  off timer <n>                              -- disable timer interrupt
+  mask timer <n>                             -- mask/hold timer interrupt
+  unmask timer <n>                           -- unmask timer interrupt
+
+uarts:
+  configure uart <n> for <n> baud <n> data (even|odd|no) parity [loopback]
+  on uart <n> (input|output) do <statement>  -- on uart execute statement
+  off uart <n> (input|output)                -- disable uart interrupt
+  mask uart <n> (input|output)               -- mask/hold uart interrupt
+  unmask uart <n> (input|output)             -- unmask uart interrupt
+  uart <n> (read|write) <variable> [, ...]   -- perform uart I/O
+
+i2c:
+  i2c (start <addr>|(read|write) <variable> [, ...]|stop) -- master i2c I/O
+
+qspi:
+  qspi <variable> [, ...]                    -- master qspi I/O
+
+watchpoints:
+  on <expression> do <statement>             -- on expr execute statement
+  off <expression>                           -- disable expr watchpoint
+  mask <expression>                          -- mask/hold expr watchpoint
+  unmask <expression>                        -- unmask expr watchpoint
+the following operators are supported as in C,
+in order of decreasing precedence:
+  <n>                       -- decimal constant
+  0x<n>                     -- hexadecimal constant
+  'c'                       -- character constant
+  <variable>                -- simple variable
+  <variable>[<expression>]  -- array variable element
+  <variable>#               -- length of array or string
+  (   )                     -- grouping
+  !   ~                     -- logical not, bitwise not
+  *   /   %                 -- times, divide, mod
+  +   -                     -- plus, minus
+  >>  <<                    -- shift right, left
+  <=  <  >=  >              -- inequalities
+  ==  !=                    -- equal, not equal
+  |   ^   &                 -- bitwise or, xor, and
+  ||  ^^  &&                -- logical or, xor, and
+for more information:
+  help variables
+all variables must be dimensioned!
+variables dimensioned in a sub are local to that sub
+simple variables are passed to sub params by reference; otherwise, by value
+array variable indices start at 0
+v is the same as v[0], except for input/print/i2c/qspi/uart statements
+
+ram variables:
+  dim <var>[$][[n]]
+  dim <var>[[n]] as (byte|short)
+
+absolute variables:
+  dim <var>[[n]] [as (byte|short)] at address <addr>
+
+flash parameter variables:
+  dim <varflash>[[n]] as flash
+
+pin alias variables:
+  dim <varpin> as pin <pinname> for (digital|analog|servo|frequency|uart) \
+                                      (input|output) \
+                                      [debounced] [inverted] [open_drain]
+
+system variables (read-only):
+  analog  getchar  keychar  msecs  nodeid
+  random  seconds  ticks  ticks_per_msec
+
+for more information:
+  help pins
+pin names:
+    0         1         2         3        4     5        6        7
+  --------  --------- --------- -------- ----- -------- -------- ------+
+  an0       an1       an2       an3      an4   an5      an6      an7   | AN
+  scl       sda                                                        | AS
+            irq1*                        irq4*                   irq7* | NQ
+  qspi_dout qspi_din  qspi_clk  qspi_cs0       qspi_cs2 qspi_cs3       | QS
+  dtin0     dtin1     dtin2     dtin3                                  | TC
+  utxd0     urxd0     urts0*    ucts0*                                 | UA
+  utxd1     urxd1     urts1*    ucts1*                                 | UB
+
+all pins support general purpose digital input/output
+an? = potential analog input pins (mV)
+dtin? = potential analog output (PWM) pins (mV)
+dtin? = potential servo output (PWM) pins (us)
+dtin? = potential frequency output pins (Hz)
+urxd? = potential uart input pins (received byte)
+utxd? = potential uart output pins (transmit byte)
+       ^ - error
+clone cable:
+  master           slave
+  ---------        ----------------
+  qspi_clk         qspi_clk (ezpck)
+  qspi_din         qspi_dout (ezpq)
+  qspi_dout        qspi_din (ezpd)
+  qspi_cs0         rcon* (ezpcs*)
+  pins clone_rst*  rsti*
+  vss              vss
+  vdd              vdd
+connect <nodeid>              -- connect to MCU <nodeid> via zigflea
+<Ctrl-D>                      -- disconnect from zigflea
+
+remote node variables:
+  dim <varremote>[[n]] as remote on nodeid <nodeid>
+
+zigflea cable:
+  MCU                  MC1320X
+  -------------        -----------
+  qspi_clk             spiclk
+  qspi_din             miso
+  qspi_dout            mosi
+  irq4*                irq*
+  pins qspi_cs*        ce*
+  pins zigflea_rst*    rst*
+  pins zigflea_rxtxen  rxtxen
+  vss                  vss
+  vdd                  vdd
+test dims
+error -            ^
+  10 dim a as pin dtin0 for digital output
+  20 dim b as pin dtin1 for digital input
+  30 dim c as pin an0 for analog input
+  31 dim x as pin dtin2 for digital output inverted
+  32 dim y as pin dtin3 for digital input inverted
+  33 dim z as pin an1 for analog input inverted
+  34 dim h as pin utxd1 for digital output open_drain
+  35 dim d1 as pin utxd1 for digital output inverted open_drain
+  36 dim d2 as pin scl for digital input debounced inverted
+  37 dim d3 as pin urts1* for digital input debounced
+  38 dim d4 as pin an1 for analog input debounced
+  40 dim d5 as pin an3 for analog input debounced inverted
+  41 dim d6 as pin urxd1 for digital output inverted open_drain
+  42 dim d as flash
+  43 dim m as remote on nodeid 7
+  44 dim n[4] as remote on nodeid 8
+  50 dim e
+  55 let e = 5
+  70 dim g
+  80 print a, b, c, d, e, f, g, m, n[3], d1, d2, d3, d4, d5, d6
+  90 dim abs1 at address 0
+  91 dim abs2 as byte at address 16
+  92 dim abs3 as short at address 0x123
+  93 dim abs4[4] as short at address 0x1048
+  94 let abs1 = 1, abs2 = 2, abs3 = 3, abs4 = 4, abs4[1] = 5
+  95 print abs1, hex abs2, abs3, abs4, abs4[1]
+end
+var 'f' undefined
+0 0 0 0 5  0 0 0 0 0 0 0 0 0
+STOP at line 80!
+0 0x0 0x0 0x0 0x0 0x0 0x0 0x0
+  10 dim y[0] as pin an0 for digital input
+  11 dim y[1] as pin an0 for digital input
+  12 dim y[2] as pin an0 for digital input
+  13 dim x[10] as pin an0 for digital input
+  14 dim y[2] as pin an0 for digital input
+end
+var 'y' already declared at this scope
+STOP at line 14!
+  10 dim x
+  20 dim leds[1] as pin dtin0 for digital output
+  30 dim leds[2] as pin dtin1 for digital output
+  40 dim leds[3] as pin dtin2 for digital output
+  50 for x = 0 to 8
+  60   let leds[1] = x&1
+  70   let leds[2] = x>>1&1
+  80   let leds[3] = x>>2&1
+  90 next 
+end
+  10 print "programmatic shift"
+  20 dim x[1] as pin dtin0 for digital output
+  21 dim x[2] as pin dtin1 for digital output
+  22 dim x[3] as pin dtin2 for digital output
+  23 dim x[4] as pin dtin3 for digital output
+  24 dim y
+  30 for y = 1 to 3
+  40   if y==4 then
+  50     let x[y] = 0
+  60   else 
+  70     let x[y] = x[y+1]
+  80   endif 
+  90 next 
+end
+programmatic shift
+  10 print "programmatic shift with index error"
+  20 dim x[0] as pin dtin0 for digital output
+  21 dim x[1] as pin dtin1 for digital output
+  22 dim x[2] as pin dtin2 for digital output
+  23 dim x[3] as pin dtin3 for digital output
+  24 dim y
+  30 for y = 1 to 4
+  40   let x[y-1] = x[y]
+  50 next 
+end
+programmatic shift with index error
+var 'x' undefined
+STOP at line 40!
+   5 print "gosub params"
+  10 dim x
+  20 dim arr[3]
+  30 dim leds[0] as pin dtin0 for digital output
+  40 dim leds[1] as pin dtin1 for digital output
+  50 dim leds[3] as pin dtin2 for digital output
+  60 let x = 2, leds[0] = 1, leds[1] = 1, arr[0] = 1, arr[1] = 2
+  70 gosub dump
+  80 gosub p x
+  90 gosub dump
+ 100 gosub p leds
+ 110 gosub dump
+ 120 gosub p leds[1]
+ 130 gosub dump
+ 140 print "setting"
+ 150 gosub set x
+ 160 gosub dump
+ 170 gosub set leds
+ 180 gosub dump
+ 190 gosub set leds[1]
+ 200 gosub dump
+ 210 gosub set_1 arr
+ 220 gosub dump
+ 230 gosub set_1 leds
+ 240 end 
+ 250 sub p a
+ 260   print a
+ 270 endsub 
+ 280 sub set a
+ 290   print a
+ 300   let a = 0
+ 310 endsub 
+ 320 sub dump
+ 330   print x, leds[0], leds[1], arr[0], arr[1]
+ 340 endsub 
+ 350 sub set_1 a
+ 360   let a[1] = 0
+ 370 endsub 
+end
+gosub params
+2 0 0 1 2
+2
+2 0 0 1 2
+0
+2 0 0 1 2
+0
+2 0 0 1 2
+setting
+2
+0 0 0 1 2
+0
+0 0 0 1 2
+0
+0 0 0 1 2
+0 0 0 1 0
+var 'a' undefined
+STOP at line 360!
+test flash memory
+  10 dim a as flash
+  20 dim b[4] as flash
+  25 print a
+  30 for a = 0 to 3
+  40   let b[a] = b[a]+a*a
+  50 next 
+  60 for a = 0 to 3
+  70   print a, b[a]
+  80 next 
+end
+on
+  10 dim a as flash
+  20 dim b[4] as flash
+  25 print a
+  30 for a = 0 to 3
+  40 let b[a] = b[a]+a*a
+  50 next 
+  60 for a = 0 to 3
+  70 print a, b[a]
+  80 next 
+end
+  10 dim a as flash
+  20 dim b[4] as flash
+  25 print a
+0
+  30 for a = 0 to 3
+    let a = 0
+  40 let b[a] = b[a]+a*a
+    let b[0] = 0
+  50 next 
+    let a = 1
+  40 let b[a] = b[a]+a*a
+    let b[1] = 1
+  50 next 
+    let a = 2
+  40 let b[a] = b[a]+a*a
+    let b[2] = 4
+  50 next 
+    let a = 3
+  40 let b[a] = b[a]+a*a
+    let b[3] = 9
+  50 next 
+  60 for a = 0 to 3
+    let a = 0
+  70 print a, b[a]
+0 0
+  80 next 
+    let a = 1
+  70 print a, b[a]
+1 1
+  80 next 
+    let a = 2
+  70 print a, b[a]
+2 4
+  80 next 
+    let a = 3
+  70 print a, b[a]
+3 9
+  80 next 
+  10 dim a as flash
+  20 dim b[4] as flash
+  25 print a
+3
+  30 for a = 0 to 3
+    let a = 0
+  40 let b[a] = b[a]+a*a
+    let b[0] = 0
+  50 next 
+    let a = 1
+  40 let b[a] = b[a]+a*a
+    let b[1] = 2
+  50 next 
+    let a = 2
+  40 let b[a] = b[a]+a*a
+    let b[2] = 8
+  50 next 
+    let a = 3
+  40 let b[a] = b[a]+a*a
+    let b[3] = 18
+  50 next 
+  60 for a = 0 to 3
+    let a = 0
+  70 print a, b[a]
+0 0
+  80 next 
+    let a = 1
+  70 print a, b[a]
+1 2
+  80 next 
+    let a = 2
+  70 print a, b[a]
+2 8
+  80 next 
+    let a = 3
+  70 print a, b[a]
+3 18
+  80 next 
+off
+  10 dim a as flash
+  20 dim b[4] as flash
+  25 print a
+0
+  30 for a = 0 to 3
+    let a = 0
+  40 let b[a] = b[a]+a*a
+    let b[0] = 0
+  50 next 
+    let a = 1
+  40 let b[a] = b[a]+a*a
+    let b[1] = 1
+  50 next 
+    let a = 2
+  40 let b[a] = b[a]+a*a
+    let b[2] = 4
+  50 next 
+    let a = 3
+  40 let b[a] = b[a]+a*a
+    let b[3] = 9
+  50 next 
+  60 for a = 0 to 3
+    let a = 0
+  70 print a, b[a]
+0 0
+  80 next 
+    let a = 1
+  70 print a, b[a]
+1 1
+  80 next 
+    let a = 2
+  70 print a, b[a]
+2 4
+  80 next 
+    let a = 3
+  70 print a, b[a]
+3 9
+  80 next 
+off
+on
+on
+test array parsing
+  10 dim a[3], b
+  20 dim b, a[3+4]
+  30 dim a[3+4*2]
+  40 dim a[(3+4)*2]
+  50 dim a[(3+4)*2]
+  60 dim a[(3+4)*2] as byte
+  70 dim a[(3+4)*2] as flash
+  80 dim a[3+4-3]
+ 110 let a[3] = b[3]
+ 120 let a[3+4] = b[3+4]
+ 130 let a[3+4*2] = a[3+4*2]
+ 140 let a[(3+4)*2] = a[(3+4)*2]
+ 150 let a[(3+4)*2] = a[(3+4)*2]+2
+ 160 let a[(3+4)*2] = 2*a[(3+4)*2]+2
+ 170 let a[(3+4)*2] = 2*a[(3+4)*2]+2
+ 180 let a[(3+4)*2] = 2*a[(3+4)*2]+2
+ 190 let a[(3+4)*2] = 2*(a[(3+4)*2]+2)
+end
+0
+2
+4
+6
+test long variable names
+  10 dim long
+  20 dim evenlonger
+  30 dim muchmuchmuchmuchlonger
+  40 print long, evenlonger, muchmuchmuchmuchlonger
+  50 let long = 1
+  60 let evenlonger = 2
+  70 let muchmuchmuchmuchlonger = 3
+  80 print long, evenlonger, muchmuchmuchmuchlonger
+  90 dim long2 as byte
+ 100 dim evenlonger2 as byte
+ 110 dim muchmuchmuchmuchlonger2 as byte
+ 120 print long2, evenlonger2, muchmuchmuchmuchlonger2
+ 130 print long, evenlonger, muchmuchmuchmuchlonger
+end
+0 0 0
+1 2 3
+var 'muchmuchmuchmuchlonger2' already declared at this scope
+STOP at line 110!
+0 0 3
+1 2 3
+test read/data
+   1 dim a, b
+  10 data 1, 0x2, 3
+  20 data 0x4
+  30 data 5, 0x6
+  35 data -7
+  40 while 1 do
+  50   read a
+  60   print a
+  70 endwhile 
+  75 data 0x10
+end
+dim a, b
+data 1, 0x2, 3
+data 0x4
+data 5, 0x6
+data -7
+while 1 do
+  read a
+  print a
+endwhile 
+data 0x10
+end
+1
+2
+3
+4
+5
+6
+-7
+16
+out of data
+STOP at line 50!
+   1 dim a, b
+  10 data 1, 0x2, 3
+  20 data 0x4
+  30 data 5, 0x6
+  35 data -7
+  40 while 1 do
+  50   read a, b
+  60   print a, b
+  70 endwhile 
+  75 data 0x10
+  80 restore 
+  90 read a, b
+ 100 print a, b
+end
+1 2
+3 4
+5 6
+-7 16
+out of data
+STOP at line 50!
+1 2
+missing endwhile/next
+   1 dim a, b, c
+  10 data 1, 0x2, 3
+  20 data 0x4
+  29 label middle
+  30 data 5, 0x6
+  35 data 7
+  40 while 1 do
+  50   read a, b, c
+  60   print a, b, c
+  70 endwhile 
+  75 data 0x10
+  80 restore middle
+  90 read a, b, c
+ 100 print a, b, c
+end
+1 2 3
+4 5 6
+out of data
+STOP at line 50!
+5 6 7
+missing endwhile/next
+test autorun
+off
+on
+on
+off
+test pins
+heartbeat dtin3
+safemode* irq1*
+qspi_cs* qspi_cs0
+clone_rst* scl
+zigflea_rst* an2
+zigflea_attn* an3
+zigflea_rxtxen an5
+lcd_d4 none
+lcd_d5 none
+lcd_d6 none
+lcd_d7 none
+lcd_en none
+lcd_rs none
+kbd_s0 none
+kbd_s1 none
+kbd_s2 none
+kbd_s3 none
+kbd_r0 none
+kbd_r1 none
+kbd_r2 none
+kbd_r3 none
+       ^ - error
+dtin3
+error -          ^
+error -                ^
+error -                ^
+dtin2
+none
+heartbeat dtin2
+safemode* none
+qspi_cs* qspi_cs0
+clone_rst* scl
+zigflea_rst* an2
+zigflea_attn* an3
+zigflea_rxtxen an5
+lcd_d4 none
+lcd_d5 none
+lcd_d6 none
+lcd_d7 none
+lcd_en none
+lcd_rs none
+kbd_s0 none
+kbd_s1 none
+kbd_s2 none
+kbd_s3 none
+kbd_r0 none
+kbd_r1 none
+kbd_r2 none
+kbd_r3 none
+test servo
+45
+45
+error -     ^
+error -    ^
+45
+  10 dim x as pin dtin0 for servo output
+end
+test variable scopes
+  10 dim a
+  20 let a = 1
+  25 print a
+  30 gosub first
+  40 print a
+  50 gosub second
+  60 print a
+  70 end 
+  90 sub first
+ 100   let a = 2
+ 110   print "local a", a
+ 120   return 
+ 130 endsub 
+ 190 sub second
+ 200   dim a
+ 210   let a = 3
+ 220   print "local a", a
+ 230   return 
+ 240 endsub 
+end
+  10 dim a
+  20 let a = 1
+  30 print a
+  40 gosub first
+  50 print a
+  60 gosub second
+  70 print a
+  80 end 
+  90 sub first
+ 100   let a = 2
+ 110   print "local a", a
+ 120   return 
+ 130 endsub 
+ 140 sub second
+ 150   dim a
+ 160   let a = 3
+ 170   print "local a", a
+ 180   return 
+ 190 endsub 
+end
+ 100 dim a
+ 110 let a = 1
+ 120 print a
+ 130 gosub first
+ 140 print a
+ 150 gosub second
+ 160 print a
+ 170 end 
+ 180 sub first
+ 190   let a = 2
+ 200   print "local a", a
+ 210   return 
+ 220 endsub 
+ 230 sub second
+ 240   dim a
+ 250   let a = 3
+ 260   print "local a", a
+ 270   return 
+ 280 endsub 
+end
+1
+local a 2
+2
+local a 3
+2
+test variable scope overflow
+  10 dim a
+  15 dim b[500] as byte
+  20 gosub alloc
+  30 end 
+  90 sub alloc
+  95   dim b[500] as byte
+ 100   let a = a+1
+ 110   if a<20 then
+ 120     gosub alloc
+ 125   endif 
+ 130 endsub 
+end
+  92   dim g as flash
+declared flash or pin variable in sub
+STOP at line 92!
+  92   dim g as pin dtin0 for digital output
+declared flash or pin variable in sub
+STOP at line 92!
+out of variable ram
+STOP at line 95!
+3
+  10 dim a
+  15 for a = 1 to 10
+  20   gosub alloc
+  25 next 
+  30 end 
+  90 sub alloc
+  95   dim b[500] as byte
+  96   print b[499]
+ 130 endsub 
+end
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+test while breaks
+  10 dim a
+  20 while 1 do
+  30   if a==10 then
+  40     break 
+  50   endif 
+  60   let a = a+1
+  70 endwhile 
+  80 print a
+  90 end 
+end
+10
+  10 dim a
+  19 while 1 do
+  20   while 1 do
+  30     if a==10 then
+  40       break 2
+  50     endif 
+  60     let a = a+1
+  70   endwhile 
+  71   let a = a+1
+  72 endwhile 
+  80 print a
+  90 end 
+end
+10
+test while continues
+  10 dim i
+  20 while i<15 do
+  30   let i = i+1
+  40   sleep 100 ms
+  50   if i%5==0 then
+  60     continue 
+  70   endif 
+  80   print i
+  90 endwhile 
+end
+1
+2
+3
+4
+6
+7
+8
+9
+11
+12
+13
+14
+  10 dim i
+  11 dim j
+  20 while i<15 do
+  30   let i = i+1
+  40   sleep 100 ms
+  45   for j = 1 to 3
+  46     print "   ", j
+  50     if j==2&&i%5==0 then
+  60       continue 2
+  62       print "not"
+  70     endif 
+  75   next 
+  80   print i
+  90 endwhile 
+end
+    1
+    2
+    3
+1
+    1
+    2
+    3
+2
+    1
+    2
+    3
+3
+    1
+    2
+    3
+4
+    1
+    2
+    1
+    2
+    3
+6
+    1
+    2
+    3
+7
+    1
+    2
+    3
+8
+    1
+    2
+    3
+9
+    1
+    2
+    1
+    2
+    3
+11
+    1
+    2
+    3
+12
+    1
+    2
+    3
+13
+    1
+    2
+    3
+14
+    1
+    2
+test for loops
+  10 dim x, y
+  20 for y = 0 to 10 step 2
+  30   for x = 1 to 2
+  40     print y+x
+  50   next 
+  60 next 
+end
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+  10 dim x, y
+  20 for y = 0 to 10 step 2
+  30   for x = 1 to 2
+  40     print y+x
+  41     if y==7 then
+  42       break 
+  43     endif 
+  50   next 
+  60 next 
+end
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+  10 dim x, y
+  20 for y = 0 to 10 step 2
+  30   for x = 1 to 2
+  40     print y+x
+  41     if y==8 then
+  42       break 
+  43     endif 
+  50   next 
+  60 next 
+end
+1
+2
+3
+4
+5
+6
+7
+8
+9
+11
+12
+  10 dim x, y
+  20 for y = 0 to 10 step 2
+  30   for x = 1 to 2
+  40     print y+x
+  41     if y==8 then
+  42       break 2
+  43     endif 
+  50   next 
+  60 next 
+end
+1
+2
+3
+4
+5
+6
+7
+8
+9
+test arrays
+   1 dim i, j
+   2 dim a[256]
+   3 while 1 do
+  20   let i = (i*13+7)%256
+  21   let j = j+1
+  22   if a[i] then
+  23     stop 
+  24   endif 
+  26   let a[i] = 1
+  30 endwhile 
+end
+STOP at line 23!
+257
+   1 dim i, j
+   2 dim a[256] as byte
+   3 while 1 do
+  20   let i = (i*13+7)%256
+  21   let j = j+1
+  22   if a[i] then
+  23     stop 
+  24   endif 
+  26   let a[i] = 1
+  30 endwhile 
+end
+STOP at line 23!
+257
+ 11% ram code bytes used (unsaved changes!)
+  0% flash code bytes used
+ 12% ram variable bytes used
+  0% flash parameter bytes used
+  3% variables used
+ 11% ram code bytes used (unsaved changes!)
+  0% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+test large flash program
+ 86% ram code bytes used (unsaved changes!)
+  0% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+1000 rem ### toaster ###
+1010 dim target, secs
+1020 dim thermocouple as pin an0 for analog input
+1030 dim relay as pin an1 for digital output
+1040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1050 configure timer 0 for 1000 ms
+1060 on timer 0 do gosub adjust
+1070 rem ---------------
+1080 while target!=-1 do
+1090   sleep secs s
+1100   read target, secs
+1110 endwhile 
+1120 let relay = 0
+1130 end 
+1140 sub adjust
+1150   if thermocouple>=target then
+1160     let relay = 0
+1170   else 
+1180     let relay = 1
+1190   endif 
+1200 endsub 
+2000 rem ### toaster ###
+2010 dim target, secs
+2020 dim thermocouple as pin an0 for analog input
+2030 dim relay as pin an1 for digital output
+2040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+2050 configure timer 0 for 1000 ms
+2060 on timer 0 do gosub adjust
+2070 rem ---------------
+2080 while target!=-1 do
+2090   sleep secs s
+2100   read target, secs
+2110 endwhile 
+2120 let relay = 0
+2130 end 
+2140 sub adjust
+2150   if thermocouple>=target then
+2160     let relay = 0
+2170   else 
+2180     let relay = 1
+2190   endif 
+2200 endsub 
+3000 rem ### toaster ###
+3010 dim target, secs
+3020 dim thermocouple as pin an0 for analog input
+3030 dim relay as pin an1 for digital output
+3040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+3050 configure timer 0 for 1000 ms
+3060 on timer 0 do gosub adjust
+3070 rem ---------------
+3080 while target!=-1 do
+3090   sleep secs s
+3100   read target, secs
+3110 endwhile 
+3120 let relay = 0
+3130 end 
+3140 sub adjust
+3150   if thermocouple>=target then
+3160     let relay = 0
+3170   else 
+3180     let relay = 1
+3190   endif 
+3200 endsub 
+end
+  0% ram code bytes used
+ 14% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+1000 rem ### toaster ###
+1010 dim target, secs
+1020 dim thermocouple as pin an0 for analog input
+1030 dim relay as pin an1 for digital output
+1040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1050 configure timer 0 for 1000 ms
+1060 on timer 0 do gosub adjust
+1070 rem ---------------
+1080 while target!=-1 do
+1090   sleep secs s
+1100   read target, secs
+1110 endwhile 
+1120 let relay = 0
+1130 end 
+1140 sub adjust
+1150   if thermocouple>=target then
+1160     let relay = 0
+1170   else 
+1180     let relay = 1
+1190   endif 
+1200 endsub 
+2000 rem ### toaster ###
+2010 dim target, secs
+2020 dim thermocouple as pin an0 for analog input
+2030 dim relay as pin an1 for digital output
+2040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+2050 configure timer 0 for 1000 ms
+2060 on timer 0 do gosub adjust
+2070 rem ---------------
+2080 while target!=-1 do
+2090   sleep secs s
+2100   read target, secs
+2110 endwhile 
+2120 let relay = 0
+2130 end 
+2140 sub adjust
+2150   if thermocouple>=target then
+2160     let relay = 0
+2170   else 
+2180     let relay = 1
+2190   endif 
+2200 endsub 
+3000 rem ### toaster ###
+3010 dim target, secs
+3020 dim thermocouple as pin an0 for analog input
+3030 dim relay as pin an1 for digital output
+3040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+3050 configure timer 0 for 1000 ms
+3060 on timer 0 do gosub adjust
+3070 rem ---------------
+3080 while target!=-1 do
+3090   sleep secs s
+3100   read target, secs
+3110 endwhile 
+3120 let relay = 0
+3130 end 
+3140 sub adjust
+3150   if thermocouple>=target then
+3160     let relay = 0
+3170   else 
+3180     let relay = 1
+3190   endif 
+3200 endsub 
+end
+ 86% ram code bytes used (unsaved changes!)
+ 14% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+1000 rem ### toaster ###
+1010 dim target, secs
+1020 dim thermocouple as pin an0 for analog input
+1030 dim relay as pin an1 for digital output
+1040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1050 configure timer 0 for 1000 ms
+1060 on timer 0 do gosub adjust
+1070 rem ---------------
+1080 while target!=-1 do
+1090   sleep secs s
+1100   read target, secs
+1110 endwhile 
+1120 let relay = 0
+1130 end 
+1140 sub adjust
+1150   if thermocouple>=target then
+1160     let relay = 0
+1170   else 
+1180     let relay = 1
+1190   endif 
+1200 endsub 
+2000 rem ### toaster ###
+2010 dim target, secs
+2020 dim thermocouple as pin an0 for analog input
+2030 dim relay as pin an1 for digital output
+2040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+2050 configure timer 0 for 1000 ms
+2060 on timer 0 do gosub adjust
+2070 rem ---------------
+2080 while target!=-1 do
+2090   sleep secs s
+2100   read target, secs
+2110 endwhile 
+2120 let relay = 0
+2130 end 
+2140 sub adjust
+2150   if thermocouple>=target then
+2160     let relay = 0
+2170   else 
+2180     let relay = 1
+2190   endif 
+2200 endsub 
+3000 rem ### toaster ###
+3010 dim target, secs
+3020 dim thermocouple as pin an0 for analog input
+3030 dim relay as pin an1 for digital output
+3040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+3050 configure timer 0 for 1000 ms
+3060 on timer 0 do gosub adjust
+3070 rem ---------------
+3080 while target!=-1 do
+3090   sleep secs s
+3100   read target, secs
+3110 endwhile 
+3120 let relay = 0
+3130 end 
+3140 sub adjust
+3150   if thermocouple>=target then
+3160     let relay = 0
+3170   else 
+3180     let relay = 1
+3190   endif 
+3200 endsub 
+4000 rem ### toaster ###
+4010 dim target, secs
+4020 dim thermocouple as pin an0 for analog input
+4030 dim relay as pin an1 for digital output
+4040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+4050 configure timer 0 for 1000 ms
+4060 on timer 0 do gosub adjust
+4070 rem ---------------
+4080 while target!=-1 do
+4090   sleep secs s
+4100   read target, secs
+4110 endwhile 
+4120 let relay = 0
+4130 end 
+4140 sub adjust
+4150   if thermocouple>=target then
+4160     let relay = 0
+4170   else 
+4180     let relay = 1
+4190   endif 
+4200 endsub 
+5000 rem ### toaster ###
+5010 dim target, secs
+5020 dim thermocouple as pin an0 for analog input
+5030 dim relay as pin an1 for digital output
+5040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+5050 configure timer 0 for 1000 ms
+5060 on timer 0 do gosub adjust
+5070 rem ---------------
+5080 while target!=-1 do
+5090   sleep secs s
+5100   read target, secs
+5110 endwhile 
+5120 let relay = 0
+5130 end 
+5140 sub adjust
+5150   if thermocouple>=target then
+5160     let relay = 0
+5170   else 
+5180     let relay = 1
+5190   endif 
+5200 endsub 
+6000 rem ### toaster ###
+6010 dim target, secs
+6020 dim thermocouple as pin an0 for analog input
+6030 dim relay as pin an1 for digital output
+6040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+6050 configure timer 0 for 1000 ms
+6060 on timer 0 do gosub adjust
+6070 rem ---------------
+6080 while target!=-1 do
+6090   sleep secs s
+6100   read target, secs
+6110 endwhile 
+6120 let relay = 0
+6130 end 
+6140 sub adjust
+6150   if thermocouple>=target then
+6160     let relay = 0
+6170   else 
+6180     let relay = 1
+6190   endif 
+6200 endsub 
+end
+  0% ram code bytes used
+ 28% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+1000 rem ### toaster ###
+1010 dim target, secs
+1020 dim thermocouple as pin an0 for analog input
+1030 dim relay as pin an1 for digital output
+1040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1050 configure timer 0 for 1000 ms
+1060 on timer 0 do gosub adjust
+1070 rem ---------------
+1080 while target!=-1 do
+1090   sleep secs s
+1100   read target, secs
+1110 endwhile 
+1120 let relay = 0
+1130 end 
+1140 sub adjust
+1150   if thermocouple>=target then
+1160     let relay = 0
+1170   else 
+1180     let relay = 1
+1190   endif 
+1200 endsub 
+2000 rem ### toaster ###
+2010 dim target, secs
+2020 dim thermocouple as pin an0 for analog input
+2030 dim relay as pin an1 for digital output
+2040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+2050 configure timer 0 for 1000 ms
+2060 on timer 0 do gosub adjust
+2070 rem ---------------
+2080 while target!=-1 do
+2090   sleep secs s
+2100   read target, secs
+2110 endwhile 
+2120 let relay = 0
+2130 end 
+2140 sub adjust
+2150   if thermocouple>=target then
+2160     let relay = 0
+2170   else 
+2180     let relay = 1
+2190   endif 
+2200 endsub 
+3000 rem ### toaster ###
+3010 dim target, secs
+3020 dim thermocouple as pin an0 for analog input
+3030 dim relay as pin an1 for digital output
+3040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+3050 configure timer 0 for 1000 ms
+3060 on timer 0 do gosub adjust
+3070 rem ---------------
+3080 while target!=-1 do
+3090   sleep secs s
+3100   read target, secs
+3110 endwhile 
+3120 let relay = 0
+3130 end 
+3140 sub adjust
+3150   if thermocouple>=target then
+3160     let relay = 0
+3170   else 
+3180     let relay = 1
+3190   endif 
+3200 endsub 
+4000 rem ### toaster ###
+4010 dim target, secs
+4020 dim thermocouple as pin an0 for analog input
+4030 dim relay as pin an1 for digital output
+4040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+4050 configure timer 0 for 1000 ms
+4060 on timer 0 do gosub adjust
+4070 rem ---------------
+4080 while target!=-1 do
+4090   sleep secs s
+4100   read target, secs
+4110 endwhile 
+4120 let relay = 0
+4130 end 
+4140 sub adjust
+4150   if thermocouple>=target then
+4160     let relay = 0
+4170   else 
+4180     let relay = 1
+4190   endif 
+4200 endsub 
+5000 rem ### toaster ###
+5010 dim target, secs
+5020 dim thermocouple as pin an0 for analog input
+5030 dim relay as pin an1 for digital output
+5040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+5050 configure timer 0 for 1000 ms
+5060 on timer 0 do gosub adjust
+5070 rem ---------------
+5080 while target!=-1 do
+5090   sleep secs s
+5100   read target, secs
+5110 endwhile 
+5120 let relay = 0
+5130 end 
+5140 sub adjust
+5150   if thermocouple>=target then
+5160     let relay = 0
+5170   else 
+5180     let relay = 1
+5190   endif 
+5200 endsub 
+6000 rem ### toaster ###
+6010 dim target, secs
+6020 dim thermocouple as pin an0 for analog input
+6030 dim relay as pin an1 for digital output
+6040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+6050 configure timer 0 for 1000 ms
+6060 on timer 0 do gosub adjust
+6070 rem ---------------
+6080 while target!=-1 do
+6090   sleep secs s
+6100   read target, secs
+6110 endwhile 
+6120 let relay = 0
+6130 end 
+6140 sub adjust
+6150   if thermocouple>=target then
+6160     let relay = 0
+6170   else 
+6180     let relay = 1
+6190   endif 
+6200 endsub 
+end
+ 86% ram code bytes used (unsaved changes!)
+ 28% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+  10 rem ### toaster ###
+  20 dim target, secs
+  30 dim thermocouple as pin an0 for analog input
+  40 dim relay as pin an1 for digital output
+  50 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+  60 configure timer 0 for 1000 ms
+  70 on timer 0 do gosub adjust
+  80 rem ---------------
+  90 while target!=-1 do
+ 100   sleep secs s
+ 110   read target, secs
+ 120 endwhile 
+ 130 let relay = 0
+ 140 end 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+ 200   endif 
+ 210 endsub 
+ 220 rem ### toaster ###
+ 230 dim target, secs
+ 240 dim thermocouple as pin an0 for analog input
+ 250 dim relay as pin an1 for digital output
+ 260 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+ 270 configure timer 0 for 1000 ms
+ 280 on timer 0 do gosub adjust
+ 290 rem ---------------
+ 300 while target!=-1 do
+ 310   sleep secs s
+ 320   read target, secs
+ 330 endwhile 
+ 340 let relay = 0
+ 350 end 
+ 360 sub adjust
+ 370   if thermocouple>=target then
+ 380     let relay = 0
+ 390   else 
+ 400     let relay = 1
+ 410   endif 
+ 420 endsub 
+ 430 rem ### toaster ###
+ 440 dim target, secs
+ 450 dim thermocouple as pin an0 for analog input
+ 460 dim relay as pin an1 for digital output
+ 470 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+ 480 configure timer 0 for 1000 ms
+ 490 on timer 0 do gosub adjust
+ 500 rem ---------------
+ 510 while target!=-1 do
+ 520   sleep secs s
+ 530   read target, secs
+ 540 endwhile 
+ 550 let relay = 0
+ 560 end 
+ 570 sub adjust
+ 580   if thermocouple>=target then
+ 590     let relay = 0
+ 600   else 
+ 610     let relay = 1
+ 620   endif 
+ 630 endsub 
+ 640 rem ### toaster ###
+ 650 dim target, secs
+ 660 dim thermocouple as pin an0 for analog input
+ 670 dim relay as pin an1 for digital output
+ 680 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+ 690 configure timer 0 for 1000 ms
+ 700 on timer 0 do gosub adjust
+ 710 rem ---------------
+ 720 while target!=-1 do
+ 730   sleep secs s
+ 740   read target, secs
+ 750 endwhile 
+ 760 let relay = 0
+ 770 end 
+ 780 sub adjust
+ 790   if thermocouple>=target then
+ 800     let relay = 0
+ 810   else 
+ 820     let relay = 1
+ 830   endif 
+ 840 endsub 
+ 850 rem ### toaster ###
+ 860 dim target, secs
+ 870 dim thermocouple as pin an0 for analog input
+ 880 dim relay as pin an1 for digital output
+ 890 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+ 900 configure timer 0 for 1000 ms
+ 910 on timer 0 do gosub adjust
+ 920 rem ---------------
+ 930 while target!=-1 do
+ 940   sleep secs s
+ 950   read target, secs
+ 960 endwhile 
+ 970 let relay = 0
+ 980 end 
+ 990 sub adjust
+1000   if thermocouple>=target then
+1010     let relay = 0
+1020   else 
+1030     let relay = 1
+1040   endif 
+1050 endsub 
+1060 rem ### toaster ###
+1070 dim target, secs
+1080 dim thermocouple as pin an0 for analog input
+1090 dim relay as pin an1 for digital output
+1100 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1110 configure timer 0 for 1000 ms
+1120 on timer 0 do gosub adjust
+1130 rem ---------------
+1140 while target!=-1 do
+1150   sleep secs s
+1160   read target, secs
+1170 endwhile 
+1180 let relay = 0
+1190 end 
+1200 sub adjust
+1210   if thermocouple>=target then
+1220     let relay = 0
+1230   else 
+1240     let relay = 1
+1250   endif 
+1260 endsub 
+1270 rem ### toaster ###
+1280 dim target, secs
+1290 dim thermocouple as pin an0 for analog input
+1300 dim relay as pin an1 for digital output
+1310 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1320 configure timer 0 for 1000 ms
+1330 on timer 0 do gosub adjust
+1340 rem ---------------
+1350 while target!=-1 do
+1360   sleep secs s
+1370   read target, secs
+1380 endwhile 
+1390 let relay = 0
+1400 end 
+1410 sub adjust
+1420   if thermocouple>=target then
+1430     let relay = 0
+1440   else 
+1450     let relay = 1
+1460   endif 
+1470 endsub 
+1480 rem ### toaster ###
+1490 dim target, secs
+1500 dim thermocouple as pin an0 for analog input
+1510 dim relay as pin an1 for digital output
+1520 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1530 configure timer 0 for 1000 ms
+1540 on timer 0 do gosub adjust
+1550 rem ---------------
+1560 while target!=-1 do
+1570   sleep secs s
+1580   read target, secs
+1590 endwhile 
+1600 let relay = 0
+1610 end 
+1620 sub adjust
+1630   if thermocouple>=target then
+1640     let relay = 0
+1650   else 
+1660     let relay = 1
+1670   endif 
+1680 endsub 
+1690 rem ### toaster ###
+1700 dim target, secs
+1710 dim thermocouple as pin an0 for analog input
+1720 dim relay as pin an1 for digital output
+1730 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1740 configure timer 0 for 1000 ms
+1750 on timer 0 do gosub adjust
+1760 rem ---------------
+1770 while target!=-1 do
+1780   sleep secs s
+1790   read target, secs
+1800 endwhile 
+1810 let relay = 0
+1820 end 
+1830 sub adjust
+1840   if thermocouple>=target then
+1850     let relay = 0
+1860   else 
+1870     let relay = 1
+1880   endif 
+1890 endsub 
+end
+  0% ram code bytes used
+ 42% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+  10 rem ### toaster ###
+  20 dim target, secs
+  30 dim thermocouple as pin an0 for analog input
+  40 dim relay as pin an1 for digital output
+  50 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+  60 configure timer 0 for 1000 ms
+  70 on timer 0 do gosub adjust
+  80 rem ---------------
+  90 while target!=-1 do
+ 100   sleep secs s
+ 110   read target, secs
+ 120 endwhile 
+ 130 let relay = 0
+ 140 end 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+ 200   endif 
+ 210 endsub 
+ 220 rem ### toaster ###
+ 230 dim target, secs
+ 240 dim thermocouple as pin an0 for analog input
+ 250 dim relay as pin an1 for digital output
+ 260 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+ 270 configure timer 0 for 1000 ms
+ 280 on timer 0 do gosub adjust
+ 290 rem ---------------
+ 300 while target!=-1 do
+ 310   sleep secs s
+ 320   read target, secs
+ 330 endwhile 
+ 340 let relay = 0
+ 350 end 
+ 360 sub adjust
+ 370   if thermocouple>=target then
+ 380     let relay = 0
+ 390   else 
+ 400     let relay = 1
+ 410   endif 
+ 420 endsub 
+ 430 rem ### toaster ###
+ 440 dim target, secs
+ 450 dim thermocouple as pin an0 for analog input
+ 460 dim relay as pin an1 for digital output
+ 470 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+ 480 configure timer 0 for 1000 ms
+ 490 on timer 0 do gosub adjust
+ 500 rem ---------------
+ 510 while target!=-1 do
+ 520   sleep secs s
+ 530   read target, secs
+ 540 endwhile 
+ 550 let relay = 0
+ 560 end 
+ 570 sub adjust
+ 580   if thermocouple>=target then
+ 590     let relay = 0
+ 600   else 
+ 610     let relay = 1
+ 620   endif 
+ 630 endsub 
+ 640 rem ### toaster ###
+ 650 dim target, secs
+ 660 dim thermocouple as pin an0 for analog input
+ 670 dim relay as pin an1 for digital output
+ 680 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+ 690 configure timer 0 for 1000 ms
+ 700 on timer 0 do gosub adjust
+ 710 rem ---------------
+ 720 while target!=-1 do
+ 730   sleep secs s
+ 740   read target, secs
+ 750 endwhile 
+ 760 let relay = 0
+ 770 end 
+ 780 sub adjust
+ 790   if thermocouple>=target then
+ 800     let relay = 0
+ 810   else 
+ 820     let relay = 1
+ 830   endif 
+ 840 endsub 
+ 850 rem ### toaster ###
+ 860 dim target, secs
+ 870 dim thermocouple as pin an0 for analog input
+ 880 dim relay as pin an1 for digital output
+ 890 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+ 900 configure timer 0 for 1000 ms
+ 910 on timer 0 do gosub adjust
+ 920 rem ---------------
+ 930 while target!=-1 do
+ 940   sleep secs s
+ 950   read target, secs
+ 960 endwhile 
+ 970 let relay = 0
+ 980 end 
+ 990 sub adjust
+1000   if thermocouple>=target then
+1010     let relay = 0
+1020   else 
+1030     let relay = 1
+1040   endif 
+1050 endsub 
+1060 rem ### toaster ###
+1070 dim target, secs
+1080 dim thermocouple as pin an0 for analog input
+1090 dim relay as pin an1 for digital output
+1100 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1110 configure timer 0 for 1000 ms
+1120 on timer 0 do gosub adjust
+1130 rem ---------------
+1140 while target!=-1 do
+1150   sleep secs s
+1160   read target, secs
+1170 endwhile 
+1180 let relay = 0
+1190 end 
+1200 sub adjust
+1210   if thermocouple>=target then
+1220     let relay = 0
+1230   else 
+1240     let relay = 1
+1250   endif 
+1260 endsub 
+1270 rem ### toaster ###
+1280 dim target, secs
+1290 dim thermocouple as pin an0 for analog input
+1300 dim relay as pin an1 for digital output
+1310 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1320 configure timer 0 for 1000 ms
+1330 on timer 0 do gosub adjust
+1340 rem ---------------
+1350 while target!=-1 do
+1360   sleep secs s
+1370   read target, secs
+1380 endwhile 
+1390 let relay = 0
+1400 end 
+1410 sub adjust
+1420   if thermocouple>=target then
+1430     let relay = 0
+1440   else 
+1450     let relay = 1
+1460   endif 
+1470 endsub 
+1480 rem ### toaster ###
+1490 dim target, secs
+1500 dim thermocouple as pin an0 for analog input
+1510 dim relay as pin an1 for digital output
+1520 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1530 configure timer 0 for 1000 ms
+1540 on timer 0 do gosub adjust
+1550 rem ---------------
+1560 while target!=-1 do
+1570   sleep secs s
+1580   read target, secs
+1590 endwhile 
+1600 let relay = 0
+1610 end 
+1620 sub adjust
+1630   if thermocouple>=target then
+1640     let relay = 0
+1650   else 
+1660     let relay = 1
+1670   endif 
+1680 endsub 
+1690 rem ### toaster ###
+1700 dim target, secs
+1710 dim thermocouple as pin an0 for analog input
+1720 dim relay as pin an1 for digital output
+1730 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1740 configure timer 0 for 1000 ms
+1750 on timer 0 do gosub adjust
+1760 rem ---------------
+1770 while target!=-1 do
+1780   sleep secs s
+1790   read target, secs
+1800 endwhile 
+1810 let relay = 0
+1820 end 
+1830 sub adjust
+1840   if thermocouple>=target then
+1850     let relay = 0
+1860   else 
+1870     let relay = 1
+1880   endif 
+1890 endsub 
+end
+  0% ram code bytes used
+  0% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+test configures
+  10 configure uart 0 for 9600 baud 8 data even parity
+  20 configure uart 1 for 115200 baud 7 data no parity
+  30 configure uart 1 for 1200 baud 6 data odd parity loopback
+  40 configure timer 0 for 1000 s
+  50 configure timer 1 for 10 ms
+  55 configure timer 2 for 17 us
+  70 qspi a, b, c, d
+end
+  10 rem ### uart pio ###
+  20 configure uart 1 for 9600 baud 7 data even parity loopback
+  30 dim tx as pin utxd1 for uart output
+  40 dim rx as pin urxd1 for uart input
+  50 let tx = 3
+  60 let tx = 4
+  70 while tx do
+  80 endwhile 
+  90 print rx
+ 100 print rx
+ 110 print rx
+ 120 end 
+end
+test qspi error case
+test uart
+  10 rem ### uart isr ###
+  20 dim data
+  30 data 1, 1, 2, 3, 5, 8, 13, 21, 0
+  40 configure uart 0 for 300 baud 8 data no parity loopback
+  50 dim tx as pin utxd0 for uart output
+  60 dim rx as pin urxd0 for uart input
+  70 on uart 0 input do gosub receive
+  80 on uart 0 output do gosub transmit
+  90 sleep 1000 ms
+ 100 end 
+ 110 sub receive
+ 120   print "received", rx
+ 130 endsub 
+ 140 sub transmit
+ 150   read data
+ 160   if !data then
+ 170     return 
+ 180   endif 
+ 190   assert !tx
+ 200   print "sending", data
+ 210   let tx = data
+ 220 endsub 
+end
+return from sub scope
+  10 gosub output
+  20 end 
+ 140 sub output
+ 150   if 1!=8 then
+ 151     return 
+ 152   endif 
+ 210 endsub 
+end
+if, elseif, else
+  10 dim a
+  20 for a = -5 to 5
+  30   if !a then
+  40     print a, "is zero"
+  50   elseif a%2 then
+  60     print a, "is odd"
+  70   else 
+  80     print a, "is even"
+  90   endif 
+ 100 next 
+end
+-5 is odd
+-4 is even
+-3 is odd
+-2 is even
+-1 is odd
+0 is zero
+1 is odd
+2 is even
+3 is odd
+4 is even
+5 is odd
+test dummy clone
+Welcome to StickOS for Freescale MCF52221 v1.92!
+Copyright (c) 2008-2012; all rights reserved.
+http://www.cpustick.com
+support@cpustick.com
+cloning...
+Welcome to StickOS for Freescale MCF52221 v1.92!
+Copyright (c) 2008-2012; all rights reserved.
+http://www.cpustick.com
+support@cpustick.com
+cloning...
+filesystem
+out of storage
+out of storage
+out of storage
+prog2
+prog1
+  10 rem this is a program
+  20 rem 44
+end
+  10 rem this is a program
+  20 rem 1
+end
+  10 rem this is a program
+  20 rem 22
+end
+program 'prog3' not found
+  10 rem this is a program
+  20 rem 22
+end
+program 'prog4' not found
+  10 rem this is a program
+  20 rem 22
+end
+program 'prog0' not found
+prog2
+prog1
+  10 rem this is a program
+  20 rem 22
+end
+prog2
+  10 rem this is a program
+  20 rem 22
+end
+  10 rem this is a program
+  20 rem 22
+end
+program 'prog3' not found
+prog4
+  10 rem this is a program
+  20 rem 444
+end
+program 'prog5' not found
+prog4
+  10 rem this is a program
+  20 rem 444
+end
+  10 rem this is a program
+  20 rem 444
+end
+this is a very
+prog4
+  10 rem this is a program
+  20 rem 444
+end
+this is a very
+prog4
+  10 rem this is a program
+  20 rem long
+end
+prog4
+  10 rem this is a program
+  20 rem long
+end
+on/off/mask/unmask
+  10 on xxx do gosub yyy
+  20 on zzz+aaa do stop 
+  30 off xxx
+  40 off zzz+aaa
+  50 unmask xxx
+  60 unmask zzz+aaa
+  70 on timer 1 do gosub tick
+  80 on uart 0 input do gosub rx
+  90 off timer 1
+ 100 off uart 0 input
+end
+watchpoints
+on
+off
+on
+  10 dim x
+  20 on x do print 1
+  30 on x+0 do print 2
+  40 on x do print 3
+end
+watchpoint already defined
+STOP at line 40!
+  10 dim x
+  20 on x+1 do print 1, x
+  30 on x+2 do print 2, x
+  40 on x+3 do print 3, x
+  50 on x+4 do print 4, x
+  60 on x+5 do print 5, x
+end
+1 0
+2 0
+3 0
+4 0
+too many watchpoints
+STOP at line 60!
+  10 dim x
+  20 on x+1 do print 1, x
+  30 on x+2 do print 2, x
+  40 on x+3 do print 3, x
+  50 on x+4 do print 4, x
+  70 let x = 1
+  80 print "80"
+  90 let x = -1
+ 100 let x = 2
+ 110 print "110"
+ 120 let x = -2
+ 130 let x = 1
+ 140 print "140"
+ 150 let x = -3
+ 160 let x = 1
+ 170 print "170"
+ 180 let x = -4
+ 190 let x = 1
+ 200 print "200"
+ 210 let x = -5
+ 220 let x = 1
+end
+1 0
+2 0
+3 0
+4 0
+80
+1 2
+110
+2 1
+140
+3 1
+170
+4 1
+200
+  10 dim x
+  20 on x+1 do print 1, x
+  30 on x+2 do print 2, x
+  40 on x+3 do print 3, x
+  50 on x+4 do print 4, x
+  70 let x = 1
+  80 print "80"
+  90 let x = -1
+ 100 let x = 2
+ 110 print "110"
+ 120 let x = -2
+ 130 let x = 1
+ 140 print "140"
+ 150 let x = -3
+ 160 let x = 1
+ 170 print "170"
+ 180 let x = -4
+ 190 let x = 1
+ 200 print "200"
+ 210 let x = -5
+ 220 let x = 1
+end
+1 0
+2 0
+3 0
+4 0
+80
+1 2
+110
+2 1
+140
+3 1
+170
+4 1
+200
+  10 dim i
+  20 on i%5 do stop 
+  30 while 1 do
+  40   let i = i+1
+  50   let i = i+1
+  51   if i==100 then
+  52     break 
+  53   endif 
+  60 endwhile 
+end
+STOP at line 50!
+2
+STOP at line 51!
+6
+100
+  10 dim x
+  20 on x==1 do print "ONE", x
+  21 on x%2 do print "odd", x
+  30 for x = 1 to 10
+  31 next 
+  40 print "masking"
+  41 mask x==1
+  42 for x = 1 to 10
+  43 next 
+  70 print "unmasking"
+  71 unmask x==1
+  72 for x = 1 to 10
+  73 next 
+  80 print "off-ing"
+  81 off x==1
+  82 for x = 1 to 10
+  83 next 
+end
+ONE 1
+odd 1
+odd 3
+odd 5
+odd 7
+odd 9
+masking
+odd 1
+odd 3
+odd 5
+odd 7
+odd 9
+unmasking
+ONE 10
+ONE 1
+odd 1
+odd 3
+odd 5
+odd 7
+odd 9
+off-ing
+odd 1
+odd 3
+odd 5
+odd 7
+odd 9
+  10 dim x as flash
+  20 on x!=0 do print 20
+  30 on x==0 do print 30
+  40 let x = 1
+  50 print "done"
+end
+30
+20
+done
+20
+done
+long prints
+  10 dim i, j
+  11 let i = 1
+  12 let j = 1
+  20 while i<1000000000 do
+  25   let i = i*10
+  26   print j, "---------1---------2---------3---------4---------5--------", 
+  30 endwhile 
+end
+1 ---------1---------2---------3---------4---------5-------- 10
+1 ---------1---------2---------3---------4---------5-------- 100
+1 ---------1---------2---------3---------4---------5-------- 1000
+1 ---------1---------2---------3---------4---------5-------- 10000
+1 ---------1---------2---------3---------4---------5-------- 100000
+1 ---------1---------2---------3---------4---------5-------- 1000000
+1 ---------1---------2---------3---------4---------5-------- 10000000
+1 ---------1---------2---------3---------4---------5-------- 100000000
+1 ---------1---------2---------3---------4---------5-------- 1000000000
+  10 dim i, j
+  11 let i = 1
+  12 let j = 1000000000
+  20 while i<1000000000 do
+  25   let i = i*10
+  26   print j, "---------1---------2---------3---------4---------5--------", 
+  30 endwhile 
+end
+1000000000 ---------1---------2---------3---------4---------5-------- 10
+1000000000 ---------1---------2---------3---------4---------5-------- 100
+1000000000 ---------1---------2---------3---------4---------5-------- 1000
+1000000000 ---------1---------2---------3---------4---------5-------- 10000
+1000000000 ---------1---------2---------3---------4---------5-------- 100000
+1000000000 ---------1---------2---------3---------4---------5-------- 1000000
+1000000000 ---------1---------2---------3---------4---------5-------- 10000000
+1000000000 ---------1---------2---------3---------4---------5-------- 10000000
+1000000000 ---------1---------2---------3---------4---------5-------- 10000000
+  10 dim i, j
+  11 let i = 1
+  12 let j = 1
+  20 while i<1000000000 do
+  25   let i = i*10
+  26   print i, j, "---------1---------2---------3---------4---------5--------
+  30 endwhile 
+end
+10 1 ---------1---------2---------3---------4---------5--------
+100 1 ---------1---------2---------3---------4---------5--------
+1000 1 ---------1---------2---------3---------4---------5--------
+10000 1 ---------1---------2---------3---------4---------5--------
+100000 1 ---------1---------2---------3---------4---------5--------
+1000000 1 ---------1---------2---------3---------4---------5--------
+10000000 1 ---------1---------2---------3---------4---------5--------
+100000000 1 ---------1---------2---------3---------4---------5--------
+1000000000 1 ---------1---------2---------3---------4---------5--------
+  10 dim i, j
+  11 let i = 1
+  12 let j = 1000000000
+  20 while i<1000000000 do
+  25   let i = i*10
+  26   print i, j, "---------1---------2---------3---------4---------5--------
+  30 endwhile 
+end
+10 1000000000 ---------1---------2---------3---------4---------5--------
+100 1000000000 ---------1---------2---------3---------4---------5--------
+1000 1000000000 ---------1---------2---------3---------4---------5--------
+10000 1000000000 ---------1---------2---------3---------4---------5--------
+100000 1000000000 ---------1---------2---------3---------4---------5--------
+1000000 1000000000 ---------1---------2---------3---------4---------5--------
+10000000 1000000000 ---------1---------2---------3---------4---------5--------
+100000000 1000000000 ---------1---------2---------3---------4---------5-------
+1000000000 1000000000 ---------1---------2---------3---------4---------5------
+parse errors
+error -   ^
+        ^ - error
+error -   ^
+error -   ^
+         ^ - error
+error -    ^
+         ^ - error
+error -     ^
+error -       ^
+        ^ - error
+         ^ - error
+         ^ - error
+        ^ - error
+         ^ - error
+runtime errors
+var 'b' undefined
+var 'a' undefined
+0
+divide by 0
+0
+divide by 0
+0
+assertion failed
+var 'a' already declared at this scope
+0
+var 'b' undefined
+
+var 'a' index 1 out of range
+0
+var 'b' undefined
+var 'a' index 1 out of range
+pin types
+unsupported pin type
+error -                        ^
+unsupported pin type
+error -                          ^
+error -                                 ^
+error -                                 ^
+  10 dim audio as pin dtin0 for frequency output
+  20 dim voltage as pin dtin1 for analog output
+end
+statement errors
+on
+        ^ - error
+error -    ^
+error -    ^
+error -     ^
+error -         ^
+error -         ^
+error -         ^
+error -    ^
+error -   ^
+error -    ^
+error -     ^
+error -           ^
+error -              ^
+error -              ^
+error -              ^
+error -   ^
+off
+error -    ^
+error -       ^
+error -     ^
+error -   ^
+error -            ^
+error -    ^
+mask
+error -     ^
+error -        ^
+error -      ^
+error -    ^
+error -             ^
+error -     ^
+configure
+error -     ^
+error -          ^
+error -            ^
+error -                ^
+error -             ^
+error -                   ^
+error -                       ^
+error -           ^
+error -         ^
+error -           ^
+error -               ^
+error -            ^
+error -                  ^
+error -                   ^
+error -                       ^
+error -                         ^
+error -                        ^
+error -                              ^
+error -                               ^
+error -                                   ^
+error -                                    ^
+error -                                           ^
+error -                        ^
+error -          ^
+assert
+        ^ - error
+         ^ - error
+        ^ - error
+read
+      ^ - error
+error -    ^
+       ^ - error
+       ^ - error
+data
+      ^ - error
+       ^ - error
+       ^ - error
+error -   ^
+       ^ - error
+label
+       ^ - error
+restore
+missing label: xxx
+dim
+     ^ - error
+      ^ - error
+      ^ - error
+        ^ - error
+        ^ - error
+        ^ - error
+error -    ^
+error -         ^
+      ^ - error
+        ^ - error
+        ^ - error
+error -          ^
+error -         ^
+var 'a' already declared at this scope
+pin 0
+error -        ^
+error -           ^
+error -            ^
+error -               ^
+analog 1
+error -                             ^
+error -                       ^
+error -                ^
+analog 2
+error -                             ^
+error -                                       ^
+frequency
+error -                          ^
+error -   ^
+digital io
+error -                              ^
+error -                                        ^
+error -                                       ^
+error -                                                 ^
+error -                                          ^
+unsupported pin qualifier
+error -                                                    ^
+error -                                                   ^
+unsupported pin qualifier
+error -                                                             ^
+remote
+error -           ^
+error -               ^
+error -                 ^
+error -                    ^
+error -                       ^
+error -                      ^
+absolute vars
+error -      ^
+error -       ^
+var 'xxx' undefined
+error -                    ^
+error -      ^
+error -       ^
+error -            ^
+error -              ^
+error -               ^
+error -                       ^
+var 'xxx' undefined
+error -                             ^
+error -              ^
+error -                ^
+error -                 ^
+error -                        ^
+var 'xxx' undefined
+error -                              ^
+error -          ^
+error -           ^
+var 'xxx' undefined
+error -                        ^
+error -                  ^
+error -                   ^
+var 'xxx' undefined
+error -                                ^
+error -                   ^
+error -                    ^
+var 'xxx' undefined
+error -                                 ^
+let
+     ^ - error
+      ^ - error
+      ^ - error
+       ^ - error
+        ^ - error
+         ^ - error
+        ^ - error
+     ^ - error
+error -   ^
+print
+       ^ - error
+         ^ - error
+        ^ - error
+         ^ - error
+        ^ - error
+        ^ - error
+        ^ - error
+error -   ^
+error -   ^
+error -     ^
+error -     ^
+        ^ - error
+        ^ - error
+if
+    ^ - error
+         ^ - error
+     ^ - error
+      ^ - error
+error -      ^
+      ^ - error
+while
+       ^ - error
+error -       ^
+        ^ - error
+         ^ - error
+error -       ^
+         ^ - error
+elseif
+        ^ - error
+error -      ^
+         ^ - error
+error -   ^
+error -          ^
+error -   ^
+solos
+      ^ - error
+       ^ - error
+error -   ^
+break
+break/continue without while/for
+        ^ - error
+        ^ - error
+error -    ^
+for
+     ^ - error
+       ^ - error
+         ^ - error
+error -   ^
+error -       ^
+var 'x' undefined
+error -   ^
+error -   ^
+error -        ^
+error -    ^
+       ^ - error
+error -               ^
+error -                 ^
+error -                 ^
+sleep
+error -       ^
+error -      ^
+error -          ^
+error -             ^
+error -             ^
+more
+      ^ - error
+      ^ - error
+       ^ - error
+     ^ - error
+        ^ - error
+        ^ - error
+        ^ - error
+         ^ - error
+        ^ - error
+      ^ - error
+     ^ - error
+error -      ^
+error -         ^
+error -          ^
+error -      ^
+error -      ^
+command errors
+autorun
+error -   ^
+error -      ^
+clear
+        ^ - error
+error -       ^
+clone
+        ^ - error
+error -     ^
+cont
+       ^ - error
+error -    ^
+delete
+         ^ - error
+         ^ - error
+error -      ^
+error -     ^
+error -          ^
+error -       ^
+error -       ^
+dir
+      ^ - error
+help
+       ^ - error
+error -      ^
+list
+       ^ - error
+       ^ - error
+error -    ^
+error -   ^
+error -        ^
+error -     ^
+error -     ^
+end
+load
+program 'aaa' not found
+program 'aaa,aaa' not found
+memory
+         ^ - error
+new
+      ^ - error
+purge
+program 'aaa' not found
+program 'aaa,aaa' not found
+renumber
+error -    ^
+error -       ^
+reset
+        ^ - error
+run
+         ^ - error
+      ^ - error
+        ^ - error
+save
+aaa,aaa
+step
+       ^ - error
+error -   ^
+trace
+        ^ - error
+error -     ^
+undo
+       ^ - error
+uptime
+         ^ - error
+overflow tests
+0
+1
+error -            ^
+error -            ^
+going
+going
+going
+going
+going
+going
+going
+going
+going
+too many gosubs
+STOP at line 70!
+going
+going
+going
+going
+too many scopes
+STOP at line 65!
+main
+main
+main
+main
+main
+main
+main
+main
+out of variables
+out of variables
+out of variables
+out of variables
+out of variables
+out of variables
+out of variables
+out of variables
+out of variables
+out of variables
+out of variables
+out of variables
+STOP at line 50!
+out of variable ram
+STOP at line 60!
+auto save
+auto save
+ 72% ram code bytes used (unsaved changes!)
+ 35% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+  10 rem ### toaster ###
+  20 dim target, secs
+  30 dim thermocouple as pin an0 for analog input
+  40 dim relay as pin an1 for digital output
+  50 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+  60 configure timer 0 for 1000 ms
+  70 on timer 0 do gosub adjust
+  80 rem ---------------
+  90 while target!=-1 do
+ 100   sleep secs s
+ 110   read target, secs
+ 120 endwhile 
+ 130 let relay = 0
+ 140 end 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+ 200   endif 
+ 210 endsub 
+1000 rem ### toaster ###
+1010 dim target, secs
+1020 dim thermocouple as pin an0 for analog input
+1030 dim relay as pin an1 for digital output
+1040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1050 configure timer 0 for 1000 ms
+1060 on timer 0 do gosub adjust
+1070 rem ---------------
+1080 while target!=-1 do
+1090   sleep secs s
+1100   read target, secs
+1110 endwhile 
+1120 let relay = 0
+1130 end 
+1140 sub adjust
+1150   if thermocouple>=target then
+1160     let relay = 0
+1170   else 
+1180     let relay = 1
+1190   endif 
+1200 endsub 
+2000 rem ### toaster ###
+2010 dim target, secs
+2020 dim thermocouple as pin an0 for analog input
+2030 dim relay as pin an1 for digital output
+2040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+2050 configure timer 0 for 1000 ms
+2060 on timer 0 do gosub adjust
+2070 rem ---------------
+2080 while target!=-1 do
+2090   sleep secs s
+2100   read target, secs
+2110 endwhile 
+2120 let relay = 0
+2130 end 
+2140 sub adjust
+2150   if thermocouple>=target then
+2160     let relay = 0
+2170   else 
+2180     let relay = 1
+2190   endif 
+2200 endsub 
+3000 rem ### toaster ###
+3010 dim target, secs
+3020 dim thermocouple as pin an0 for analog input
+3030 dim relay as pin an1 for digital output
+3040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+3050 configure timer 0 for 1000 ms
+3060 on timer 0 do gosub adjust
+3070 rem ---------------
+3080 while target!=-1 do
+3090   sleep secs s
+3100   read target, secs
+3110 endwhile 
+3120 let relay = 0
+3130 end 
+3140 sub adjust
+3150   if thermocouple>=target then
+3160     let relay = 0
+3170   else 
+3180     let relay = 1
+3190   endif 
+3200 endsub 
+4000 rem ### toaster ###
+4010 dim target, secs
+4020 dim thermocouple as pin an0 for analog input
+4030 dim relay as pin an1 for digital output
+4040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+4050 configure timer 0 for 1000 ms
+4060 on timer 0 do gosub adjust
+4070 rem ---------------
+4080 while target!=-1 do
+4090   sleep secs s
+4100   read target, secs
+4110 endwhile 
+4120 let relay = 0
+4130 end 
+4140 sub adjust
+4150   if thermocouple>=target then
+4160     let relay = 0
+4170   else 
+4180     let relay = 1
+4190   endif 
+4200 endsub 
+5000 rem ### toaster ###
+5010 dim target, secs
+5020 dim thermocouple as pin an0 for analog input
+5030 dim relay as pin an1 for digital output
+5040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+5050 configure timer 0 for 1000 ms
+5060 on timer 0 do gosub adjust
+5070 rem ---------------
+5080 while target!=-1 do
+5090   sleep secs s
+5100   read target, secs
+5110 endwhile 
+5120 let relay = 0
+5130 end 
+5140 sub adjust
+5150   if thermocouple>=target then
+5160     let relay = 0
+5170   else 
+5180     let relay = 1
+5190   endif 
+5200 endsub 
+6000 rem ### toaster ###
+6010 dim target, secs
+6020 dim thermocouple as pin an0 for analog input
+6030 dim relay as pin an1 for digital output
+6040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+6050 configure timer 0 for 1000 ms
+6060 on timer 0 do gosub adjust
+6070 rem ---------------
+6080 while target!=-1 do
+6090   sleep secs s
+6100   read target, secs
+6110 endwhile 
+6120 let relay = 0
+6130 end 
+6140 sub adjust
+6150   if thermocouple>=target then
+6160     let relay = 0
+6170   else 
+6180     let relay = 1
+6190   endif 
+6200 endsub 
+7000 rem ### toaster ###
+7010 dim target, secs
+7020 dim thermocouple as pin an0 for analog input
+7030 dim relay as pin an1 for digital output
+7040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+7050 configure timer 0 for 1000 ms
+7060 on timer 0 do gosub adjust
+7070 rem ---------------
+7080 while target!=-1 do
+7090   sleep secs s
+7100   read target, secs
+7110 endwhile 
+7120 let relay = 0
+7130 end 
+7140 sub adjust
+7150   if thermocouple>=target then
+7160     let relay = 0
+7170   else 
+7180     let relay = 1
+7190   endif 
+7200 endsub 
+8000 rem ### toaster ###
+8010 dim target, secs
+8020 dim thermocouple as pin an0 for analog input
+8030 dim relay as pin an1 for digital output
+8040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+8050 configure timer 0 for 1000 ms
+8060 on timer 0 do gosub adjust
+8070 rem ---------------
+8080 while target!=-1 do
+8090   sleep secs s
+8100   read target, secs
+8110 endwhile 
+8120 let relay = 0
+8130 end 
+8140 sub adjust
+8150   if thermocouple>=target then
+8160     let relay = 0
+8170   else 
+8180     let relay = 1
+8190   endif 
+8200 endsub 
+9000 rem ### toaster ###
+9010 dim target, secs
+9020 dim thermocouple as pin an0 for analog input
+9030 dim relay as pin an1 for digital output
+9040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+9050 configure timer 0 for 1000 ms
+9060 on timer 0 do gosub adjust
+9070 rem ---------------
+9080 while target!=-1 do
+9090   sleep secs s
+9100   read target, secs
+9110 endwhile 
+9120 let relay = 0
+9130 end 
+9140 sub adjust
+9150   if thermocouple>=target then
+9160     let relay = 0
+9170   else 
+9180     let relay = 1
+9190   endif 
+9200 endsub 
+end
+  0% ram code bytes used
+ 47% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+auto save
+auto save
+auto save
+ 16% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+ 45% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+out of code flash
+ 73% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+ 99% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+ 99% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+auto save
+out of code flash
+out of code ram
+ 99% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+  10 rem ### toaster ###
+  20 dim target, secs
+  30 dim thermocouple as pin an0 for analog input
+  40 dim relay as pin an1 for digital output
+  50 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+  60 configure timer 0 for 1000 ms
+  70 on timer 0 do gosub adjust
+  80 rem ---------------
+  90 while target!=-1 do
+ 100   sleep secs s
+ 110   read target, secs
+ 120 endwhile 
+ 130 let relay = 0
+ 140 end 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+ 200   endif 
+ 210 endsub 
+1000 rem ### toaster ###
+1010 dim target, secs
+1020 dim thermocouple as pin an0 for analog input
+1030 dim relay as pin an1 for digital output
+1040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1050 configure timer 0 for 1000 ms
+1060 on timer 0 do gosub adjust
+1070 rem ---------------
+1080 while target!=-1 do
+1090   sleep secs s
+1100   read target, secs
+1110 endwhile 
+1120 let relay = 0
+1130 end 
+1140 sub adjust
+1150   if thermocouple>=target then
+1160     let relay = 0
+1170   else 
+1180     let relay = 1
+1190   endif 
+1200 endsub 
+2000 rem ### toaster ###
+2010 dim target, secs
+2020 dim thermocouple as pin an0 for analog input
+2030 dim relay as pin an1 for digital output
+2040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+2050 configure timer 0 for 1000 ms
+2060 on timer 0 do gosub adjust
+2070 rem ---------------
+2080 while target!=-1 do
+2090   sleep secs s
+2100   read target, secs
+2110 endwhile 
+2120 let relay = 0
+2130 end 
+2140 sub adjust
+2150   if thermocouple>=target then
+2160     let relay = 0
+2170   else 
+2180     let relay = 1
+2190   endif 
+2200 endsub 
+3000 rem ### toaster ###
+3010 dim target, secs
+3020 dim thermocouple as pin an0 for analog input
+3030 dim relay as pin an1 for digital output
+3040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+3050 configure timer 0 for 1000 ms
+3060 on timer 0 do gosub adjust
+3070 rem ---------------
+3080 while target!=-1 do
+3090   sleep secs s
+3100   read target, secs
+3110 endwhile 
+3120 let relay = 0
+3130 end 
+3140 sub adjust
+3150   if thermocouple>=target then
+3160     let relay = 0
+3170   else 
+3180     let relay = 1
+3190   endif 
+3200 endsub 
+4000 rem ### toaster ###
+4010 dim target, secs
+4020 dim thermocouple as pin an0 for analog input
+4030 dim relay as pin an1 for digital output
+4040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+4050 configure timer 0 for 1000 ms
+4060 on timer 0 do gosub adjust
+4070 rem ---------------
+4080 while target!=-1 do
+4090   sleep secs s
+4100   read target, secs
+4110 endwhile 
+4120 let relay = 0
+4130 end 
+4140 sub adjust
+4150   if thermocouple>=target then
+4160     let relay = 0
+4170   else 
+4180     let relay = 1
+4190   endif 
+4200 endsub 
+5000 rem ### toaster ###
+5010 dim target, secs
+5020 dim thermocouple as pin an0 for analog input
+5030 dim relay as pin an1 for digital output
+5040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+5050 configure timer 0 for 1000 ms
+5060 on timer 0 do gosub adjust
+5070 rem ---------------
+5080 while target!=-1 do
+5090   sleep secs s
+5100   read target, secs
+5110 endwhile 
+5120 let relay = 0
+5130 end 
+5140 sub adjust
+5150   if thermocouple>=target then
+5160     let relay = 0
+5170   else 
+5180     let relay = 1
+5190   endif 
+5200 endsub 
+6000 rem ### toaster ###
+6010 dim target, secs
+6020 dim thermocouple as pin an0 for analog input
+6030 dim relay as pin an1 for digital output
+6040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+6050 configure timer 0 for 1000 ms
+6060 on timer 0 do gosub adjust
+6070 rem ---------------
+6080 while target!=-1 do
+6090   sleep secs s
+6100   read target, secs
+6110 endwhile 
+6120 let relay = 0
+6130 end 
+6140 sub adjust
+6150   if thermocouple>=target then
+6160     let relay = 0
+6170   else 
+6180     let relay = 1
+6190   endif 
+6200 endsub 
+7000 rem ### toaster ###
+7010 dim target, secs
+7020 dim thermocouple as pin an0 for analog input
+7030 dim relay as pin an1 for digital output
+7040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+7050 configure timer 0 for 1000 ms
+7060 on timer 0 do gosub adjust
+7070 rem ---------------
+7080 while target!=-1 do
+7090   sleep secs s
+7100   read target, secs
+7110 endwhile 
+7120 let relay = 0
+7130 end 
+7140 sub adjust
+7150   if thermocouple>=target then
+7160     let relay = 0
+7170   else 
+7180     let relay = 1
+7190   endif 
+7200 endsub 
+8000 rem ### toaster ###
+8010 dim target, secs
+8020 dim thermocouple as pin an0 for analog input
+8030 dim relay as pin an1 for digital output
+8040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+8050 configure timer 0 for 1000 ms
+8060 on timer 0 do gosub adjust
+8070 rem ---------------
+8080 while target!=-1 do
+8090   sleep secs s
+8100   read target, secs
+8110 endwhile 
+8120 let relay = 0
+8130 end 
+8140 sub adjust
+8150   if thermocouple>=target then
+8160     let relay = 0
+8170   else 
+8180     let relay = 1
+8190   endif 
+8200 endsub 
+9000 rem ### toaster ###
+9010 dim target, secs
+9020 dim thermocouple as pin an0 for analog input
+9030 dim relay as pin an1 for digital output
+9040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+9050 configure timer 0 for 1000 ms
+9060 on timer 0 do gosub adjust
+9070 rem ---------------
+9080 while target!=-1 do
+9090   sleep secs s
+9100   read target, secs
+9110 endwhile 
+9120 let relay = 0
+9130 end 
+9140 sub adjust
+9150   if thermocouple>=target then
+9160     let relay = 0
+9170   else 
+9180     let relay = 1
+9190   endif 
+9200 endsub 
+10000 rem ### toaster ###
+10010 dim target, secs
+10020 dim thermocouple as pin an0 for analog input
+10030 dim relay as pin an1 for digital output
+10040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+10050 configure timer 0 for 1000 ms
+10060 on timer 0 do gosub adjust
+10070 rem ---------------
+10080 while target!=-1 do
+10090   sleep secs s
+10100   read target, secs
+10110 endwhile 
+10120 let relay = 0
+10130 end 
+10140 sub adjust
+10150   if thermocouple>=target then
+10160     let relay = 0
+10170   else 
+10180     let relay = 1
+10190   endif 
+10200 endsub 
+11000 rem ### toaster ###
+11010 dim target, secs
+11020 dim thermocouple as pin an0 for analog input
+11030 dim relay as pin an1 for digital output
+11040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+11050 configure timer 0 for 1000 ms
+11060 on timer 0 do gosub adjust
+11070 rem ---------------
+11080 while target!=-1 do
+11090   sleep secs s
+11100   read target, secs
+11110 endwhile 
+11120 let relay = 0
+11130 end 
+11140 sub adjust
+11150   if thermocouple>=target then
+11160     let relay = 0
+11170   else 
+11180     let relay = 1
+11190   endif 
+11200 endsub 
+12000 rem ### toaster ###
+12010 dim target, secs
+12020 dim thermocouple as pin an0 for analog input
+12030 dim relay as pin an1 for digital output
+12040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+12050 configure timer 0 for 1000 ms
+12060 on timer 0 do gosub adjust
+12070 rem ---------------
+12080 while target!=-1 do
+12090   sleep secs s
+12100   read target, secs
+12110 endwhile 
+12120 let relay = 0
+12130 end 
+12140 sub adjust
+12150   if thermocouple>=target then
+12160     let relay = 0
+12170   else 
+12180     let relay = 1
+12190   endif 
+12200 endsub 
+13000 rem ### toaster ###
+13010 dim target, secs
+13020 dim thermocouple as pin an0 for analog input
+13030 dim relay as pin an1 for digital output
+13040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+13050 configure timer 0 for 1000 ms
+13060 on timer 0 do gosub adjust
+13070 rem ---------------
+13080 while target!=-1 do
+13090   sleep secs s
+13100   read target, secs
+13110 endwhile 
+13120 let relay = 0
+13130 end 
+13140 sub adjust
+13150   if thermocouple>=target then
+13160     let relay = 0
+13170   else 
+13180     let relay = 1
+13190   endif 
+13200 endsub 
+14000 rem ### toaster ###
+14010 dim target, secs
+14020 dim thermocouple as pin an0 for analog input
+14030 dim relay as pin an1 for digital output
+14040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+14050 configure timer 0 for 1000 ms
+14060 on timer 0 do gosub adjust
+14070 rem ---------------
+14080 while target!=-1 do
+14090   sleep secs s
+14100   read target, secs
+14110 endwhile 
+14120 let relay = 0
+14130 end 
+14140 sub adjust
+14150   if thermocouple>=target then
+14160     let relay = 0
+14170   else 
+14180     let relay = 1
+14190   endif 
+14200 endsub 
+15000 rem ### toaster ###
+15010 dim target, secs
+15020 dim thermocouple as pin an0 for analog input
+15030 dim relay as pin an1 for digital output
+15040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+15050 configure timer 0 for 1000 ms
+15060 on timer 0 do gosub adjust
+15070 rem ---------------
+15080 while target!=-1 do
+15090   sleep secs s
+15100   read target, secs
+15110 endwhile 
+15120 let relay = 0
+15130 end 
+15140 sub adjust
+15150   if thermocouple>=target then
+15160     let relay = 0
+15170   else 
+15180     let relay = 1
+15190   endif 
+15200 endsub 
+16000 rem ### toaster ###
+16010 dim target, secs
+16020 dim thermocouple as pin an0 for analog input
+16030 dim relay as pin an1 for digital output
+16040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+16050 configure timer 0 for 1000 ms
+16060 on timer 0 do gosub adjust
+16070 rem ---------------
+16080 while target!=-1 do
+16090   sleep secs s
+16100   read target, secs
+16110 endwhile 
+16120 let relay = 0
+16130 end 
+16140 sub adjust
+16150   if thermocouple>=target then
+16160     let relay = 0
+16170   else 
+16180     let relay = 1
+16190   endif 
+16200 endsub 
+17000 rem ### toaster ###
+17010 dim target, secs
+17020 dim thermocouple as pin an0 for analog input
+17030 dim relay as pin an1 for digital output
+17040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+17050 configure timer 0 for 1000 ms
+17060 on timer 0 do gosub adjust
+17070 rem ---------------
+17080 while target!=-1 do
+17090   sleep secs s
+17100   read target, secs
+17110 endwhile 
+17120 let relay = 0
+17130 end 
+17140 sub adjust
+17150   if thermocouple>=target then
+17160     let relay = 0
+17170   else 
+17180     let relay = 1
+17190   endif 
+17200 endsub 
+18000 rem ### toaster ###
+18010 dim target, secs
+18020 dim thermocouple as pin an0 for analog input
+18030 dim relay as pin an1 for digital output
+18040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+18050 configure timer 0 for 1000 ms
+18060 on timer 0 do gosub adjust
+18070 rem ---------------
+18080 while target!=-1 do
+18090   sleep secs s
+18100   read target, secs
+18110 endwhile 
+18120 let relay = 0
+18130 end 
+18140 sub adjust
+18150   if thermocouple>=target then
+18160     let relay = 0
+18170   else 
+18180     let relay = 1
+18190   endif 
+18200 endsub 
+19000 rem ### toaster ###
+19010 dim target, secs
+19020 dim thermocouple as pin an0 for analog input
+19030 dim relay as pin an1 for digital output
+19040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+19050 configure timer 0 for 1000 ms
+19060 on timer 0 do gosub adjust
+19070 rem ---------------
+19080 while target!=-1 do
+19090   sleep secs s
+19100   read target, secs
+19110 endwhile 
+19120 let relay = 0
+19130 end 
+19140 sub adjust
+19150   if thermocouple>=target then
+19160     let relay = 0
+19170   else 
+19180     let relay = 1
+19190   endif 
+19200 endsub 
+20000 rem ### toaster ###
+20010 dim target, secs
+20020 dim thermocouple as pin an0 for analog input
+20030 dim relay as pin an1 for digital output
+20040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+20050 configure timer 0 for 1000 ms
+20060 on timer 0 do gosub adjust
+20070 rem ---------------
+20080 while target!=-1 do
+20090   sleep secs s
+20100   read target, secs
+20110 endwhile 
+20120 let relay = 0
+20130 end 
+20140 sub adjust
+20150   if thermocouple>=target then
+20160     let relay = 0
+20170   else 
+20180     let relay = 1
+20190   endif 
+20200 endsub 
+21000 rem ### toaster ###
+21010 dim target, secs
+21020 dim thermocouple as pin an0 for analog input
+21030 dim relay as pin an1 for digital output
+21040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+21050 configure timer 0 for 1000 ms
+21060 on timer 0 do gosub adjust
+21070 rem ---------------
+21080 while target!=-1 do
+21090   sleep secs s
+21100   read target, secs
+21110 endwhile 
+21120 let relay = 0
+21130 end 
+21140 sub adjust
+21150   if thermocouple>=target then
+21160     let relay = 0
+21170   else 
+21180     let relay = 1
+21190   endif 
+21200 endsub 
+22000 rem ### toaster ###
+22010 dim target, secs
+22020 dim thermocouple as pin an0 for analog input
+22030 dim relay as pin an1 for digital output
+22040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+22050 configure timer 0 for 1000 ms
+22060 on timer 0 do gosub adjust
+22070 rem ---------------
+22080 while target!=-1 do
+22090   sleep secs s
+22100   read target, secs
+22110 endwhile 
+22120 let relay = 0
+22130 end 
+22140 sub adjust
+22150   if thermocouple>=target then
+22160     let relay = 0
+22170   else 
+22180     let relay = 1
+22190   endif 
+22200 endsub 
+23000 rem ### toaster ###
+23010 dim target, secs
+23020 dim thermocouple as pin an0 for analog input
+23030 dim relay as pin an1 for digital output
+23040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+23050 configure timer 0 for 1000 ms
+23060 on timer 0 do gosub adjust
+23070 rem ---------------
+23080 while target!=-1 do
+23090   sleep secs s
+23100   read target, secs
+23110 endwhile 
+23120 let relay = 0
+23130 end 
+23140 sub adjust
+23150   if thermocouple>=target then
+23160     let relay = 0
+23170   else 
+missing block ends?
+end
+delete line 10
+auto save
+out of code flash
+out of code ram
+ 99% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+delete line 24000
+auto save
+out of code flash
+out of code ram
+ 99% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+delete line 24000-
+ 99% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+delete line 22000-
+ 75% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+delete line -1000
+ 93% ram code bytes used (unsaved changes!)
+ 97% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+save
+  0% ram code bytes used
+ 99% flash code bytes used
+  0% ram variable bytes used
+  0% flash parameter bytes used
+  0% variables used
+1010 dim target, secs
+1020 dim thermocouple as pin an0 for analog input
+1030 dim relay as pin an1 for digital output
+1040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+1050 configure timer 0 for 1000 ms
+1060 on timer 0 do gosub adjust
+1070 rem ---------------
+1080 while target!=-1 do
+1090   sleep secs s
+1100   read target, secs
+1110 endwhile 
+1120 let relay = 0
+1130 end 
+1140 sub adjust
+1150   if thermocouple>=target then
+1160     let relay = 0
+1170   else 
+1180     let relay = 1
+1190   endif 
+1200 endsub 
+2000 rem ### toaster ###
+2010 dim target, secs
+2020 dim thermocouple as pin an0 for analog input
+2030 dim relay as pin an1 for digital output
+2040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+2050 configure timer 0 for 1000 ms
+2060 on timer 0 do gosub adjust
+2070 rem ---------------
+2080 while target!=-1 do
+2090   sleep secs s
+2100   read target, secs
+2110 endwhile 
+2120 let relay = 0
+2130 end 
+2140 sub adjust
+2150   if thermocouple>=target then
+2160     let relay = 0
+2170   else 
+2180     let relay = 1
+2190   endif 
+2200 endsub 
+3000 rem ### toaster ###
+3010 dim target, secs
+3020 dim thermocouple as pin an0 for analog input
+3030 dim relay as pin an1 for digital output
+3040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+3050 configure timer 0 for 1000 ms
+3060 on timer 0 do gosub adjust
+3070 rem ---------------
+3080 while target!=-1 do
+3090   sleep secs s
+3100   read target, secs
+3110 endwhile 
+3120 let relay = 0
+3130 end 
+3140 sub adjust
+3150   if thermocouple>=target then
+3160     let relay = 0
+3170   else 
+3180     let relay = 1
+3190   endif 
+3200 endsub 
+4000 rem ### toaster ###
+4010 dim target, secs
+4020 dim thermocouple as pin an0 for analog input
+4030 dim relay as pin an1 for digital output
+4040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+4050 configure timer 0 for 1000 ms
+4060 on timer 0 do gosub adjust
+4070 rem ---------------
+4080 while target!=-1 do
+4090   sleep secs s
+4100   read target, secs
+4110 endwhile 
+4120 let relay = 0
+4130 end 
+4140 sub adjust
+4150   if thermocouple>=target then
+4160     let relay = 0
+4170   else 
+4180     let relay = 1
+4190   endif 
+4200 endsub 
+5000 rem ### toaster ###
+5010 dim target, secs
+5020 dim thermocouple as pin an0 for analog input
+5030 dim relay as pin an1 for digital output
+5040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+5050 configure timer 0 for 1000 ms
+5060 on timer 0 do gosub adjust
+5070 rem ---------------
+5080 while target!=-1 do
+5090   sleep secs s
+5100   read target, secs
+5110 endwhile 
+5120 let relay = 0
+5130 end 
+5140 sub adjust
+5150   if thermocouple>=target then
+5160     let relay = 0
+5170   else 
+5180     let relay = 1
+5190   endif 
+5200 endsub 
+6000 rem ### toaster ###
+6010 dim target, secs
+6020 dim thermocouple as pin an0 for analog input
+6030 dim relay as pin an1 for digital output
+6040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+6050 configure timer 0 for 1000 ms
+6060 on timer 0 do gosub adjust
+6070 rem ---------------
+6080 while target!=-1 do
+6090   sleep secs s
+6100   read target, secs
+6110 endwhile 
+6120 let relay = 0
+6130 end 
+6140 sub adjust
+6150   if thermocouple>=target then
+6160     let relay = 0
+6170   else 
+6180     let relay = 1
+6190   endif 
+6200 endsub 
+7000 rem ### toaster ###
+7010 dim target, secs
+7020 dim thermocouple as pin an0 for analog input
+7030 dim relay as pin an1 for digital output
+7040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+7050 configure timer 0 for 1000 ms
+7060 on timer 0 do gosub adjust
+7070 rem ---------------
+7080 while target!=-1 do
+7090   sleep secs s
+7100   read target, secs
+7110 endwhile 
+7120 let relay = 0
+7130 end 
+7140 sub adjust
+7150   if thermocouple>=target then
+7160     let relay = 0
+7170   else 
+7180     let relay = 1
+7190   endif 
+7200 endsub 
+8000 rem ### toaster ###
+8010 dim target, secs
+8020 dim thermocouple as pin an0 for analog input
+8030 dim relay as pin an1 for digital output
+8040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+8050 configure timer 0 for 1000 ms
+8060 on timer 0 do gosub adjust
+8070 rem ---------------
+8080 while target!=-1 do
+8090   sleep secs s
+8100   read target, secs
+8110 endwhile 
+8120 let relay = 0
+8130 end 
+8140 sub adjust
+8150   if thermocouple>=target then
+8160     let relay = 0
+8170   else 
+8180     let relay = 1
+8190   endif 
+8200 endsub 
+9000 rem ### toaster ###
+9010 dim target, secs
+9020 dim thermocouple as pin an0 for analog input
+9030 dim relay as pin an1 for digital output
+9040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+9050 configure timer 0 for 1000 ms
+9060 on timer 0 do gosub adjust
+9070 rem ---------------
+9080 while target!=-1 do
+9090   sleep secs s
+9100   read target, secs
+9110 endwhile 
+9120 let relay = 0
+9130 end 
+9140 sub adjust
+9150   if thermocouple>=target then
+9160     let relay = 0
+9170   else 
+9180     let relay = 1
+9190   endif 
+9200 endsub 
+10000 rem ### toaster ###
+10010 dim target, secs
+10020 dim thermocouple as pin an0 for analog input
+10030 dim relay as pin an1 for digital output
+10040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+10050 configure timer 0 for 1000 ms
+10060 on timer 0 do gosub adjust
+10070 rem ---------------
+10080 while target!=-1 do
+10090   sleep secs s
+10100   read target, secs
+10110 endwhile 
+10120 let relay = 0
+10130 end 
+10140 sub adjust
+10150   if thermocouple>=target then
+10160     let relay = 0
+10170   else 
+10180     let relay = 1
+10190   endif 
+10200 endsub 
+11000 rem ### toaster ###
+11010 dim target, secs
+11020 dim thermocouple as pin an0 for analog input
+11030 dim relay as pin an1 for digital output
+11040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+11050 configure timer 0 for 1000 ms
+11060 on timer 0 do gosub adjust
+11070 rem ---------------
+11080 while target!=-1 do
+11090   sleep secs s
+11100   read target, secs
+11110 endwhile 
+11120 let relay = 0
+11130 end 
+11140 sub adjust
+11150   if thermocouple>=target then
+11160     let relay = 0
+11170   else 
+11180     let relay = 1
+11190   endif 
+11200 endsub 
+12000 rem ### toaster ###
+12010 dim target, secs
+12020 dim thermocouple as pin an0 for analog input
+12030 dim relay as pin an1 for digital output
+12040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+12050 configure timer 0 for 1000 ms
+12060 on timer 0 do gosub adjust
+12070 rem ---------------
+12080 while target!=-1 do
+12090   sleep secs s
+12100   read target, secs
+12110 endwhile 
+12120 let relay = 0
+12130 end 
+12140 sub adjust
+12150   if thermocouple>=target then
+12160     let relay = 0
+12170   else 
+12180     let relay = 1
+12190   endif 
+12200 endsub 
+13000 rem ### toaster ###
+13010 dim target, secs
+13020 dim thermocouple as pin an0 for analog input
+13030 dim relay as pin an1 for digital output
+13040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+13050 configure timer 0 for 1000 ms
+13060 on timer 0 do gosub adjust
+13070 rem ---------------
+13080 while target!=-1 do
+13090   sleep secs s
+13100   read target, secs
+13110 endwhile 
+13120 let relay = 0
+13130 end 
+13140 sub adjust
+13150   if thermocouple>=target then
+13160     let relay = 0
+13170   else 
+13180     let relay = 1
+13190   endif 
+13200 endsub 
+14000 rem ### toaster ###
+14010 dim target, secs
+14020 dim thermocouple as pin an0 for analog input
+14030 dim relay as pin an1 for digital output
+14040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+14050 configure timer 0 for 1000 ms
+14060 on timer 0 do gosub adjust
+14070 rem ---------------
+14080 while target!=-1 do
+14090   sleep secs s
+14100   read target, secs
+14110 endwhile 
+14120 let relay = 0
+14130 end 
+14140 sub adjust
+14150   if thermocouple>=target then
+14160     let relay = 0
+14170   else 
+14180     let relay = 1
+14190   endif 
+14200 endsub 
+15000 rem ### toaster ###
+15010 dim target, secs
+15020 dim thermocouple as pin an0 for analog input
+15030 dim relay as pin an1 for digital output
+15040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+15050 configure timer 0 for 1000 ms
+15060 on timer 0 do gosub adjust
+15070 rem ---------------
+15080 while target!=-1 do
+15090   sleep secs s
+15100   read target, secs
+15110 endwhile 
+15120 let relay = 0
+15130 end 
+15140 sub adjust
+15150   if thermocouple>=target then
+15160     let relay = 0
+15170   else 
+15180     let relay = 1
+15190   endif 
+15200 endsub 
+16000 rem ### toaster ###
+16010 dim target, secs
+16020 dim thermocouple as pin an0 for analog input
+16030 dim relay as pin an1 for digital output
+16040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+16050 configure timer 0 for 1000 ms
+16060 on timer 0 do gosub adjust
+16070 rem ---------------
+16080 while target!=-1 do
+16090   sleep secs s
+16100   read target, secs
+16110 endwhile 
+16120 let relay = 0
+16130 end 
+16140 sub adjust
+16150   if thermocouple>=target then
+16160     let relay = 0
+16170   else 
+16180     let relay = 1
+16190   endif 
+16200 endsub 
+17000 rem ### toaster ###
+17010 dim target, secs
+17020 dim thermocouple as pin an0 for analog input
+17030 dim relay as pin an1 for digital output
+17040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+17050 configure timer 0 for 1000 ms
+17060 on timer 0 do gosub adjust
+17070 rem ---------------
+17080 while target!=-1 do
+17090   sleep secs s
+17100   read target, secs
+17110 endwhile 
+17120 let relay = 0
+17130 end 
+17140 sub adjust
+17150   if thermocouple>=target then
+17160     let relay = 0
+17170   else 
+17180     let relay = 1
+17190   endif 
+17200 endsub 
+18000 rem ### toaster ###
+18010 dim target, secs
+18020 dim thermocouple as pin an0 for analog input
+18030 dim relay as pin an1 for digital output
+18040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+18050 configure timer 0 for 1000 ms
+18060 on timer 0 do gosub adjust
+18070 rem ---------------
+18080 while target!=-1 do
+18090   sleep secs s
+18100   read target, secs
+18110 endwhile 
+18120 let relay = 0
+18130 end 
+18140 sub adjust
+18150   if thermocouple>=target then
+18160     let relay = 0
+18170   else 
+18180     let relay = 1
+18190   endif 
+18200 endsub 
+19000 rem ### toaster ###
+19010 dim target, secs
+19020 dim thermocouple as pin an0 for analog input
+19030 dim relay as pin an1 for digital output
+19040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+19050 configure timer 0 for 1000 ms
+19060 on timer 0 do gosub adjust
+19070 rem ---------------
+19080 while target!=-1 do
+19090   sleep secs s
+19100   read target, secs
+19110 endwhile 
+19120 let relay = 0
+19130 end 
+19140 sub adjust
+19150   if thermocouple>=target then
+19160     let relay = 0
+19170   else 
+19180     let relay = 1
+19190   endif 
+19200 endsub 
+20000 rem ### toaster ###
+20010 dim target, secs
+20020 dim thermocouple as pin an0 for analog input
+20030 dim relay as pin an1 for digital output
+20040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+20050 configure timer 0 for 1000 ms
+20060 on timer 0 do gosub adjust
+20070 rem ---------------
+20080 while target!=-1 do
+20090   sleep secs s
+20100   read target, secs
+20110 endwhile 
+20120 let relay = 0
+20130 end 
+20140 sub adjust
+20150   if thermocouple>=target then
+20160     let relay = 0
+20170   else 
+20180     let relay = 1
+20190   endif 
+20200 endsub 
+21000 rem ### toaster ###
+21010 dim target, secs
+21020 dim thermocouple as pin an0 for analog input
+21030 dim relay as pin an1 for digital output
+21040 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+21050 configure timer 0 for 1000 ms
+21060 on timer 0 do gosub adjust
+21070 rem ---------------
+21080 while target!=-1 do
+21090   sleep secs s
+21100   read target, secs
+21110 endwhile 
+21120 let relay = 0
+21130 end 
+21140 sub adjust
+21150   if thermocouple>=target then
+21160     let relay = 0
+21170   else 
+21180     let relay = 1
+21190   endif 
+21200 endsub 
+end
+bad blocks
+missing endwhile/next
+mismatched endwhile/until/next
+STOP at line 10!
+missing endif
+mismatched else
+STOP at line 10!
+mismatched elseif
+STOP at line 10!
+mismatched endif
+STOP at line 10!
+missing endwhile/next
+mismatched endwhile/until/next
+STOP at line 10!
+missing endif
+missing endif
+mismatched elseif
+STOP at line 20!
+missing gosub
+STOP at line 10!
+missing gosub
+STOP at line 10!
+break/continue without while/for
+STOP at line 10!
+break/continue without while/for
+STOP at line 20!
+test negative run conditions
+tick
+2
+yes
+test long line trimming
+   1 rem 0123456789012345678901234567890123456789012345678901234567890123456
+  10 if 1 then
+  20   if 1 then
+  30     if 1 then
+  40       if 1 then
+  50         if 1 then
+  60           if 1 then
+  70             rem 012345678901234567890123456789012345678901234567890123456
+  80           endif 
+  90         endif 
+ 100       endif 
+ 110     endif 
+ 120   endif 
+ 130 endif 
+end
+   1 rem 0123456789012345678901234567890123456789012345678901234567890123456
+  10 if 1 then
+  20   if 1 then
+  30     if 1 then
+  40       if 1 then
+  50         if 1 then
+  60           if 1 then
+  61             if 1 then
+  70               rem 0123456789012345678901234567890123456789012345678901234
+  71             endif 
+  80           endif 
+  90         endif 
+ 100       endif 
+ 110     endif 
+ 120   endif 
+ 130 endif 
+end
+test interrupt masking
+  10 configure timer 0 for 500 ms
+  20 on timer 0 do print "tick"
+  30 sleep 750 ms
+  40 mask timer 0
+  50 sleep 2 s
+  60 unmask timer 0
+  70 sleep 250 ms
+  80 off timer 0
+ 100 configure uart 0 for 300 baud 8 data no parity loopback
+ 110 dim tx as pin utxd0 for uart output
+ 120 dim rx as pin urxd0 for uart input
+ 140 on uart 0 input do print "rx", rx
+ 145 on uart 0 output do print "txed"
+ 150 let tx = 3
+ 160 sleep 500 ms
+ 170 mask uart 0 input
+ 180 let tx = 4
+ 190 sleep 500 ms
+ 200 print "unmasking"
+ 210 unmask uart 0 input
+ 220 sleep 500 ms
+ 230 off uart 0 input
+ 240 let tx = 5
+ 250 sleep 500 ms
+ 260 print "poll", rx
+end
+tick
+tick
+tick
+unmasking
+poll 0
+test timers
+   1 configure timer 0 for 3500 ms
+   2 on timer 0 do gosub seven
+   9 configure timer 1 for 1000 ms
+  10 on timer 1 do print 2
+  20 sleep 500 ms
+  29 configure timer 2 for 2000 ms
+  30 on timer 2 do print 4
+  31 sleep 1 ms
+  32 configure timer 3 for 2000000 us
+  33 on timer 3 do print "t"
+  40 sleep 5000 ms
+  50 end 
+  90 sub seven
+ 100   print "seven"
+ 110   return 
+ 120 endsub 
+end
+2
+2
+4
+t
+2
+seven
+2
+4
+t
+2
+test ticks/msec
+   1 dim m, t
+   2 let m = msecs, t = ticks
+  10 print "ticks/msec:", ticks_per_msec
+  20 configure timer 0 for 3000 ms
+  30 on timer 0 do print "3000 ms timer at", msecs-m, "ms", ticks-t, "t"
+  40 configure timer 1 for 1750000 us
+  50 on timer 1 do print "1750000 us timer at", msecs-m, "ms", ticks-t, "t"
+  90 sleep 10000 ms
+ 110 let ticks_per_msec = 1
+end
+ticks/msec: 4
+1750000 us timer at 1750 ms 7000 t
+3000 ms timer at 3000 ms 12000 t
+1750000 us timer at 3500 ms 14000 t
+1750000 us timer at 5250 ms 21000 t
+3000 ms timer at 6000 ms 24000 t
+1750000 us timer at 7000 ms 28000 t
+1750000 us timer at 8750 ms 35000 t
+3000 ms timer at 9000 ms 36000 t
+var 'ticks_per_msec' undefined
+STOP at line 110!
+test time units
+  10 sleep 1 s
+  20 sleep 2*2 ms
+  30 sleep 3000000 us
+  40 configure timer 1 for 1 s
+  50 configure timer 2 for 10 ms
+  60 configure timer 3 for 100 us
+end
+      0ms other
+   1000ms   10 sleep 1 s
+      4ms   20 sleep 2*2 ms
+   3000ms   30 sleep 3000000 us
+end
+test sub parameters
+  10 print "sub params1"
+  20 dim i
+  30 assert i==0
+  40 gosub f i
+  50 assert i==1
+  60 print "passed"
+  70 end 
+  80 sub f x
+  90   let x = x+1
+ 100 endsub 
+end
+sub params1
+passed
+   5 print "sub params2"
+  10 dim a
+  20 let a = 7
+  30 assert a==7&&ticks_per_msec==4
+  40 gosub f a, 3, ticks_per_msec+0
+  50 assert a==8&&ticks_per_msec==4
+  60 let a = 12
+  70 gosub f a+0, 3, 4
+  80 assert a==12&&ticks_per_msec==4
+  90 gosub f a, a, a
+ 100 assert a==2
+ 110 print "passed"
+ 120 end 
+ 130 sub f x, y, z
+ 140   print "f1:", x+y, z
+ 150   let x = 8
+ 160   let y = 9
+ 170   let z = 2
+ 180   print "f2:", x+y, z
+ 190 endsub 
+end
+sub params2
+f1: 10 4
+f2: 17 2
+f1: 15 4
+f2: 17 2
+f1: 24 12
+f2: 4 2
+passed
+   5 print "sub params2.1"
+  10 dim a
+  20 gosub foo a, a
+  30 end 
+  50 sub foo a, a
+  60 endsub 
+end
+sub params2.1
+var 'a' already declared at this scope
+STOP at line 20!
+   5 print "sub params3"
+  20 assert ticks_per_msec==4
+  30 gosub f ticks_per_msec+0
+  40 assert ticks_per_msec==4
+  50 print "passed"
+  60 end 
+  90 sub f x
+ 100   let x = x*2
+ 110   print x, ticks_per_msec
+ 120 endsub 
+end
+sub params3
+8 4
+passed
+  10 print "sub params4"
+  20 dim a[2]
+  25 dim b[2]
+  30 let a[0] = 5, a[1] = 6
+  40 assert a[0]==5&&a[1]==6
+  50 gosub f a[0]+0, a[1]
+  60 assert a[0]==5&&a[1]==6
+  70 gosub f2 a
+  80 assert a[0]==6&&a[1]==7
+  85 gosub foo a, b
+  87 print a[0], b[1]
+  88 assert a[0]==0&&b[1]==6
+  90 print "passed"
+ 100 end 
+ 110 sub f x, y
+ 120   print "fa", x, y
+ 130   let x = x+1
+ 140   let y = y+1
+ 150   print "fb", x, y
+ 160 endsub 
+ 170 sub f2 z
+ 180   let z[0] = z[0]+1
+ 190   let z[1] = z[1]+1
+ 200 endsub 
+ 300 sub foo i, j
+ 310   if i>0 then
+ 320     let i = i-1
+ 330     let j[1] = j[1]+1
+ 340     gosub foo i, j
+ 350   endif 
+ 360 endsub 
+end
+sub params4
+fa 5 6
+fb 6 7
+0 6
+passed
+  10 print "sub params - call with too many params1"
+  20 gosub f
+  30 print "ok"
+  40 gosub f ticks_per_msec
+  50 end 
+  60 sub f
+  70 endsub 
+end
+sub params - call with too many params1
+ok
+too many gosub parameters
+STOP at line 40!
+  10 print "sub params - call with too many params2"
+  20 dim a
+  30 gosub f ticks_per_msec+0
+  40 print "ok"
+  50 gosub f ticks_per_msec+0, a
+  60 stop 
+  70 sub f x
+  80 endsub 
+end
+sub params - call with too many params2
+ok
+too many gosub parameters
+STOP at line 50!
+  10 print "sub pin params"
+  20 dim p as pin utxd0 for digital output
+  30 dim i
+  40 for i = 1 to 10
+  50   gosub flip p, i%i
+  60 next 
+  70 print "passed"
+  80 end 
+  90 sub flip o, v
+ 100   let o = v
+ 110 endsub 
+end
+sub pin params
+passed
+  10 print "sub param array by-ref"
+  20 dim x[3], b[2]
+  30 let x[0] = 1, x[1] = 2, x[2] = 3
+  31 let b[0] = 11, b[1] = 1
+  40 assert x[0]==1&&x[1]==2&&x[2]==3
+  50 gosub f x
+  60 assert x[0]==10&&x[1]==20&&x[2]==30
+  70 print "pass1"
+  75 gosub f b
+  80 stop 
+  90 sub f a
+  95   print a[0]
+ 100   let a[0] = 10
+ 110   let a[1] = 20
+ 120   let a[2] = 30
+ 130 endsub 
+end
+sub param array by-ref
+1
+pass1
+11
+var 'a' index 2 out of range
+STOP at line 120!
+  10 print "sub param nested type error"
+  20 dim a[2]
+  30 gosub f a
+  40 gosub f a[1]
+  50 end 
+  60 sub f x
+  70   print "f", x
+  80   gosub y x
+  90 endsub 
+ 100 sub y p
+ 110   print "y", p[1]
+ 120 endsub 
+end
+sub param nested type error
+f 0 0
+y 0
+f 0
+var 'p' index 1 out of range
+y 0
+STOP at line 110!
+  10 print "sub param with same-name local"
+  20 dim a
+  30 gosub f a
+  40 stop 
+  50 sub f x
+  60   dim x[2]
+  70 endsub 
+end
+sub param with same-name local
+var 'x' already declared at this scope
+STOP at line 60!
+test demo
+  10 rem ### blinky ###
+  20 dim i
+  30 dim led as pin dtin2 for digital output
+  40 while 1 do
+  50   for i = 1 to 16
+  60     let led = !led
+  70     sleep 50 ms
+  80   next 
+  90   sleep 800 ms
+ 100 endwhile 
+ 110 end 
+end
+  10 rem ### uart isr ###
+  20 dim data
+  30 data 1, 1, 2, 3, 5, 8, 13, 21, 0
+  40 configure uart 0 for 300 baud 8 data no parity loopback
+  50 dim tx as pin utxd0 for uart output
+  60 dim rx as pin urxd0 for uart input
+  70 on uart 0 input do gosub receive
+  80 on uart 0 output do gosub transmit
+  90 sleep 1000 ms
+ 100 end 
+ 110 sub receive
+ 120   print "received", rx
+ 130 endsub 
+ 140 sub transmit
+ 150   read data
+ 160   if !data then
+ 170     return 
+ 180   endif 
+ 190   assert !tx
+ 200   print "sending", data
+ 210   let tx = data
+ 220 endsub 
+end
+  10 rem ### uart pio ###
+  20 configure uart 1 for 9600 baud 7 data even parity loopback
+  30 dim tx as pin utxd1 for uart output
+  40 dim rx as pin urxd1 for uart input
+  50 let tx = 3
+  60 let tx = 4
+  70 while tx do
+  80 endwhile 
+  90 print rx
+ 100 print rx
+ 110 print rx
+ 120 end 
+end
+0
+0
+0
+  10 rem ### toaster ###
+  20 dim target, secs
+  30 dim thermocouple as pin an0 for analog input
+  40 dim relay as pin an1 for digital output
+  50 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+  60 configure timer 0 for 1000 ms
+  70 on timer 0 do gosub adjust
+  75 sleep 500 ms
+  80 rem ---------------
+  90 while target!=-1 do
+ 100   sleep secs s
+ 110   read target, secs
+ 120 endwhile 
+ 130 let relay = 0
+ 140 end 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+ 200   endif 
+ 210 endsub 
+end
+  10 rem ### toaster ###
+  20 dim target, secs
+  30 dim thermocouple as pin an0 for analog input
+  40 dim relay as pin an1 for digital output
+  50 data 5124, 6, 7460, 9, 8940, 3, -1, -1
+  60 configure timer 0 for 1000 ms
+  70 on timer 0 do gosub adjust
+  75 sleep 500 ms
+  80 rem ---------------
+  90 while target!=-1 do
+ 100   sleep secs s
+ 110   read target, secs
+    let target = 5124
+    let secs = 6
+ 120 endwhile 
+  90 while target!=-1 do
+ 100   sleep secs s
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 110   read target, secs
+    let target = 7460
+    let secs = 9
+ 120 endwhile 
+  90 while target!=-1 do
+ 100   sleep secs s
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 110   read target, secs
+    let target = 8940
+    let secs = 3
+ 120 endwhile 
+  90 while target!=-1 do
+ 100   sleep secs s
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 150 sub adjust
+ 160   if thermocouple>=target then
+ 170     let relay = 0
+ 180   else 
+ 190     let relay = 1
+    let relay = 1
+ 200   endif 
+ 210 endsub 
+ 110   read target, secs
+    let target = -1
+    let secs = -1
+ 120 endwhile 
+  90 while target!=-1 do
+ 100   sleep secs s
+ 110   read target, secs
+ 120 endwhile 
+ 130 let relay = 0
+    let relay = 0
+ 140 end 
