@@ -1,0 +1,94 @@
+.mstheme
+{
+	separator-image: url(btzhsepa.gif);
+	list-image-1: url(btzbul1a.gif);
+	list-image-2: url(btzbul2a.gif);
+	list-image-3: url(btzbul3a.gif);
+	nav-banner-image: url(btzbanna.gif);
+	navbutton-horiz-normal: url(btznvhna.gif);
+	navbutton-horiz-hovered: url(btznvhha.gif);
+	navbutton-horiz-pushed: url(btznvhsa.gif);
+	navbutton-vert-normal: url(btznvvna.gif);
+	navbutton-vert-hovered: url(btznvvha.gif);
+	navbutton-vert-pushed: url(btznvvsa.gif);
+	navbutton-home-normal: url(btzhomna.gif);
+	navbutton-home-hovered: url(btzhomha.gif);
+	navbutton-home-pushed: url(btzhomna.gif);
+	navbutton-next-normal: url(btznexna.gif);
+	navbutton-next-hovered: url(btznexha.gif);
+	navbutton-next-pushed: url(btznexna.gif);
+	navbutton-prev-normal: url(btzprena.gif);
+	navbutton-prev-hovered: url(btzpreha.gif);
+	navbutton-prev-pushed: url(btzprena.gif);
+	navbutton-up-normal: url(btzupbna.gif);
+	navbutton-up-hovered: url(btzupbha.gif);
+	navbutton-up-pushed: url(btzupbna.gif);
+}
+.mstheme-bannertxt
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 255, 0);
+	font-size: 5;
+	font-style: normal;
+	font-weight: normal;
+}
+.mstheme-horiz-navtxt
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 0, 128);
+	font-size: 2;
+	font-style: normal;
+	font-weight: normal;
+}
+.mstheme-vert-navtxt
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 0, 128);
+	font-size: 2;
+	font-style: normal;
+	font-weight: normal;
+}
+.mstheme-navtxthome
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 51, 204);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+}
+.mstheme-navtxtnext
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 51, 204);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+}
+.mstheme-navtxtprev
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 51, 204);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+}
+.mstheme-navtxtup
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 51, 204);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+}
+ul
+{
+	list-style-image: url(btzbul1a.gif);
+}
+ul ul
+{
+	list-style-image: url(btzbul2a.gif);
+}
+ul ul ul
+{
+	list-style-image: url(btzbul3a.gif);
+}
