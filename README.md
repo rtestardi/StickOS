@@ -6,6 +6,6 @@ On selected MCUs, the USB interface can optionally be configured into USB Host M
 
 CPUStick™ is a 1”x4” very low cost standalone USB embedded computer, pre-loaded with StickOS BASIC, based on the Freescale MCF52252 ColdFire MCU and MC13201 ZigFlea Wireless Transceiver, similar in size and form to a USB “memory stick” and suitable for use in soldered or solderless-breadboard applications.
 
-See the website: [https://rtestardi.github.io/StickOS/website/](https://rtestardi.github.io/StickOS/website/)
+See the website: [https://rtestardi.github.io/StickOS/](https://rtestardi.github.io/StickOS/)
 
 ![alt text](https://github.com/rtestardi/StickOS/blob/master/README.png)
