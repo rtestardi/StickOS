@@ -1,0 +1,5 @@
+// After load the commands written below will be executed
+
+// Debugger attached flag -- KBI1SC == 0x01
+wb 0x000C 0x01
+

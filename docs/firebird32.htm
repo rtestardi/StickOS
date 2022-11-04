@@ -1,0 +1,634 @@
+﻿<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>CPUStick™ and StickOS™ -- Introduction to Firebird32</title>
+<!--mstheme--><link rel="stylesheet" type="text/css" href="_themes/rich2/rich1001.css"><meta name="Microsoft Theme" content="rich2 1001, default">
+</head>
+
+<body>
+
+<hr>
+<p>
+<font size="2">
+<a target="_blank" href="images/firebird_trainer.jpg">
+<img border="2" src="images/firebird_trainer_small.jpg" width="200" height="144" align="right"></a>The 
+Firebird32 is a low cost development board that can be used with StickOS BASIC 
+or the C Flexisframework<font face="Times New Roman">™</font>.</font></p>
+<ul>
+	<li><a href="#intro"><font size="2">Introduction to StickOS BASIC Programming on the 
+	Firebird32</font></a></li>
+	<li><a href="#jump"><font size="2">Setting the Firebird32 Jumpers</font></a></li>
+	<li><a href="#tera"><font size="2">Connecting to the Firebird32 MCU with Tera Term</font></a></li>
+	<li><font size="2"><a href="#usbdm">Loading StickOS BASIC onto your 
+	Firebird32 using USBDM CFV1_FlashProgrammer</a></font></li>
+	<li><font size="2"><a href="#hiwave">Configuring HiWave.exe to use the USBDM 
+	(advanced, optional)</a></font></li>
+	<li><font size="2"><a href="#demo">The Firebird32 Demo Program</a></font></li>
+</ul>
+<p>&nbsp;</p>
+<p><a name="intro"></a></p>
+<hr>
+<p><b><font size="2">Introduction to 
+StickOS BASIC Programming on the Firebird32</font></b></p>
+<p><font size="2">Check your Firebird32 jumpers: </font> <a href="#jump">
+<font size="2">Setting the Firebird32 Jumpers</font></a></p>
+<p><font size="2">If your Firebird32 did not come with StickOS BASIC preinstalled, see:
+</font>
+<a href="#usbdm"><font size="2">Loading StickOS BASIC onto your Firebird32 using USBDM</font></a></p>
+<p><font size="2">If you have not yet connected to your Firebird32 MCU with Tera Term, see:
+</font>
+<a href="#tera"><font size="2">Connecting to the Firebird32 MCU with Tera Term</font></a></p>
+<p><font size="2">Start the Tera Term terminal emulator and connect to your 
+Firebird32.</font></p>
+<p><font size="2">You can access the StickOS BASIC online help thru the &quot;help&quot; 
+command:</font></p>
+<blockquote>
+	<p><font size="2" face="Courier New">Welcome to StickOS for Freescale 
+	MCF51JM128 Firebird32 v1.84b!<br>
+	Copyright (c) 2008-2010; all rights reserved.<br>
+	https://github.com/rtestardi/StickOS<br>
+	support@cpustick.com<br>
+	(checksum 0x1c3)<br>
+	&gt; <b>help</b><br>
+	for more information:<br>
+	help about<br>
+	help commands<br>
+	help modes<br>
+	help statements<br>
+	help blocks<br>
+	help devices<br>
+	help expressions<br>
+	help strings<br>
+	help variables<br>
+	help pins<br>
+	help zigflea<br>
+	<br>
+	see also:<br>
+	https://github.com/rtestardi/StickOS<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">First, let's get acquainted with the Firebird32 pin names:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>help pins</b><br>
+	pin names:<br>
+&nbsp; a0-a7, 0-13<br>
+&nbsp; pta[0-5], ptc[0-1,3-6], ptd[0,3-7], pte7, ptf[5,7], ptg[0-2]<br>
+	<br>
+	jumpers:<br>
+&nbsp; d6=pwm<br>
+	<br>
+	all pins support general purpose digital input/output<br>
+	a?, 7 = potential analog input pins (mV)<br>
+	3,5,6,8,9,10,11 = potential analog output (PWM) pins (mV)<br>
+	3,5,6,8,9,10,11 = potential servo output (PWM) pins (us)<br>
+	3,5,6,8,9,10,11 = potential frequency output pins (Hz)<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">This shows that the basic arduino-shield pin names are as 
+follows:</font></p>
+<blockquote>
+	<table border="1" width="400" id="table2" cellspacing="0">
+		<tr>
+			<td width="225"><font size="2">shield analog pins a0 - a7</font></td>
+			<td><b><font size="2">a0</font></b><font size="2"> - </font><b>
+			<font size="2">a7</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">shield digital pins 0 - 13</font></td>
+			<td><b><font size="2">0</font></b><font size="2"> - </font><b>
+			<font size="2">13</font></b></td>
+		</tr>
+	</table>
+</blockquote>
+<p><font size="2">Pins <b>a0</b> - <b>a7</b> can be used for analog input into 
+the MCU.&nbsp; Pins <b>0</b> - <b>13</b> can be used for digital input or output 
+into or out of the MCU.&nbsp; In addition, digital pins <b>3</b>, <b>5</b>, <b>6</b>,
+<b>8</b>, <b>9</b>, <b>10</b>, and <b>11</b> can be used for analog output, 
+servo output, or frequency output out of the MCU.</font></p>
+<p><font size="2">In StickOS BASIC, MCU pins are bound to ordinary program 
+variables and then can be examined or manipulated, both in a BASIC program as 
+well as interactively from the command line, using any BASIC statements that can 
+access variables, such as &quot;<b><font face="Courier New">print</font></b>&quot; or &quot;<b><font face="Courier New">let</font></b>&quot;.</font></p>
+<p><font size="2">These &quot;pin variables&quot; are declared with the following 
+statement:</font></p>
+<blockquote>
+	<p><font size="2" face="Courier New"><b>dim</b> <i>varpin</i> <b>as pin</b>
+	<i>pinname</i> <b>for</b> (<b>digital</b>|<b>analog</b>|<b>servo</b>|<b>frequency</b>|<b>uart</b>) 
+	(<b>input</b>|<b>output</b>) \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	[<b>debounced</b>] [<b>inverted</b>] [<b>open_drain</b>]</font></p>
+</blockquote>
+<p><font size="2">This means you can examine analog input pin <b>a0</b>, in 
+millivolts, like:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>dim pot as pin a0 for analog input<br>
+	</b>&gt; <b>print pot</b><br>
+	4125<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">You can examine digital input pin <b>1</b> like:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>dim switch as pin 1 for digital 
+	input</b><br>
+	&gt; <b>print switch</b><br>
+	1<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">You can manipulate digital output pin <b>2</b> like:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>dim led as pin 2 for digital 
+	output</b><br>
+	&gt; <b>let led=0<br>
+	</b>&gt; _</font></p>
+</blockquote>
+<p><font size="2">And for pins 3, 5, 6, 8, 9, 10, and 11 you can also use the 
+PWM functions of analog output (millivolts), servo output (microseconds), or 
+frequency output (Hz), like:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>dim motor as pin 3 for servo 
+	output<br>
+	</b>&gt; <b>let motor=1000</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Replace the keyword &quot;</font><font face="Courier New" size="2"><b>servo</b></font><font size="2">&quot; 
+with &quot;<b><font face="Courier New">analog</font></b>&quot; or &quot;<b><font face="Courier New">frequency</font></b>&quot; 
+for the other output pin types.</font></p>
+<p><font size="2">To clear variable and pin definitions (so they can be 
+redefined), do:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>clear</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">From the Firebird32 schematic, in addition to the arduino-shield pins of <b>
+a0</b>-<b>a7</b>, <b>0</b>-<b>13</b>, there are a few other pins 
+connected to the internal components on the board.</font></p>
+<p><font size="2">These pins are as 
+follows:</font></p>
+<blockquote>
+	<table border="1" width="400" id="table1" cellspacing="0">
+		<tr>
+			<td width="225"><font size="2">switch</font></td>
+			<td><b><font size="2">ptg0</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">buzzer</font></td>
+			<td><b><font size="2">ptf5</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">rgb anode (+)</font></td>
+			<td><b><font size="2">ptg1</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">rgb red cathode (-)</font></td>
+			<td><b><font size="2">5</font></b><font size="2">&nbsp; (pte3)</font></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">rgb green cathode (-)</font></td>
+			<td><b><font size="2">3</font></b><font size="2">&nbsp; (pte2)</font></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">rgb blue cathode (-)</font></td>
+			<td><b><font size="2">9</font></b><font size="2">&nbsp; (ptf1)</font></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">eeprom write protect</font></td>
+			<td><b><font size="2">ptg2</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">scl</font></td>
+			<td><b><font size="2">ptc0</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">sda</font></td>
+			<td><b><font size="2">ptc1</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">txd2</font></td>
+			<td><b><font size="2">ptc3</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">rxd2</font></td>
+			<td><b><font size="2">ptc5</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">tx can</font></td>
+			<td><b><font size="2">ptf7</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">rx can</font></td>
+			<td><b><font size="2">ptc6</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">spi chip select</font></td>
+			<td><b><font size="2">pte7</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">spi chip select</font></td>
+			<td><b><font size="2">ptc4</font></b></td>
+		</tr>
+	</table>
+</blockquote>
+<p><font size="2">Now let's make the buzzer on the board sound 440 Hz:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>dim buzzer as pin ptf5 for frequency output</b><br>
+	&gt; <b>let buzzer=440</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">The first line configures the MCU pin connected to the buzzer (<b>ptf5</b>) 
+for frequency output, and the second line sets it generating a 440Hz tone.</font></p>
+<p><font size="2">And now let's turn it off again:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>let buzzer=0</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Pretty darn easy!</font></p>
+<p><font size="2">Now let's make the green LED (of the rgb LED on the board)) blink.&nbsp; This is a bit tougher since we have 
+to configure the anode of the LED to +V as well as blink the cathode of the LED.&nbsp; We can 
+write a trivial BASIC program to do this:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>new</b><br>
+	&gt; <b>10 dim anode as pin ptg1 for digital output</b><br>
+	&gt; <b>20 dim green as pin 3 for digital output</b><br>
+	&gt; <b>40 let anode=1</b><br>
+	&gt; <b>50 while 1 do</b><br>
+	&gt; <b>60&nbsp;&nbsp; let green=!green</b><br>
+	&gt; <b>70&nbsp;&nbsp; sleep 500ms</b><br>
+	&gt; <b>80 endwhile</b><br>
+	&gt; <b>save</b><br>
+	&gt; <b>run</b><br>
+	_</font></p>
+</blockquote>
+<p><font size="2">The first command, &quot;new&quot;, clears any existing BASIC program.&nbsp; The next 8 
+lines of code are the program itself, which configures the MCU pin connected to 
+the anode of the LED (<b>ptg1</b>) as an output and binds it to the variable 
+&quot;anode&quot;, and then configures the MCU pin connected to the green cathode of the 
+LED (arduino-shield pin <b>3</b>) as an output and binds it to the variable 
+&quot;green&quot;.&nbsp; From then on examination or modification of those variables is 
+reflected immediately at the corresponding MCU pin.&nbsp; Then, we set the anode 
+of the LED to a high voltage, and finally we enter a program infinite loop that 
+inverts the state of the green cathode every 500ms!</font></p>
+<p><font size="2">The command &quot;save&quot; causes the program to be saved to non-volatile flash 
+memory (initially, new program lines and changed program lines are entered into 
+RAM, to preserve flash memory lifetime).&nbsp; The command &quot;run&quot; causes the 
+program to run, and the green LED should be blinking (in addition to the 
+heartbeat LED)!</font></p>
+<p><font size="2">Press &lt;Ctrl-C&gt; to stop the program:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2"><b>&lt;Ctrl-C&gt;</b><br>
+	STOP at line 70!<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">The program stopped at line 70.</font></p>
+<p><font size="2">At this point, you can make the green LED blink yourself!&nbsp; Enter the 
+following lines and watch the green LED:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>let green=!green</b><br>
+	&gt; <b>let green=!green</b><br>
+	&gt; <b>let green=!green</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Once you have entered a line, you can use the up-arrow cursor key to recall 
+previously entered lines.&nbsp; You can use the right-and-left arrow keys to 
+move the cursor and insert or delete (with backspace) characters.</font></p>
+<p><font size="2">It we want to change the program to blink faster, we need simply edit line 
+70, using the &quot;edit&quot; command as follows:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>edit 70</b><br>
+	&gt; <b>70 sleep 500 ms</b>_</font></p>
+</blockquote>
+<p><font size="2">Note that the cursor is at the end of the line; you can move it left to the 
+last &quot;0&quot; in &quot;500&quot; and backspace to erase it; then press &lt;Enter&gt;:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>70 sleep 50 ms</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Now list the program with the &quot;list&quot; command:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>list</b><br>
+	&nbsp; 10 dim anode as pin ptg1 for digital output<br>
+	&nbsp;
+	20 dim green as pin 3 for digital output<br>
+	&nbsp;
+	40 let anode = 1<br>
+	&nbsp;
+	50 while 1 do<br>
+	&nbsp;
+	60&nbsp;&nbsp; let green = !green<br>
+	&nbsp;
+	70&nbsp;&nbsp; sleep 50 ms<br>
+	&nbsp;
+	80 endwhile<br>
+	end<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">And you can continue the changed program running from where it stopped 
+previously with the &quot;cont&quot; command:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>cont</b><br>
+	_</font></p>
+</blockquote>
+<p><font size="2">Notice the green LED now blinks 10x faster.</font></p>
+<p><font size="2">Again, press &lt;Ctrl-C&gt; to stop the program:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2"><b>&lt;Ctrl-C&gt;</b><br>
+	STOP at line 70!<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">As one final tweak, we can make the green LED stop blinking whenever the 
+switch on the board (not the reset switch!) is pressed, with:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>5 dim switch as pin ptg0 for digital input 
+	inverted<br>
+	</b>&gt; <b>55 if !switch then<br>
+	</b>&gt; <b>65 endif<br>
+	</b>&gt; <b>list</b><br>
+	&nbsp;
+	5 dim switch as pin ptg0 for digital input inverted<br>
+	&nbsp;
+	10 dim anode as pin ptg1 for digital output<br>
+	&nbsp;
+	20 dim green as pin 3 for digital output<br>
+	&nbsp;
+	40 let anode = 1<br>
+	&nbsp;
+	50 while 1 do<br>
+	&nbsp;
+	55&nbsp;&nbsp; if !switch then<br>
+	&nbsp;
+	60&nbsp;&nbsp;&nbsp;&nbsp; let green = !green<br>
+	&nbsp;
+	65&nbsp;&nbsp; endif<br>
+	&nbsp;
+	70 sleep 50 ms<br>
+	&nbsp;
+	80 endwhile<br>
+	end<br>
+	&gt; <b>run</b><br>
+	_</font></p>
+</blockquote>
+<p><font size="2">Line 5 configures the MCU pin connected to the switch (<b>ptg0</b>) as an 
+input and binds it to the variable &quot;switch&quot; with an inverted sense (since the 
+circuit ties the MCU pin to ground when the switch is pressed).&nbsp; Line 55 
+says that if the switch is not pressed, do line 60 (which makes the green LED 
+blink).&nbsp; Line 65 ends the if condition started at line 55.</font></p>
+<p><font size="2">Notice the green LED now stops blinking when you press the 
+switch.</font></p>
+<p><font size="2">Again, press &lt;Ctrl-C&gt; to stop the program:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2"><b>&lt;Ctrl-C&gt;</b><br>
+	STOP at line 70!<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Finally, if we insert many lines in the program this way, it makes the 
+program look cleaner to then renumber the lines with the &quot;renumber&quot; command:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>renumber</b><br>
+	&gt; <b>list</b><br>
+	10 dim switch as pin ptg0 for digital input inverted<br>
+	20 dim anode as pin ptg1 for digital output<br>
+	30 dim green as pin 3 for digital output<br>
+	40 let anode = 1<br>
+	50 while 1 do<br>
+	60&nbsp;&nbsp; if !switch then<br>
+	70&nbsp;&nbsp;&nbsp;&nbsp; let green = !green<br>
+	80&nbsp;&nbsp; endif<br>
+	90&nbsp;&nbsp; sleep 50 ms<br>
+	100 endwhile<br>
+	end<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Notice that the lines are evenly numbered by 10 again.</font></p>
+<p><font size="2">For a whirlwind tour of StickOS BASIC, be sure to download the
+<a target="_blank" href="https://github.com/rtestardi/StickOS/downloads/quickref.v1.82.pdf">StickOS Quick 
+Reference</a> guide.</font></p>
+<p><font size="2">Also see the full online <a target="_blank" href="stickos.htm">StickOS User's Guide</a>, or 
+the <a target="_blank" href="downloads/stickos.v1.84.pdf">StickOS User's Guide</a> in PDF 
+format.</font></p>
+<p><font size="2">Have fun!</font></p>
+<p><a name="jump"></a></p>
+<hr>
+<p><b><font size="2">Setting the 
+Firebird32 Jumpers</font></b></p>
+<p><font size="2">In general there is no need to ever move jumpers D6 or D10 off the PWM position; you 
+may always refer to these lines as pins &quot;<b>6</b>&quot; or &quot;<b>10</b>&quot;.</font></p>
+<p><font size="2">Set jumper D11 to MOSI to use SPI, and to PWM otherwise; note that to use SPI 
+in StickOS BASIC you must explicitly toggle a chip select line (often pin &quot;<b>10</b>&quot;).</font></p>
+<p><font size="2">Set jumpers A4 and A5 to SDA and SCL to use I2C, and to A4 and A5 otherwise.</font></p>
+<p><a name="tera"></a></p>
+<hr>
+<p><b><font size="2">Connecting to the 
+Firebird32 MCU with Tera Term</font></b></p>
+<ol>
+	<li><font size="2">Download the cpustick.inf file to your desktop from:
+	</font>
+	<a href="https://github.com/rtestardi/StickOS/cpustick.inf">
+	<font size="2">https://github.com/rtestardi/StickOS/cpustick.inf</font></a></li>
+	<li><font size="2">Install the cpustick.inf file by right-clicking on it and selecting 
+	&quot;Install&quot;</font></li>
+	<li><font size="2">Connect your Firebird32 to the PC via the USB cable</font></li>
+	<li><font size="2">Allow Windows to automatically install hardware (you should see 
+	&quot;CPUStick&quot; detected and installed)</font></li>
+	<li><font size="2">Download Tera Term from: </font> 
+	<font size="2"><a target="_blank" href="http://logmett.com/">http://logmett.com/</a></font></li>
+	<li><font size="2">(optional, since Tera Term has the same functionality built-in) Open 
+	Device Manager and determine the &quot;CPUStick&quot; COM port assigned to your 
+	Firebird32:<br>
+	<img border="0" src="images/firebi5.jpg"></font></li>
+	<li><font size="2">Launch Tera Term and select the &quot;serial&quot; port option and then the 
+	&quot;CPUStick&quot; COM port discovered above, and then &quot;OK&quot;:<br>
+	<img border="0" src="images/firebi6.jpg"></font></li>
+	<li><font size="2">Press &lt;Enter&gt; for a command prompt:<br>
+	<img border="0" src="images/firebi7.jpg"></font></li>
+</ol>
+<p><a name="usbdm"></a></p>
+<hr>
+<p><b><font size="2">Loading StickOS BASIC onto your 
+Firebird32 using USBDM CFV1_FlashProgrammer</font></b></p>
+<ol>
+	<li><font size="2">Download the Firebird32 S19 file from:
+	</font>
+	<font size="2">
+	<a target="_blank" href="https://github.com/rtestardi/StickOS/downloads.htm">https://github.com/rtestardi/StickOS/downloads.htm</a></font></li>
+	<li><font size="2">Download the latest
+	<a target="_blank" href="http://sourceforge.net/projects/usbdm/files/">USBDM Package</a> and 
+	unpack it into a directory</font></li>
+	<li><font size="2">Connect your USBDM to the PC via the USB cable, and connect the 
+	Firebird32 to the USBDM via the ribbon cable, being careful to note the pin 
+	1 locations on the ribbon cable and header</font></li>
+	<li><font size="2">Run the file &quot;CFV1_FlashProgrammer.exe&quot; from 
+	&quot;...\Win32\Utilities\CFV1_FlashProgrammer.exe&quot;<br>
+	<img border="0" src="images/firebi8.jpg"><br>
+	Notice that USBDM is detected, above.</font></li>
+	<li><font size="2">Switch to the Target tab, select &quot;Load Hex Files&quot;, and 
+	browse to your S19 file and click &quot;Open&quot;<br>
+	<img border="0" src="images/firebi9.jpg"><br>
+	Notice that your S19 file is loaded, above.</font></li>
+	<li><font size="2">Select &quot;Program Flash&quot; to program the S19 file to your 
+	Firebird32; after a delay you will see:<br>
+	<img border="0" src="images/firebi10.jpg"></font></li>
+	<li><font size="2">You're done -- disconnect the Firebird32 from the USBDM and reset it; 
+	the heartbeat LED on pin d13 should be blinking!</font></li>
+	<li><font size="2">If you're running a Firebird32 Nano or Mini (or if you're 
+	running the Firebird32 without a keypad), you probably want to run the 
+	following command to disable keypad scanning: <font face="Courier New"><b>
+	pins kbd_s0 none</b></font></font></li>
+</ol>
+<p><a name="hiwave"></a></p><hr>
+<p><font size="2"><b>Configuring HiWave.exe to use the USBDM (advanced, 
+optional)</b></font></p>
+<ol>
+	<li><font size="2">Download the Firebird32 S19 file from:
+	</font>
+	<font size="2">
+	<a target="_blank" href="https://github.com/rtestardi/StickOS/downloads.htm">https://github.com/rtestardi/StickOS/downloads.htm</a></font></li>
+	<li><font size="2">Install
+	<a target="_blank" href="http://www.freescale.com/webapp/sps/site/homepage.jsp?code=CW_HOME">CodeWarrior 6.3</a>&nbsp; (Note that this can also be achieved with 
+	CodeWarrior 10.1 (Eclipse IDE), but I have not done that.)</font></li>
+	<li><font size="2">Download the latest
+	<a target="_blank" href="http://sourceforge.net/projects/usbdm/files/">USBDM Package</a> and 
+	unpack it into a directory</font></li>
+	<li><font size="2">In the directory, there is a script that will modify your CodeWarrior 
+	installation; view it and run: &quot;...\Win32\Install Codewarrior Files.cmd&quot;</font></li>
+	<li><font size="2">Run the <b>HiWave.exe</b> program in the CodeWarrior 6.3 installation 
+	directory (&quot;C:\Program 
+	Files\Freescale\CodeWarrior for Microcontrollers V6.3\prog\hiwave.exe&quot;)</font></li>
+	<li><font size="2">Connect your USBDM to the PC via the USB cable, and connect the 
+	Firebird32 to the USBDM via the ribbon cable, being careful to note the pin 
+	1 locations on the ribbon cable and header</font></li>
+	<li><font size="2">Under Component -&gt; Set Connection, select: &quot;COLDFIRE&quot; and &quot;CFV1 Open 
+	Source BDM&quot;<br>
+	<img border="0" src="images/firebi1.jpg"></font></li>
+	<li><font size="2">Then set the MCU derivative to: &quot;MCF51JM128&quot;<br>
+	<img border="0" src="images/firebi2.jpg"></font></li>
+	<li><font size="2">Select &quot;CFV1 Open Source BDM&quot; -&gt; &quot;Flash...&quot; from the HiWave.exe menu...<br>
+	<img border="0" src="images/firebi3.jpg"></font></li>
+	<li><font size="2">Select the primary &quot;FLASH&quot; Module and click &quot;Erase&quot; to erase it.</font></li>
+	<li><font size="2">Click &quot;Load...&quot; and navigate to the Firebird32 S19 file you downloaded 
+	above, and click &quot;Open&quot; to program the S19 file to your 
+	Firebird32; you will see:<br>
+	<img border="0" src="images/firebi4.jpg"></font></li>
+	<li><font size="2">You're done -- disconnect the Firebird32 from the USBDM and reset it; 
+	the heartbeat LED on pin d13 should be blinking!</font></li>
+	<li><font size="2">If you're running a Firebird32 Nano or Mini (or if you're 
+	running the Firebird32 without a keypad), you probably want to run the 
+	following command to disable keypad scanning: <font face="Courier New"><b>
+	pins kbd_s0 none</b></font></font></li>
+</ol>
+<p><a name="demo"></a></p>
+<hr>
+
+<p><b><font size="2">The Firebird32 Demo Program:</font></b></p>
+<p class="MsoNormal"><font size="2">This program plays Yankee Doodle on the 
+buzzer three times while cycling the RGB LED thru a sequence of colors.&nbsp; It 
+scans the switch on the board for an indication to silence playback early.&nbsp; 
+It also initialized the LCD display (if attached) and scans the keypad (if 
+attached) and displays pressed keys on the LCD.&nbsp; Finally, it queries the 
+console (USB or UART) for input and if input is found, displays that on the LCD 
+as well.</font></p>
+<p class="MsoNormal"><font face="Courier New" size="2">&nbsp;10 dim n, text$[16]<br>
+&nbsp;20 rem --- kdb ---<br>
+&nbsp;30 on keychar do lcd n%2, keychar$<br>
+&nbsp;40 rem --- buzzer ---<br>
+&nbsp;50 dim plays, note, sustain, scale[13]<br>
+&nbsp;60 dim notes[40] as byte, octave[40] as byte, duration[40] as byte<br>
+&nbsp;70 dim cancel as pin ptg0 for digital input inverted<br>
+&nbsp;80 dim buzzer as pin ptf5 for frequency output<br>
+&nbsp;90 gosub buzinit<br>
+100 configure timer 1 for 250 ms<br>
+110 on timer 1 do gosub buznote<br>
+120 rem --- rgb ---<br>
+130 dim rgb<br>
+140 dim red as pin 5 for analog output inverted<br>
+150 dim green as pin 3 for analog output inverted<br>
+160 dim blue as pin 9 for analog output inverted<br>
+170 dim vcc as pin ptg1 for digital output<br>
+180 let vcc = 1<br>
+190 configure timer 2 for 100 ms<br>
+200 on timer 2 do gosub rgbcycle<br>
+210 rem --- main loop ---<br>
+220 let text$ = &quot;Firebird&quot;<br>
+230 lcd 0, text$<br>
+240 let text$ = &quot;CFV1&quot;<br>
+250 lcd 1, text$<br>
+260 while 1 do<br>
+270&nbsp;&nbsp; input text$<br>
+280&nbsp;&nbsp; lcd n%2, text$<br>
+290&nbsp;&nbsp; let n = n+1<br>
+300 endwhile<br>
+310 end<br>
+320 rem --- sub buznote ---<br>
+330 sub buznote<br>
+340&nbsp;&nbsp; if cancel||plays&gt;=3 then<br>
+350&nbsp;&nbsp;&nbsp;&nbsp; let buzzer = 0<br>
+360&nbsp;&nbsp;&nbsp;&nbsp; off timer 1<br>
+370&nbsp;&nbsp;&nbsp;&nbsp; return<br>
+380&nbsp;&nbsp; endif<br>
+390&nbsp;&nbsp; if sustain then<br>
+400&nbsp;&nbsp;&nbsp;&nbsp; let sustain = sustain-1<br>
+410&nbsp;&nbsp;&nbsp;&nbsp; return<br>
+420&nbsp;&nbsp; endif<br>
+430&nbsp;&nbsp; if !duration[note] then<br>
+440&nbsp;&nbsp;&nbsp;&nbsp; let note = 0<br>
+450&nbsp;&nbsp;&nbsp;&nbsp; let plays = plays+1<br>
+460&nbsp;&nbsp; endif<br>
+470&nbsp;&nbsp; let buzzer = scale[notes[note]]*octave[note]<br>
+480&nbsp;&nbsp; let sustain = 4/duration[note]-1<br>
+490&nbsp;&nbsp; let note = note+1<br>
+500 endsub<br>
+510 rem --- sub buzinit ---<br>
+520 sub buzinit<br>
+530&nbsp;&nbsp; dim i<br>
+540&nbsp;&nbsp; restore buzdata<br>
+550&nbsp;&nbsp; while 1 do<br>
+560&nbsp;&nbsp;&nbsp;&nbsp; read notes[i], octave[i], duration[i]<br>
+570&nbsp;&nbsp;&nbsp;&nbsp; if !duration[i] then<br>
+580&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<br>
+590&nbsp;&nbsp;&nbsp;&nbsp; endif<br>
+600&nbsp;&nbsp;&nbsp;&nbsp; let i = i+1<br>
+610&nbsp;&nbsp; endwhile<br>
+620&nbsp;&nbsp; for i = 0 to 12<br>
+630&nbsp;&nbsp;&nbsp;&nbsp; read scale[i]<br>
+640&nbsp;&nbsp; next<br>
+650&nbsp;&nbsp; read i<br>
+660&nbsp;&nbsp; assert i==-1<br>
+670 endsub<br>
+680 label buzdata<br>
+690 data 10, 1, 4, 10, 1, 4, 12, 1, 4, 2, 2, 4<br>
+700 data 10, 1, 4, 2, 2, 4, 12, 1, 4, 5, 1, 4<br>
+710 data 10, 1, 4, 10, 1, 4, 12, 1, 4, 2, 2, 4<br>
+720 data 10, 1, 2, 9, 1, 2<br>
+730 data 10, 1, 4, 10, 1, 4, 12, 1, 4, 2, 2, 4<br>
+740 data 3, 2, 4, 2, 2, 4, 12, 1, 4, 10, 1, 4<br>
+750 data 9, 1, 4, 5, 1, 4, 7, 1, 4, 9, 1, 4<br>
+760 data 10, 1, 2, 10, 1, 2<br>
+770 data 0, 0, 1, 0, 0, 1, 0, 0, 1<br>
+780 data 0, 0, 0<br>
+790 data 440, 466, 494, 523, 554, 587<br>
+800 data 622, 659, 698, 740, 784, 831, 880<br>
+810 data -1<br>
+820 rem --- sub rgbcycle ---<br>
+830 sub rgbcycle<br>
+840&nbsp;&nbsp; let rgb = (rgb+analog/10)%(analog*3)<br>
+850&nbsp;&nbsp; if rgb&lt;analog then<br>
+860&nbsp;&nbsp;&nbsp;&nbsp; let green = rgb, red = analog-rgb, blue = 0<br>
+870&nbsp;&nbsp; elseif rgb&lt;analog*2 then<br>
+880&nbsp;&nbsp;&nbsp;&nbsp; let blue = rgb-analog, green = analog*2-rgb, red = 0<br>
+890&nbsp;&nbsp; else<br>
+900&nbsp;&nbsp;&nbsp;&nbsp; let red = rgb-analog*2, blue = analog*3-rgb, green = 
+0<br>
+910&nbsp;&nbsp; endif<br>
+920 endsub</font></p>
+<p class="MsoNormal"><font size="2">Note that for the Firebird32 Nano or Mini 
+the following lines should be substituted for those above:</font></p>
+<p class="MsoNormal"><font size="2" face="Courier New">140 dim red as pin pte3 
+for analog output inverted<br>
+150 dim green as pin pte2 for analog output inverted<br>
+160 dim blue as pin ptf1 for analog output inverted</font></p>
+<hr>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

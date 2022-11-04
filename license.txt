@@ -1,0 +1,21 @@
+Everything here, unless otherwise annotated, excluding the cfg, flexis, hcs12, headers, lcf, and nichelite
+directories is Copyright (c) CPUStick.com, 2008-2013.  All rights reserved.  Patent U.S. 8,117,587.
+
+The source files in the "stickos" directory (basic.c, code.c, parse.c, run.c, and vars.c) are protected by U.S.
+Patent 8,117,587, and are Copyright (c) CPUStick.com, 2008-2013.  All rights reserved.  Contact me if you want
+to use them commercially.
+
+The remaining source files (Start08.c, Start12.c, adc.c, basic0.c, bootload.c, cdcacm.c, clone.c, cpustick.c,
+flash.c, help.c, i2c.c, jm.c, kbd.c, lcd.c, led.c, main.c, parse2.c, pin.c, printf.c, qspi.c, run2.c, scsi.c,
+serial.c, sleep.c, startup.c, terminal.c, text.c, timer.c, usb.c, util.c, vectors.c, zigflea.c) are in the
+public domain, and you can use them however you want.
+
+The StickOS libraries built by CPUStick.com (aka Rich Testardi) and contained in the skeleton.zip archive, as
+well as the StickOS .HEX, .S19, and .SX binaries published on the CPUStick.com Downloads page, are released
+under a free, irrevocable, perpetual license to U.S. Patent 8,117,587 for personal, educational, or
+non-commercial purposes.  The StickOS libraries are released "as-is" with no warranty of merchantability and no
+warranty of fitness for any purpose.  This license shall not be implied to cover any future releases of StickOS
+libraries which are not expressly released under such a license.  For information on commercial licenses,
+please contact cpustick.com.
+
+rtestardi@live.com

@@ -1,0 +1,94 @@
+.mstheme
+{
+	separator-image: url(btzhsepd.gif);
+	list-image-1: url(bball.gif);
+	list-image-2: url(pball.gif);
+	list-image-3: url(rball.gif);
+	nav-banner-image: url(blue.gif);
+	navbutton-horiz-hovered: url(btznvhnd.gif);
+	navbutton-vert-normal: url(green.gif);
+	navbutton-vert-hovered: url(btznvvnd.gif);
+	navbutton-vert-pushed: url(orange.gif);
+	navbutton-home-hovered: url(btzhomed.gif);
+	navbutton-home-pushed: url(btzhomed.gif);
+	navbutton-next-hovered: url(btznextd.gif);
+	navbutton-next-pushed: url(btznextd.gif);
+	navbutton-prev-hovered: url(btzprevd.gif);
+	navbutton-prev-pushed: url(btzprevd.gif);
+	navbutton-up-hovered: url(btzupbtd.gif);
+	navbutton-up-pushed: url(btzupbtd.gif);
+}
+.mstheme-bannertxt
+{
+	font-family: Arial;
+	color: rgb(0, 255, 0);
+	font-size: 5;
+	font-style: normal;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-horiz-navtxt
+{
+	font-family: Arial;
+	color: rgb(0, 0, 128);
+	font-size: 3;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-vert-navtxt
+{
+	font-family: Arial;
+	color: rgb(0, 0, 128);
+	font-size: 3;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxthome
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 51, 204);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+}
+.mstheme-navtxtnext
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 51, 204);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+}
+.mstheme-navtxtprev
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 51, 204);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+}
+.mstheme-navtxtup
+{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	color: rgb(0, 51, 204);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+}
+ul
+{
+	list-style-image: url(bball.gif);
+}
+ul ul
+{
+	list-style-image: url(pball.gif);
+}
+ul ul ul
+{
+	list-style-image: url(rball.gif);
+}

@@ -1,0 +1,265 @@
+﻿<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>CPUStick™ and StickOS™ -- Examples Text</title>
+<!--mstheme--><link rel="stylesheet" type="text/css" href="_themes/rich2/rich1001.css"><meta name="Microsoft Theme" content="rich2 1001, default">
+</head>
+
+<body>
+
+<p><font face="Arial" size="2"><a name="ex1"></a></font></p>
+
+<hr>
+
+<p><font face="Arial" size="2">This is the toaster oven temperature profile controller 
+example:<br>
+<font color="#FF0000">(Please note that as of v1.40, a sleep unit specifier -- 
+<font face="Courier New" size="2">s</font>, 
+<font face="Courier New" size="2">ms</font>, or 
+<font face="Courier New" size="2">us</font> -- was 
+added to the <font face="Courier New" size="2">sleep</font> 
+statement.)<br>
+(Please note that as of v1.84, the units of servo output pins was changed from 
+centi-milliseconds (cms) to microseconds (us).)</font></font></p>
+<p><b><font face="Courier New" size="2">10 dim target, secs<br>
+20 dim thermocouple as pin an0 for analog input<br>
+30 dim relay as pin an1 for digital output<br>
+40 data 512, 90, 746, 105, 894, 20, -1, -1<br>
+50 configure timer 0 for 1000 ms<br>
+60 on timer 0 do gosub adjust<br>
+70 while target!=-1 do<br>
+80&nbsp;&nbsp; sleep secs s<br>
+90&nbsp;&nbsp; read target, secs<br>
+100 endwhile<br>
+110 let relay = 0<br>
+120 end<br>
+130 sub adjust<br>
+140&nbsp;&nbsp; if thermocouple&gt;=target then<br>
+150&nbsp;&nbsp;&nbsp;&nbsp; let relay = 0<br>
+160&nbsp;&nbsp; else<br>
+170&nbsp;&nbsp;&nbsp;&nbsp; let relay = 1<br>
+180&nbsp;&nbsp; endif<br>
+190 endsub</font></b></p>
+<p><font face="Arial" size="2"><a name="ex2"></a></font></p>
+<hr>
+<p><font face="Arial" size="2">This is</font><font size="2"> 
+the LCD digital thermometer, displaying both Celsius and Fahrenheit</font><font face="Arial" size="2">:<br>
+<font color="#FF0000">(Please note that as of v1.40, a sleep unit specifier --
+</font></font><font color="#FF0000"><font face="Courier New" size="2">s</font><font face="Arial" size="2">, </font>
+<font face="Courier New" size="2">ms</font><font face="Arial" size="2">, or </font>
+<font face="Courier New" size="2">us</font><font face="Arial" size="2"> -- was 
+added to the </font><font face="Courier New" size="2">sleep</font><font face="Arial" size="2"> 
+statement.)<br>
+</font></font>
+<font color="#FF0000" face="Arial" size="2">(Please note that as of v1.84, the 
+units of servo output pins was changed from centi-milliseconds (cms) to microseconds 
+(us).)</font></p>
+<p><b><font face="Courier New" size="2">10 dim temp, line1$[32], line2$[32], 
+blink$[2]<br>
+20 let blink$ = &quot; *&quot;<br>
+30 gosub initdisplay<br>
+40 while 1 do<br>
+50&nbsp;&nbsp; gosub gettemp temp<br>
+60&nbsp;&nbsp; vprint line1$ = temp, &quot;degrees C&quot;<br>
+70&nbsp;&nbsp; vprint line2$ = temp*9/5+32, &quot;degrees F&quot;, blink$[seconds%2:1]<br>
+80&nbsp;&nbsp; gosub display line1, line2<br>
+90&nbsp;&nbsp; sleep 500 ms<br>
+100 endwhile<br>
+110 end<br>
+120 rem --- gettemp ---<br>
+130 sub gettemp temp<br>
+140&nbsp;&nbsp; dim cmd as byte, rsp[2] as byte<br>
+150&nbsp;&nbsp; let cmd = 0<br>
+160&nbsp;&nbsp; i2c start 0x48<br>
+170&nbsp;&nbsp; i2c write cmd<br>
+180&nbsp;&nbsp; i2c read rsp<br>
+190&nbsp;&nbsp; i2c stop<br>
+200&nbsp;&nbsp; let temp = rsp[0]<br>
+210 endsub<br>
+220 rem --- display ---<br>
+230 sub display line1, line2<br>
+240&nbsp;&nbsp; dim cmd1 as byte, data as byte, cmd2 as byte<br>
+250&nbsp;&nbsp; let cmd1 = 0x80, data = 0x2, cmd2 = 0x40<br>
+260&nbsp;&nbsp; i2c start 0x3c<br>
+270&nbsp;&nbsp; i2c write cmd1, data, cmd2, line1<br>
+280&nbsp;&nbsp; i2c stop<br>
+290&nbsp;&nbsp; let cmd1 = 0x80, data = 0xc0, cmd2 = 0x40<br>
+300&nbsp;&nbsp; i2c start 0x3c<br>
+310&nbsp;&nbsp; i2c write cmd1, data, cmd2, line2<br>
+320&nbsp;&nbsp; i2c stop<br>
+330 endsub<br>
+340 rem --- initdisplay ---<br>
+350 sub initdisplay<br>
+360&nbsp;&nbsp; dim i, init[10] as byte<br>
+370&nbsp;&nbsp; for i = 1 to init#<br>
+380&nbsp;&nbsp;&nbsp;&nbsp; read init[i-1]<br>
+390&nbsp;&nbsp; next<br>
+400&nbsp;&nbsp; i2c start 0x3c<br>
+410&nbsp;&nbsp; i2c write init<br>
+420&nbsp;&nbsp; i2c stop<br>
+430&nbsp;&nbsp; sleep 100 ms<br>
+440 endsub<br>
+450 data 0, 0x38, 0x39, 0x14, 0x78, 0x5e, 0x6d, 0xc, 0x1, 0x6</font></b></p>
+
+<p><font size="2" face="Arial"><a name="ex3"></a> 
+</font> </p>
+
+<hr>
+
+<p><font size="2" face="Arial">This example implements a 
+wireless 
+</font> <font size="2">remote LED dimmer</font><font size="2" face="Arial">, 
+using two CPUStick and the 2.4GHz zigflea wireless transport from two IOSticks.<br>
+<font color="#FF0000">(Please note that as of v1.40, a sleep unit specifier --
+</font></font><font color="#FF0000"><font face="Courier New" size="2">s</font><font face="Arial" size="2">, </font>
+<font face="Courier New" size="2">ms</font><font face="Arial" size="2">, or </font>
+<font face="Courier New" size="2">us</font><font face="Arial" size="2"> -- was 
+added to the </font><font face="Courier New" size="2">sleep</font><font face="Arial" size="2"> 
+statement.)<br>
+</font></font>
+<font color="#FF0000" face="Arial" size="2">(Please note that as of v1.84, the 
+units of servo output pins was changed from centi-milliseconds (cms) to microseconds 
+(us).)</font></p>
+<p><font size="2">On nodeid 1, which is the node connected to the potentiometer:</font></p>
+<p><b><font face="Courier New" size="2">10 dim potentiometer as pin an0 for 
+analog input<br>
+20 dim led as remote on nodeid 2<br>
+30 while 1 do<br>
+40&nbsp;&nbsp; let led = potentiometer<br>
+50&nbsp;&nbsp; sleep 100 ms<br>
+60 endwhile</font></b></p>
+<p><font size="2">On nodeid 2, which is the node connected to the LED:</font></p>
+<p><b><font face="Courier New" size="2">10 dim led as pin dtin0 for analog 
+output<br>
+20 while 1 do<br>
+30 endwhile</font></b></p>
+<p><font size="2"><a name="pong"></a>
+</font></p>
+<hr>
+<p><font size="2">Just for fun, this example runs a single-player 
+accelerometer-based pong/paddleball game with sound effects on the Badge Board!<br>
+</font><font color="#FF0000"><font face="Arial" size="2">(Please note that as of 
+v1.40, a sleep unit specifier -- </font><font face="Courier New" size="2">s</font><font face="Arial" size="2">, </font>
+<font face="Courier New" size="2">ms</font><font face="Arial" size="2">, or </font>
+<font face="Courier New" size="2">us</font><font face="Arial" size="2"> -- was 
+added to the </font><font face="Courier New" size="2">sleep</font><font face="Arial" size="2"> 
+statement.)<br>
+</font></font>
+<font color="#FF0000" face="Arial" size="2">(Please note that as of v1.84, the 
+units of servo output pins was changed from centi-milliseconds (cms) to microseconds 
+(us).)</font></p>
+<p><font size="2" face="Courier New"><b>10 dim x, y, xv, yv, p<br>
+<br>
+20 rem --- interface to the accelerometer ---<br>
+30 dim gsel1 as pin ptc4 for digital output<br>
+40 dim gsel2 as pin ptc5 for digital output<br>
+50 dim sleep as pin ptc3 for digital output inverted<br>
+60 dim tilt as pin ptb5 for analog input inverted<br>
+70 let gsel1 = 0, gsel2 = 0, sleep = 0<br>
+<br>
+80 rem --- interface to the buzzer ---<br>
+90 dim audio as pin ptf2 for frequency output<br>
+<br>
+100 rem --- timer to update paddle position ---<br>
+110 configure timer 1 for 50 ms<br>
+120 on timer 1 do gosub paddle<br>
+<br>
+130 rem --- main program loop ---<br>
+140 while 1 do<br>
+150&nbsp;&nbsp; rem --- new game ---<br>
+160&nbsp;&nbsp; let x = 0, y = 0, xv = 1, yv = 1, p = 4<br>
+170&nbsp;&nbsp; jmclear -1, -1<br>
+180&nbsp;&nbsp; jmset y, x<br>
+190&nbsp;&nbsp; sleep 3 s<br>
+<br>
+200&nbsp;&nbsp; rem --- main game loop ---<br>
+210&nbsp;&nbsp; while 1 do<br>
+220&nbsp;&nbsp;&nbsp;&nbsp; rem --- clear old ball position ---<br>
+230&nbsp;&nbsp;&nbsp;&nbsp; jmclear y, x<br>
+<br>
+240&nbsp;&nbsp;&nbsp;&nbsp; rem --- integrate the new ball position ---<br>
+250&nbsp;&nbsp;&nbsp;&nbsp; let x = x+xv, y = y+yv<br>
+<br>
+260&nbsp;&nbsp;&nbsp;&nbsp; rem --- if we hit an edge ---<br>
+270&nbsp;&nbsp;&nbsp;&nbsp; if x==0||x==15 then<br>
+280&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rem --- bounce horizontal ---<br>
+290&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let xv = -xv<br>
+300&nbsp;&nbsp;&nbsp;&nbsp; endif <br>
+<br>
+310&nbsp;&nbsp;&nbsp;&nbsp; rem --- if we hit the bottom ---<br>
+320&nbsp;&nbsp;&nbsp;&nbsp; if y==4 then<br>
+330&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rem --- if the paddle was nowhere close 
+---<br>
+340&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if x&lt;p-2||x&gt;p+2 then<br>
+350&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rem --- you lose ---<br>
+360&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gosub lose<br>
+370&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break <br>
+380&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elseif x&lt;p-1&amp;&amp;xv==1||x&gt;p+1&amp;&amp;xv==-1 then<br>
+390&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rem --- we hit the edge of 
+the paddle ---<br>
+400&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rem --- bounce horizontal 
+---<br>
+410&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let xv = -xv<br>
+420&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; endif <br>
+430&nbsp;&nbsp;&nbsp;&nbsp; endif <br>
+<br>
+440&nbsp;&nbsp;&nbsp;&nbsp; rem --- if we hit the bottom or top ---<br>
+450&nbsp;&nbsp;&nbsp;&nbsp; if y==0||y==4 then<br>
+460&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rem --- bounce vertical ---<br>
+470&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let yv = -yv<br>
+480&nbsp;&nbsp;&nbsp;&nbsp; endif <br>
+<br>
+490&nbsp;&nbsp;&nbsp;&nbsp; rem --- set new ball position ---<br>
+500&nbsp;&nbsp;&nbsp;&nbsp; jmset y, x<br>
+<br>
+510&nbsp;&nbsp;&nbsp;&nbsp; rem --- beep and delay ---<br>
+520&nbsp;&nbsp;&nbsp;&nbsp; let audio = 100<br>
+530&nbsp;&nbsp;&nbsp;&nbsp; sleep 100 ms<br>
+540&nbsp;&nbsp;&nbsp;&nbsp; let audio = 0<br>
+550&nbsp;&nbsp;&nbsp;&nbsp; sleep 100 ms<br>
+560&nbsp;&nbsp; endwhile <br>
+570 endwhile <br>
+<br>
+580 sub paddle<br>
+590&nbsp;&nbsp; rem --- clear the old paddle position ---<br>
+600&nbsp;&nbsp; jmclear 4, p-1<br>
+610&nbsp;&nbsp; jmclear 4, p<br>
+620&nbsp;&nbsp; jmclear 4, p+1<br>
+630&nbsp;&nbsp; rem --- integrate the new paddle position from accelerometer ---<br>
+640&nbsp;&nbsp; let p = p+(tilt-1650)/100<br>
+650&nbsp;&nbsp; rem --- bound us by the screen ---<br>
+660&nbsp;&nbsp; if p&lt;1 then<br>
+670&nbsp;&nbsp;&nbsp;&nbsp; let p = 1<br>
+680&nbsp;&nbsp; elseif p&gt;14 then<br>
+690&nbsp;&nbsp;&nbsp;&nbsp; let p = 14<br>
+700&nbsp;&nbsp; endif <br>
+710&nbsp;&nbsp; rem --- set the new paddle position ---<br>
+720&nbsp;&nbsp; jmset 4, p-1<br>
+730&nbsp;&nbsp; jmset 4, p<br>
+740&nbsp;&nbsp; jmset 4, p+1<br>
+750 endsub <br>
+<br>
+760 sub lose<br>
+770&nbsp;&nbsp; rem --- hold off timer interrupts ---<br>
+780&nbsp;&nbsp; mask timer 1<br>
+790&nbsp;&nbsp; rem --- scroll the message ---<br>
+800&nbsp;&nbsp; jmclear -1, -1<br>
+810&nbsp;&nbsp; jmscroll &quot;you lose&quot;<br>
+820&nbsp;&nbsp; rem --- play a dropping scale ---<br>
+830&nbsp;&nbsp; let audio = 5000<br>
+840&nbsp;&nbsp; do <br>
+850&nbsp;&nbsp;&nbsp;&nbsp; sleep 50 ms<br>
+860&nbsp;&nbsp;&nbsp;&nbsp; let audio = audio*11/12<br>
+870&nbsp;&nbsp; until audio&lt;400<br>
+880&nbsp;&nbsp; let audio = 0<br>
+890&nbsp;&nbsp; rem --- wait for the message to scroll ---<br>
+900&nbsp;&nbsp; jmscroll &quot; &quot;<br>
+910&nbsp;&nbsp; rem --- resume a new game ---<br>
+920&nbsp;&nbsp; unmask timer 1<br>
+930 endsub</b> </font></p>
+<hr>
+
+</body>
+
+</html>

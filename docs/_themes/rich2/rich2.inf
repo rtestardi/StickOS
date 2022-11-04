@@ -1,0 +1,11 @@
+[info]
+readonly=0
+codepage=65001
+version=1.31
+format=2
+title=Rich2
+refcount=10
+
+[titles]
+1033=Rich2
+

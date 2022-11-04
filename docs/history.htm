@@ -1,0 +1,352 @@
+﻿<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>CPUStick™ and StickOS™ -- StickOS Revision History</title>
+<!--mstheme--><link rel="stylesheet" type="text/css" href="_themes/rich2/rich1001.css"><meta name="Microsoft Theme" content="rich2 1001, default">
+</head>
+
+<body>
+
+<hr>
+
+<p><font size="2"><i><b>Things currently on our todo list</b></i>:</font></p>
+<ul>
+	<li><font size="2">add USB mass storage interface for drag/drop of BASIC 
+	programs</font></li>
+	<li><font size="2">add a built-in INF file (thru 
+	the USB 
+	mass storage interface)</font></li>
+</ul>
+<p><font size="2"><i><b>Known Bugs</b></i>:</font></p>
+<ul>
+	<li><font size="2">pic32 flash (crash) (fixed in v1.92c)</font><ul>
+	<li><font size="2">if you use a new PIC32 (silicon revision B6, 2011 date 
+	code or later) with old bits, the flash code will crash; Microchip 
+	introduced a new timing requirement for the new silicon revisions (of even 
+	old parts!) which was not previously documented, and was not previously 
+	implemented in the Microchip Application Library (MAL) -- so if you use old 
+	bits compiled with the old MAL on a new silicon revision, it fails; old and 
+	new silicon revisions (of even old parts!) are not binary compatible, and 
+	the old MAL does not work with new silicon revisions; see:
+	<a href="http://support2.microchip.com/KBSearch/KB_StdProb.aspx?ID=SQ6UJ9A01008J">
+	http://support2.microchip.com/KBSearch/KB_StdProb.aspx?ID=SQ6UJ9A01008J</a></font><ul>
+	<li><font size="2">workaround -- none, sorry, other than using v1.92 or 
+	later</font></li>
+</ul>
+	</li>
+</ul>
+	</li>
+	<li><font size="2">usb host mode (broken) (fixed in v1.92c)</font><ul>
+		<li><font size="2">print statements are not flushed to stickos.log.</font><ul>
+			<li><font size="2">workaround -- none, sorry, other than using v1.92 
+			or later</font></li>
+		</ul></li>
+	</ul>
+	</li>
+	<li><font size="2">paste into command line (crash) (fixed in v1.90e)</font><ul>
+		<li><font size="2">if you paste text into the middle of a command 
+		line, you can overflow the &quot;echo&quot; buffer and crash the MCU.</font><ul>
+			<li><font size="2">workaround -- restart the MCU; delete 
+			characters at the end of the line up to the insertion point before 
+			pasting again</font></li>
+		</ul></li>
+	</ul></li>
+	<li><font size="2">lcd initialization (&quot;lcd&quot; statements have no effect) 
+	(fixed in v1.92c)</font><ul>
+		<li><font size="2">if &quot;lcd&quot; statements have no effect, you may have an lcd 
+	that is too slow for the default initialization delays</font><ul>
+			<li><font size="2">workaround -- before the first &quot;lcd&quot; statement, dimension 
+	all lcd pins (en, rs, d4-d7) for digital output, set them all to 1, and then delay for 20ms</font></li>
+		</ul></li>
+	</ul></li>
+	<li><font size="2">putty and Windows 7 (hang) (fixed in putty v0.61)</font><ul>
+		<li><font size="2">if you are using putty and Windows 7 and you 
+		experience occasional USB hangs when typing or pasting text into the 
+		terminal emulator, I suggest you try <a href="http://logmett.com/">Tera 
+		Term</a>.</font><ul>
+			<li><font size="2">workaround -- use Tera Term</font></li>
+		</ul></li>
+	</ul></li>
+</ul>
+<p><font size="2"><i><b>StickOS Revision History</b></i>:</font></p>
+<p><font size="2"><u><b>1.92c</b></u><font color="#FF0000"> </font>-- 1 January 2012</font></p>
+<ul>
+	<li><font size="2"><b><i>MCF5225x and PIC32MXx</i></b></font><ul>
+		<li><font size="2">print missing sub and variable names in error 
+		messages</font></li>
+		<li><font size="2">allow variables to begin with _...</font></li>
+		<li><font size="2">do not trace input or halt statements</font></li>
+		<li><font size="2">process console lines on \n or \r (but not both), to make 
+		it possible to paste unix line endings into tera term</font></li>
+		<li><font size="2">fix editing a line with a &quot;//&quot; comment</font></li>
+		<li><font size="2">fix usb host mode (missing volatile keyword)</font></li>
+		<li><font size="2">change PIC32 clock config bits to XT</font></li>
+		<li><font size="2">recompile with fixed PIC32 MAL</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.90g</b></u><font color="#FF0000"> </font>-- 23 October 2011</font></p>
+<ul>
+	<li><font size="2"><b><i>TWR-MECH (MCF52259)</i></b></font><ul>
+		<li><font size="2">add &quot;subs&quot; command and BASIC library support</font></li>
+		<li><font size="2">add &quot;random&quot; system variable</font></li>
+		<li><font size="2">change &quot;let&quot; keyword to be (usually) optional; allow &quot;?&quot; as 
+		alias for &quot;print&quot; keyword</font></li>
+		<li><font size="2">allow &quot;//&quot; as comment indicator to end-of-line</font></li>
+		<li><font size="2">switch from 8x 8-bit PWMs to 4x 16-bit PWMs</font></li>
+		<li><font size="2">fixed paste into command line crash</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.84e</b></u><font color="#FF0000"> </font>-- 28 
+September 2011</font></p>
+<ul>
+	<li><font size="2"><b><i>CUI32Stem (PIC32MX795F512H)</i></b></font><ul>
+		<li><font size="2">recompile</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.84c</b></u><font color="#FF0000"> </font>-- 19 June 2011</font></p>
+<ul>
+	<li><font size="2"><b><i>arduino-shield-compatible Firebird32 (MCF51JM128), chipKIT Uno32 
+	(PIC32MX320F128H), chipKIT Max32 (PIC32MX795F512L)</i></b></font><ul>
+		<li>
+<font color="#FF0000" face="Arial" size="2">Please note that as of v1.84, the 
+		units of servo output pins was changed from centi-milliseconds (cms) to 
+		microseconds (us)</font></li>
+		<li><font size="2">recompile all previous features from v1.82 for 
+		MCF51JM128 and PIC32MXx</font></li>
+		<li><font size="2">rename pins for arduino-shield-compatible boards 
+		(a0-a5, 0-13, etc.)</font></li>
+		<li><font size="2">change servo output pins unit from centi-milliseconds 
+		(cms) to microseconds (us)</font></li>
+		<li><font size="2">upgrade skeleton project to MPLAB X</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.82e</b></u><font color="#FF0000"> </font>-- 30 May 2011</font></p>
+<ul>
+	<li><font size="2"><b><i>all MCUs except MCF5225x, PIC32MXx</i></b></font><ul>
+		<li><font size="2">recompile all previous features from v1.80 for all 
+		MCUs</font></li>
+		<li><font size="2">add &quot;lcd&quot; statement to interface with 
+		HD44780-compatible LCD</font></li>
+		<li><font size="2">add &quot;analog&quot; variable to return analog supply 
+		millivolts</font></li>
+		<li><font size="2">add &quot;keychar&quot; variable and &quot;keychars&quot; mode to 
+		interface with 4x4 scanned keypad</font></li>
+		<li><font size="2">deprecate &quot;sleep&quot; mode (in favor of 
+		pre-existing and ambiguous &quot;sleep&quot; 
+		statement)</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.80c</b></u><font color="#FF0000"> </font>-- 25 Mar 2011</font></p>
+<ul>
+	<li><font size="2"><b><i>PIC32MX7 (other MCUs will follow)</i></b></font><ul>
+		<li><font size="2">recompile for PIC32MX7</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.80b/c</b></u><font color="#FF0000"> </font>-- 28 Aug 2010</font></p>
+<ul>
+	<li><font size="2"><b><i>MCF5225x, PIC32MXx (other MCUs will follow)</i></b></font><ul>
+	<li><font size="2">add string support, including &quot;vprint&quot; statement to print 
+	to variables</font></li>
+	<li><font size="2">add character constants</font></li>
+	<li><font size="2">add &quot;&lt;variable&gt;#&quot; operator to return length of arrays or 
+	strings</font></li>
+	<li><font size="2">add I2C support</font></li>
+	<li><font size="2">add &quot;uart &lt;n&gt; (read|write) &lt;variable&gt; [, ...]&quot; statements 
+	as alternative uart I/O mechanism, to avoid pin variable soup on PIC32</font></li>
+	<li><font size="2">add &quot;input&quot; and &quot;getchar&quot; BASIC statements for slave mode 
+	operation</font></li>
+	<li><font size="2">add &quot;raw&quot; print/input qualifier</font></li>
+	<li><font size="2">add persistent uart console baud rate support thru &quot;baud&quot; 
+	command</font></li>
+	<li><font size="2">replace FTDI USB serial interface with CDC/ACM USB serial interface</font></li>
+	<li><font size="2">rev c: fixed qspi initialization cs bug; fixed print &quot;;&quot; 
+	bug</font></li>
+</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.72e/f/g</b></u> -- 14 Mar 2010</font></p>
+<ul>
+	<li><font size="2"><b><i>MCF51JM128, MCF5222x, MCF5225x, PIC32MXx</i></b></font><ul>
+		<li><font size="2">add specific MCU type and bootloader identification to 
+		&quot;help 
+		about&quot; message</font><li><font size="2">fixed USB device race condition</font><ul>
+		<li><font size="2">patched 
+		<a target="_blank" href="downloads/ftdi.diff.htm">sources/ftdi.c</a>, 
+		<a target="_blank" href="downloads/usb.diff.htm">sources/usb.c</a></font></li>
+	</ul>
+		<li>
+		<font size="2">fixed printf 
+		for better USB performance</font><ul>
+		<li><font size="2">patched
+		<a target="_blank" href="downloads/printf.diff.htm">sources/printf.c</a></font></li>
+		</ul>
+		<li><font size="2">fixed pin names r?10 thru r?15 to parse correctly with 
+	&quot;pins&quot; command for PIC32</font><ul>
+		<li><font size="2">patched 
+		<a target="_blank" href="downloads/pic32stickos.a">pic32stickos.a</a></font></li>
+	</ul></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.72c</b></u> -- 28 Feb 2010</font></p>
+<ul>
+	<li><font size="2"><b><i>MCF51CN128</i></b></font><ul>
+		<li><font size="2">released beta versions of new platform</font><li><font size="2">move qspi from 
+		ptb3/4/5 to ptc5/6/7</font><li><font size="2">change default 
+		qspi/zigflea pins from pta* to ptf*</font></ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.72a</b></u> -- 27 Feb 2010</font></p>
+<ul>
+	<li><font size="2"><b><i>MCF5225x, PIC32MXx</i></b></font><ul>
+		<li><font size="2">disable USB Host Mode if autorun disable switch 
+		pressed during boot</font><li><font size="2">change USB Host Mode to 
+		append to stickos.log rather than truncate</font></li>
+		<li><font size="2">disable JTAG on boot for PIC32</font></li>
+		<li><font size="2">fixed transmit hang when &quot;configure&quot; follows &quot;dim&quot; 
+		of UART pins for PIC32</font><ul>
+		<li><font size="2">workaround -- &quot;configure&quot; UART pins before &quot;dim&quot; of 
+		pins for PIC32</font></li>
+		</ul>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.72</b></u> -- 21 Feb 2010</font></p>
+<ul>
+	<li><font size="2"><b><i>all platforms official release!</i></b></font><ul>
+		<li><font size="2">move console UART from U1 to U2 and hide U1 for PIC32</font></li>
+		<li><font size="2">move qspi from SD1 to SD2 for PIC32</font></li>
+		<li><font size="2">fixed &quot;qspi&quot; statement within false conditional block 
+		statements</font><ul>
+		<li><font size="2">workaround -- move the &quot;qspi&quot; statement to a 
+		subroutine and call the subroutine from the conditional block statement
+		</font></li>
+		</ul>
+		</li>
+		<li><font size="2">fixed USB command line transport hangs</font><ul>
+		<li><font size="2">workaround -- restart the terminal emulator program 
+		*without* disconnecting the USB -- after a short delay, the terminal 
+		emulator will reopen</font></li>
+		</ul>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.70h</b></u> -- 4 Jul 2009</font></p>
+<ul>
+	<li><font size="2"><b><i>PIC32MXx-F512L</i></b></font><ul>
+		<li><font size="2">fixed missing PORTA on PIC32MXx-F512L</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.70d/e</b></u> -- 4 Jul 2009</font></p>
+<ul>
+	<li><font size="2"><b><i>all platforms official release!</i></b></font><ul>
+		<li><font size="2">changed skeleton project to rebuild StickOS from a 
+		core library</font></li>
+		<li><font size="2">added absolute variables to access MCU registers</font></li>
+		<li><font size="2">added pin variable arrays to allow programmatic 
+		access to sets of pins</font></li>
+		<li><font size="2">added more watchpoints and watchpoint performance improvements 
+		(&quot;watchsmart&quot; mode)</font></li>
+		<li><font size="2">added write-back caching for USB Host Mode 
+		performance improvement (1000+ prints/second to USB flash drive)</font></li>
+		<li><font size="2">added ability to list program without line numbers 
+		(&quot;numbers&quot; mode) to paste back into &quot;auto&quot; command after editing in text 
+		editor</font></li>
+		<li><font size="2">fixed &quot;auto&quot; to terminate auto line numbering on 
+		error</font></li>
+		<li><font size="2">fixed &quot;clear&quot; command to reconfigure all user 
+		configured pins as digital inputs</font></li>
+		<li><font size="2">fixed &quot;reset&quot; command on 8 and 16 bit MCUs</font></li>
+		<li><font size="2">fixed &quot;qspi&quot; statement to not toggle chip selects 
+		automatically (use an explicit chip select in BASIC, instead); added 
+		&quot;pins qspi_cs*&quot; control for automatic chip selects</font></li>
+		<li><font size="2">fixed zigflea to use nearly full power</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.60e/f</b></u> -- 27 Mar 2009</font></p>
+<ul>
+	<li><font size="2"><b><i>all platforms official release!</i></b></font><ul>
+		<li><font size="2">added USB Host Mode, to allow trivial &quot;print&quot; statement 
+		data logging to a USB 
+		flash drive 
+		file &quot;stickos.log&quot; (enabled with &quot;usbhost on&quot; mode)</font></li>
+		<li><font size="2">added &quot;servo output&quot; pin variable type with pulse width 
+		specified in 1/100th ms (centi-milliseconds), to control pwm servo motors; added global servo frequency stored in flash (&quot;servo&quot; 
+		mode)</font></li>
+		<li><font size="2">added &quot;pins&quot; command, to allow the user to change 
+		default StickOS pin assignments for heartbeat LED, autorun disable 
+		switch, etc.</font></li>
+		<li><font size="2">added &quot;download&quot; command, to allow StickOS to 
+		be a S19 -&gt; QSPI -&gt; EzPort relay</font></li>
+		<li><font size="2">added QSPI support to all MCUs</font></li>
+		<li><font size="2">added MC9S12DP512 MCU support</font></li>
+		<li><font size="2">fixed &quot;do...until&quot; bug when followed by a &quot;for...next&quot; loop</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.50g/h/i/j</b></u> -- 14 Mar 2009</font></p>
+<ul>
+	<li><font size="2"><b><i>all platforms official release!</i></b></font><ul>
+		<li><font size="2">added serial console support</font></li>
+		<li><font size="2">added auto line numbering (&quot;auto&quot; command), 
+		which allows you to edit line-numberless programs in an editor and then 
+		paste them into the command-line</font></li>
+		<li><font size="2">added analog voltage level stored in flash (&quot;analog&quot; 
+		mode), so MCUs that don't run at 3.3V can set full scale millivolts</font></li>
+		<li><font size="2">added autorun disable switch support to all platforms, 
+		to override &quot;autorun on&quot; mode</font></li>
+		<li><font size="2">removed sleep switch and autoreset mode support (&quot;autoreset&quot; 
+		mode)</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.50</b></u> -- 7 Mar 2009, 12 Mar 2009</font></p>
+<ul>
+	<li><font size="2"><b><i>MC9S08QE128, MCF9S12DT256, MCF51QE128, MCF521x, 
+	PIC32MX3</i></b></font><ul>
+		<li><font size="2">released beta versions of new platforms</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.43c</b></u> -- 5 Mar 2009</font></p>
+<ul>
+	<li><font size="2"><i><b>PIC32MX4</b></i></font><ul>
+		<li><font size="2">fixed pin names r?10 thru r?15 to parse correctly</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.43b</b></u> -- 1 Mar 2009</font></p>
+<ul>
+	<li><font size="2"><i><b>PIC32MX4</b></i></font><ul>
+		<li><font size="2">fixed array usage to not dereference an unaligned 
+		pointer</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.43a</b></u> -- 16 Feb 2009</font></p>
+<ul>
+	<li><font size="2"><i><b>PIC32MX4</b></i></font><ul>
+		<li><font size="2">changed pull-up resistors to only be enabled for 
+		&quot;digital input&quot; pins</font></li>
+		<li><font size="2">added UBW32 HID Bootloader support in a separate 
+		download</font></li>
+		<li><font size="2">fixed &quot;help pins&quot; online help text pin names</font></li>
+	</ul>
+	</li>
+</ul>
+<p><font size="2"><u><b>1.42<br>
+</b></u>first tracked revision</font></p>
+<hr>
+
+</body>
+
+</html>

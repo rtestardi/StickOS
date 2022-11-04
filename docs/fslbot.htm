@@ -1,0 +1,1641 @@
+﻿<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>CPUStick™ and StickOS™ -- Introduction to FSLBOT</title>
+<!--mstheme--><link rel="stylesheet" type="text/css" href="_themes/rich2/rich1001.css"><meta name="Microsoft Theme" content="rich2 1001, default">
+</head>
+
+<body>
+
+<h1><span style="line-height: 115%"><font size="3">TWR-MECH Board Support 
+Library for StickOS® BASIC</font></span></h1>
+
+<hr>
+<p>
+<a target="_blank" href="images/fslbot.jpg">
+<img border="2" src="images/fslbot_small.jpg" align="right" xthumbnail-orig-image="images/fslbot.jpg"></a><font size="2">The 
+FSLBOT is a low cost robot that can be used with StickOS BASIC.&nbsp; </font></p>
+<p>
+<font size="2">
+See:
+<a href="http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=FSLBOT">
+http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=FSLBOT</a></font></p>
+<div dir="ltr">
+	<div style="FONT-FAMILY: 'Arial'; COLOR: #000000; FONT-SIZE: 10pt">
+		<div>
+			Here’s a new library and a document with four examples of main 
+			programs using a mix and match of all the peripherals on the 
+			TWR-MECH board.<p>Folks can now easily couple the different 
+			peripherals in any ways they want (like using the SPI flash along 
+			with the magnetometer, etc.).</div>
+	</div>
+</div>
+<ul>
+	<li><font size="2"><a href="#ex1">Example 1: at25df641, 64-Mbit SPI Serial Flash Memory 
+	&amp; PCA9554, 8-bit I2C-bus I/O port</a></font></li>
+	<li><font size="2"><a href="#ex2">Example 2: mma7455, Three Axis Digital Output 
+	Accelerometer</a></font></li>
+	<li><font size="2"><a href="#ex3">Example 3: mag3110, Three-Axis, Digital Magnetometer</a></font></li>
+	<li><font size="2"><a href="#ex4">Example 4: fslbot, Freescale Mechatronics 
+	Robot &amp; mpr121, Proximity Capacitive Touch Sensor Controller &amp; PCA9554, 
+	8-bit I2C-bus I/O port</a></font></li>
+	<li><font size="2"><a href="#lib">TWR-MECH Board Support Library</a></font></li>
+</ul>
+<hr>
+<h1><font size="3">Main Program Examples:</font></h1>
+<hr>
+<h2><b><font size="3">Example 1: at25df641, 64-Mbit SPI Serial Flash Memory &amp; 
+PCA9554, 8-bit I2C-bus I/O port</font></b></h2>
+<p class="MsoNormal"><font size="2">This example erases a 4k page of an 
+at25df641 64-Mbit SPI Serial Flash Memory whose chip select line is controlled 
+thru an PCA9554 8-bit I2C-bus I/O port at i2c address 0x38.</font></p>
+<p class="MsoNormal"><font size="2">Note that this example relies on a callback 
+in the main program (called by the library) to set and clear the at25df641 chip 
+select line.</font></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 10 dim word</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 20 rem raise 
+cs* on pca9554 0x38 bit 0</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 30 gosub 
+pca9554_init 0x38, 1, 0</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 40 gosub 
+pca9554_write 0x38, 1, 1</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 50 rem 
+initialize, program, and read the spi flash</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 60 gosub 
+at25df641_init</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 70 gosub 
+at25df641_4k_erase 0</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 80 word = 123</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 90 gosub 
+at25df641_write 0, word</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;100 word = 0</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;110 gosub 
+at25df641_read 0, word</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;120 print word</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;130 end</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;140 sub 
+at25df641_cs cs</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;150&nbsp;&nbsp; rem set 
+cs* as requested by at25df641 subs</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;160&nbsp;&nbsp; gosub 
+pca9554_write 0x38, 1, cs</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;170 endsub</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<a name="ex2"><font size="2"></font></a></p>
+<hr>
+<h2><b><font size="3">Example 2: mma7455, Three Axis Digital Output 
+Accelerometer</font></b></h2>
+<p class="MsoNormal"><font size="2">This program just displays the accelerometer 
+values from the mma7455 at i2c address 0x1d:</font></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 10 dim x, y, 
+z</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 20 gosub 
+mma7455_init 0x1d</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 30 while 1 do</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 40&nbsp;&nbsp; gosub 
+mma7455_poll 0x1d, x, y, z</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 50&nbsp;&nbsp; print 
+hex &quot;x = &quot;, x, &quot;y =&quot;, y, &quot;z =&quot;, z</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 60&nbsp;&nbsp; sleep 
+100 ms</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 70 endwhile</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<a name="ex3"><font size="2"></font></a></p>
+<hr>
+<h2><b><font size="3">Example 3: mag3110, Three-Axis, Digital Magnetometer</font></b></h2>
+<p class="MsoNormal"><font size="2">This example calibrates the mag3110 
+magnetometer at i2c address 0xe when the robot is slowly rotated, and then prints the heading in 
+degrees from magnetic north 10 times per second.&nbsp; Note that this program stores 
+the magnetometer calibration values in StickOS flash, but could just as easily 
+store it in the atdf641 using the method above.</font></p>
+<p class="MsoNormal"><font size="2">Note that this example relies on two 
+callbacks in the main program (called by the library) to set and get the 
+magnetometer calibration (min/max) values.</font></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 10 // these 
+are our calibration values stored in flash</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 20 dim xminf 
+as flash, xmaxf as flash, yminf as flash, ymaxf as flash</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 30 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 40 // these 
+are our shadow calibration values stored in ram for speed</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 50 dim xminr, 
+xmaxr, yminr, ymaxr</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 60 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 70 // this is 
+when we last updated flash</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 80 dim 
+secondsf</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 90 secondsf = 
+seconds</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;100 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;110 // this is 
+our interrupt pin indicating measurement complete</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;120 dim int as 
+pin an3 for digital input</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;130 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;140 // this is 
+our magnetometer i2c address</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;150 dim addr</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;160 addr = 0xe</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;170 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;180 // this is 
+the calibrated magnetometer heading</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;190 dim xa, ya, 
+deg</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;200 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;210 // 
+initialize the 3110 and start taking interrupts</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;220 gosub 
+mag3110_init addr</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;230 on int do 
+gosub loop</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;240 halt</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;250 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;260 // poll 
+the magnetometer x and y values and print the heading</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;270 sub loop</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;280&nbsp;&nbsp; gosub 
+mag3110_poll addr, xa, ya, deg</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;290&nbsp;&nbsp; print &quot;x 
+=&quot;, xa, &quot;y =&quot;, ya, &quot;deg =&quot;, deg</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;300 endsub</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;310 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;320 // get the 
+magnetometer calibration values</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;330 sub 
+mag3110_getcal xmin, xmax, ymin, ymax</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;340&nbsp;&nbsp; // if 
+our shadow values are not set...</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;350&nbsp;&nbsp; if xminr==0&amp;&amp;xmaxr==0&amp;&amp;yminr==0&amp;&amp;ymaxr==0 
+then</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;360&nbsp;&nbsp;&nbsp;&nbsp; // 
+read flash</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;370&nbsp;&nbsp;&nbsp;&nbsp; // 
+N.B. we could just as easily read eeprom or whatever</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;380&nbsp;&nbsp;&nbsp;&nbsp; xmin = 
+xminf, xmax = xmaxf, ymin = yminf, ymax = ymaxf</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;390&nbsp;&nbsp; else</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;400&nbsp;&nbsp;&nbsp;&nbsp; // 
+read shadow</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;410&nbsp;&nbsp;&nbsp;&nbsp; xmin = 
+xminr, xmax = xmaxr, ymin = yminr, ymax = ymaxr</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;420&nbsp;&nbsp; endif</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;430 endsub</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;440 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;450 // set the 
+magnetometer calibration values</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;460 sub 
+mag3110_setcal xmin, xmax, ymin, ymax</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;470&nbsp;&nbsp; // 
+update shadow</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;480&nbsp;&nbsp; xminr = 
+xmin, xmaxr = xmax, yminr = ymin, ymaxr = ymax</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;490&nbsp;&nbsp; // if it 
+has been ten seconds since we last updated flash...</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;500&nbsp;&nbsp; if 
+seconds&gt;secondsf+10 then</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;510&nbsp;&nbsp;&nbsp;&nbsp; // 
+update flash</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;520&nbsp;&nbsp;&nbsp;&nbsp; // 
+N.B. we could just as easily update eeprom or whatever</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;530&nbsp;&nbsp;&nbsp;&nbsp; xminf 
+= xmin, xmaxf = xmax, yminf = ymin, ymaxf = ymax</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;540&nbsp;&nbsp;&nbsp;&nbsp; 
+secondsf = seconds</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;550&nbsp;&nbsp;&nbsp;&nbsp; print 
+&quot;update&quot;</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;560&nbsp;&nbsp; endif</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;570 endsub</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<a name="ex4"><font size="2"></font></a></p>
+<hr>
+<h2><b><font size="3">Example 4: fslbot, Freescale Mechatronics Robot &amp; mpr121, 
+Proximity Capacitive Touch Sensor Controller &amp; PCA9554, 8-bit I2C-bus I/O port</font></b></h2>
+<p class="MsoNormal"><font size="2">This example responds to touch commands on 
+the mouth of the robot to blink the mouth LEDs, and then responds to touch 
+commands on the left and right cheeks of the robot to walk the robot starting 
+with the corresponding foot; a touch on the forehead stops the walk.&nbsp; </font>
+<span style="font-size: 10.0pt; line-height: 115%; font-family: Arial,sans-serif; color: black">
+The mpr121 touch sensor is at i2c address 0x5a and the mouth LEDs are controlled 
+by </span>
+<span style="font-size: 11.0pt; line-height: 115%; font-family: Calibri,sans-serif">
+an PCA9554 8-bit I2C-bus I/O port </span>
+<span style="font-size: 10.0pt; line-height: 115%; font-family: Arial,sans-serif; color: black">
+at i2c address 0x38.</span></p>
+<p class="MsoNormal"><font size="2">Note that this example relies on a number of 
+variables (including pin variables for the servos) defined by the main program 
+for use in the walking subs, to specify the walking stride.&nbsp; See the subs in the 
+library below.</font></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 10 // *** 
+fslbot demo ***</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 20 // touch 
+mouth to blink leds</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 30 // adjust 
+potentiometer for walk speed</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 40 // touch 
+left/right cheek to take 6 steps leading from left/right</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 50 // touch 
+forehead to stop march</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 60 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 70 dim blink, 
+lit&nbsp; // state of the mouth LEDs</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 80 dim right, 
+left&nbsp; // counts of steps to take</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; 90 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;100 // *** 
+initialize our modules ***</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;110 gosub 
+mpr121_init 0x5a</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;120 gosub 
+fslbot_init</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;130 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;140 // *** 
+configure the mpr121_isr ***</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;150 dim isr as 
+pin irq7* for digital input inverted</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;160 on isr do 
+gosub mpr121_isr</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;170 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;180 // *** 
+configure the mouth_timer ***</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;190 configure 
+timer 1 for 300 ms</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;200 on timer 1 
+do gosub mouth_timer</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;210 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;220 // *** 
+configure the servo pins ***</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;230 dim rfoot 
+as pin dtin0 for servo output</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;240 dim rhip 
+as pin dtin1 for servo output</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;250 dim lhip 
+as pin dtin2 for servo output</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;260 dim lfoot 
+as pin dtin3 for servo output</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;270 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;280 // *** 
+configure the walk speed potentiometer</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;290 dim pot as 
+pin an6 for analog input</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;300 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;310 // *** set 
+the walk stride variables ***</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;320 dim delay</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;330 dim 
+flower, fstart, fraise, ftip, hshift</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;340 delay = 15</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;350 flower = 
+600, fstart = 150, fraise = 230, ftip = 50, hshift = 250</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;360 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;370 // *** 
+stand square ***</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;380 gosub 
+fslbot_stand_square</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;390 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;400 // *** 
+main loop -- just walk ***</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;410 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;420 while 1 do</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;430&nbsp;&nbsp; if 
+left&gt;right&amp;&amp;left&gt;0 then</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;440&nbsp;&nbsp;&nbsp;&nbsp; // 
+lead with the left foot</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;450&nbsp;&nbsp;&nbsp;&nbsp; gosub 
+fslbot_left_step</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;460&nbsp;&nbsp;&nbsp;&nbsp; left = 
+left-2</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;470&nbsp;&nbsp; elseif 
+right&gt;left&amp;&amp;right&gt;0 then</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;480&nbsp;&nbsp;&nbsp;&nbsp; // 
+lead with the right foot</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;490&nbsp;&nbsp;&nbsp;&nbsp; gosub 
+fslbot_right_step</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;500&nbsp;&nbsp;&nbsp;&nbsp; right 
+= right-2</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;510&nbsp;&nbsp; else</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;520&nbsp;&nbsp;&nbsp;&nbsp; gosub 
+fslbot_stand_square</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;530&nbsp;&nbsp; endif</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;540&nbsp;&nbsp; delay = 
+pot*15/1650</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;550 endwhile</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;560 end</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;570 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;580 sub 
+mpr121_isr</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;590&nbsp;&nbsp; dim bits</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;600&nbsp;&nbsp; // get 
+the touch value and respond appropriately</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;610&nbsp;&nbsp; gosub 
+mpr121_poll 0x5a, bits</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;620&nbsp;&nbsp; if 
+bits&amp;128 then</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;630&nbsp;&nbsp;&nbsp;&nbsp; print 
+&quot;mouth&quot;</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;640&nbsp;&nbsp;&nbsp;&nbsp; blink 
+= !blink</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;650&nbsp;&nbsp; endif</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;660&nbsp;&nbsp; if 
+bits&amp;64 then</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;670&nbsp;&nbsp;&nbsp;&nbsp; print 
+&quot;forehead&quot;</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;680&nbsp;&nbsp;&nbsp;&nbsp; left = 
+0, right = 0</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;690&nbsp;&nbsp; endif</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;700&nbsp;&nbsp; if 
+bits&amp;32 then</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;710&nbsp;&nbsp;&nbsp;&nbsp; print 
+&quot;left cheek&quot;</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;720&nbsp;&nbsp;&nbsp;&nbsp; left = 
+6, right = 5</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;730&nbsp;&nbsp; endif</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;740&nbsp;&nbsp; if 
+bits&amp;16 then</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;750&nbsp;&nbsp;&nbsp;&nbsp; print 
+&quot;right cheek&quot;</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;760&nbsp;&nbsp;&nbsp;&nbsp; right 
+= 6, left = 5</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;770&nbsp;&nbsp; endif</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;780 endsub</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;790 //</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;800 sub 
+mouth_timer</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;810&nbsp;&nbsp; // blink 
+all bits if we're supposed to</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;820&nbsp;&nbsp; if blink 
+then</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;830&nbsp;&nbsp;&nbsp;&nbsp; lit = 
+~lit</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;840&nbsp;&nbsp;&nbsp;&nbsp; gosub 
+fslbot_mouth lit</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;850&nbsp;&nbsp; endif</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;860 endsub</font></span></p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNoSpacing" style="margin-left: .5in; margin-top: 0; margin-bottom: 0">
+<a name="lib"><font size="2"></font></a></p>
+<hr>
+<h1><font size="3">TWR-MECH Board Support Library:</font></h1>
+<p class="MsoNormal"><font size="2">To load the library, type &quot;new&quot; and then 
+&quot;auto&quot; and then paste the library contents below.&nbsp; Then type &quot;renumber 10000&quot; 
+and &quot;save library&quot; to save the library with unique line numbers.&nbsp; The library 
+subs are then accessible to all main programs above.&nbsp; You can type the &quot;subs&quot; 
+command to quickly list all the subs in the library, and then type the &quot;list <i>
+subname</i>&quot; command to list the BASIC lines of individual subs without having 
+to load them into the current program.&nbsp; (<a href="downloads/fslbot.txt">download 
+the library as a file</a>)<br>
+&nbsp;</font></p>
+<blockquote>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">rem 
+	**************************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">rem *** 
+	at25df641, 64-Mbit SPI Serial Flash Memory ***</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">rem 
+	**************************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	at25df641_init</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to initialize an at25df641 SPI Serial Flash Memory</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem you 
+	must provide a sub at25df641_cs as a callback that will</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	manipulate the at25df641 cs* pin</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, id</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x9f&nbsp; // Read Manufacturer and Device ID</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; qspi cmd, 
+	id</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;</font></span><font size="2"><span style="font-family: Courier New"> 
+	assert id!=0&amp;&amp;id!=-1</span></font></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	at25df641_status status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to read the status register of an at25df641 SPI</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	Serial Flash Memory</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, statusb as byte</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x05&nbsp; // Read Status Register</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; qspi cmd, 
+	statusb</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; status = 
+	statusb</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	at25df641_chip_erase</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to erase the entire at25df641 SPI Serial Flash Memory</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x06&nbsp; // Write Enable</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; qspi cmd</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_status status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; assert 
+	(status&amp;3)==2</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x60&nbsp; // Chip Erase</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; qspi cmd</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; do</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; gosub 
+	at25df641_status status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; until 
+	!(status&amp;1)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; assert 
+	!status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	at25df641_4k_erase addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to erase a 4k page of an at25df641 SPI Serial Flash</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	Memory starting at addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, a1 as byte, a2 as byte, a3 as byte, status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x06&nbsp; // Write Enable</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; qspi cmd</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_status status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; assert 
+	(status&amp;3)==2</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x20&nbsp; // Block Erase (4-KBytes)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; a1 = 
+	addr&gt;&gt;16, a2 = addr&gt;&gt;8, a3 = addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; qspi cmd, 
+	a1, a2, a3</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; do</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; gosub 
+	at25df641_status status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; until 
+	!(status&amp;1)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; assert 
+	!status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	at25df641_read addr, data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to read an arbitrary amount of data from an</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	at25df641 SPI Serial Flash Memory starting at addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, a1 as byte, a2 as byte, a3 as byte</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x03&nbsp; // Read Array</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; a1 = addr&gt;&gt;16, 
+	a2 = addr&gt;&gt;8, a3 = addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; qspi cmd, 
+	a1, a2, a3, data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	at25df641_write addr, data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to write an arbitrary amount of data to an</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	at25df641 SPI Serial Flash Memory starting at addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, a1 as byte, a2 as byte, a3 as byte, status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x06&nbsp; // Write Enable</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; qspi cmd</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_status status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; assert 
+	(status&amp;3)==2</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x02&nbsp; // Byte/Page Program (1 to 256 Bytes)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; a1 = addr&gt;&gt;16, 
+	a2 = addr&gt;&gt;8, a3 = addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; qspi cmd, 
+	a1, a2, a3, data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	at25df641_cs 1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; do</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; gosub 
+	at25df641_status status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; until 
+	!(status&amp;1)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; assert 
+	!status</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">// 
+	********************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">// *** 
+	fslbot, Freescale Mechatronics Robot ***</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">// 
+	********************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	fslbot_init</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to initialize the facial LEDs of the fslbot</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	pca9554_init 0x38, 0xfe, 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	fslbot_right_step</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to step the right foot</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; lfoot = 
+	0&nbsp; // relax left foot</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; for rfoot 
+	= rfoot to 1500+flower step 10&nbsp; // lean left</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; sleep 
+	delay ms</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; next</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; for lfoot 
+	= 1500+fstart to 1500+fraise step 10&nbsp; // stand left</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; sleep 
+	delay ms</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; next</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; do&nbsp;&nbsp; // 
+	take right step</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; if 
+	rfoot&gt;1500+ftip then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rfoot 
+	= rfoot-10</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; if 
+	rhip&gt;1500-hshift then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rhip 
+	= rhip-10</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lhip 
+	= rhip</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; sleep 
+	delay ms</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; until 
+	rfoot&lt;=1500+fstart&amp;&amp;rhip&lt;=1500-hshift</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; for lfoot 
+	= lfoot to 1500 step -10&nbsp; // fall back right</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; sleep 
+	delay ms</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; next</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	fslbot_left_step</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to step the left foot</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rfoot = 
+	0&nbsp; // relax right foot</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; for lfoot 
+	= lfoot to 1500-flower step -10&nbsp; // lean right</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; sleep 
+	delay ms</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; next</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; for rfoot 
+	= 1500-fstart to 1500-fraise step -10&nbsp; // stand right</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; sleep 
+	delay ms</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; next</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; do&nbsp;&nbsp; // 
+	take left step</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; if 
+	lfoot&lt;1500-ftip then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lfoot 
+	= lfoot+10</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; if lhip&lt;1500+hshift 
+	then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lhip 
+	= lhip+10</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rhip 
+	= lhip</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; sleep 
+	delay ms</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; until 
+	lfoot&gt;=1500-fstart&amp;&amp;lhip&gt;=1500+hshift</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; for rfoot 
+	= rfoot to 1500 step 10&nbsp; // fall back left</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; sleep 
+	delay ms</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; next</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	fslbot_stand_square</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to stand square</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rfoot = 
+	1500, rhip = 1500, lhip = 1500, lfoot = 1500</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	fslbot_mouth leds</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem call 
+	this to update the facial LEDs of the fslbot</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	pca9554_write 0x38, 0xfe, leds</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">rem 
+	*************************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">rem *** 
+	mag3110, Three-Axis, Digital Magnetometer ***</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">rem 
+	*************************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	mag3110_init addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	initialize the magnetometer to take 10Hz measurements</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim reg 
+	as byte, data as byte</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // make 
+	sure we're talking to the 3110</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; reg = 7&nbsp; 
+	// who_am_i</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c write 
+	reg</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c read 
+	data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; assert 
+	data==0xc4</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // 
+	initialize the 3110</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; restore 
+	mag3110_init_data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; while 1 
+	do</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; read 
+	reg, data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; if reg==255 
+	then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; i2c 
+	start addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; i2c 
+	write reg, data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; i2c 
+	stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endwhile</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; label 
+	mag3110_init_data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; data 
+	0x11, 0x80&nbsp; // enable automatic resets</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; data 
+	0x10, 0x69&nbsp; // 10Hz</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; data 255, 
+	255</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	mag3110_poll addr, xa, ya, deg</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem poll 
+	the magnetometer x and y values and return the heading</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim reg 
+	as byte, data as byte, x as short, y as short</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; reg = 1&nbsp; 
+	// out_x_msb, out_x_lsb, out_y_msb, out_y_lsb</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c write 
+	reg</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c read 
+	x, y</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // sign 
+	extend the x and y values</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; xa = x, 
+	ya = y</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; if 
+	x&amp;0x8000 then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; xa = 
+	xa|0xffff0000</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; if 
+	y&amp;0x8000 then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; ya = 
+	ya|0xffff0000</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // 
+	calibrate the x and y values based on mix/max</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	mag3110_cal xa, ya</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // 
+	compute and print the heading</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	mag3110_heading xa, ya, deg</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	mag3110_heading x, y, deg</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	compute the heading in degrees from x and y values</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim q, 
+	xq, yq, i, s100, rad100, deg100</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // 
+	normalize x and y to the first quadrant</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; if 
+	x&gt;=0&amp;&amp;y&gt;=0 then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; q = 0, 
+	xq = x, yq = y</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; elseif 
+	x&lt;0&amp;&amp;y&lt;0 then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; q = 2, 
+	xq = -x, yq = -y</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; elseif 
+	x&lt;0 then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; q = 3, 
+	xq = y, yq = -x</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; else</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; assert 
+	y&lt;0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; q = 1, 
+	xq = -y, yq = x</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; assert 
+	xq&gt;=0&amp;&amp;yq&gt;=0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // N.B. 
+	we use 100x scale for integers in this routine</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // our 
+	arctangent approximation only works for y&lt;=x</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; if yq&gt;xq 
+	then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; i = 1, 
+	s100 = xq*100/yq</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; else</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; if xq 
+	then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i = 
+	0, s100 = yq*100/xq</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; else</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i = 
+	0, s100 = 0&nbsp; // we must not be calibrated</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // 
+	arctangent(s) = s/(1+0.28*s^2)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rad100 = 
+	s100*100/(100+28*s100*s100/100/100)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; if i then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; // 
+	arctangent(s) = pi/2 - arctangent(1/s)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; rad100 
+	= 314/2-rad100</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // 
+	convert back to degrees and denormalize the quadrant</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; deg100 = 
+	9000*rad100/(314/2)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; if q==1 
+	then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; deg100 
+	= deg100+27000</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; elseif 
+	q==2 then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; deg100 
+	= deg100+18000</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; elseif 
+	q==3 then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; deg100 
+	= deg100+9000</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // N.B. 
+	transform magnetic north for mag orientation</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; deg = 
+	(deg100/100+90)%360</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	mag3110_cal x, y</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	calibrate the magnetometer min and max x and y values</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim xmin, 
+	xmax, ymin, ymax</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // get 
+	the initial calibration values</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	mag3110_getcal xmin, xmax, ymin, ymax</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; if x&lt;xmin||!xmin 
+	then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp; &nbsp;xmin = 
+	x</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; if x&gt;xmax||!xmax 
+	then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; xmax = 
+	x</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; if y&lt;ymin||!ymin 
+	then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; ymin = 
+	y</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; if y&gt;ymax||!ymax 
+	then</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; ymax = 
+	y</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; endif</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // set 
+	the updated calibration values</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; gosub 
+	mag3110_setcal xmin, xmax, ymin, ymax</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; // 
+	calibrate the caller's values</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; x = x-(xmax+xmin)/2, 
+	y = y-(ymax+ymin)/2</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">rem 
+	********************************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">rem *** 
+	mma7455, Three Axis Digital Output Accelerometer ***</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">rem 
+	********************************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	mma7455_init addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	initialize the mma7455 at i2c addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, data as byte</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x16, data = 0x01&nbsp; // Mode control</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c write 
+	cmd, data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	mma7455_poll addr, x, y, z</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem poll 
+	the mma7455 at i2c addr for the x, y, and z values</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, xb as byte, yb as byte, zb as byte</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 
+	0x6&nbsp; // 8 bits output value X</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c write 
+	cmd</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c read 
+	xb, yb, zb</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; x = xb, y 
+	= yb, z = zb</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">// 
+	************************************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">// *** 
+	mpr121, Proximity Capacitive Touch Sensor Controller ***</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">// 
+	************************************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	mpr121_init addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem just 
+	follow AN3944: MPR121 Quick Start Guide</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim i</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim r as 
+	byte, d as byte</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; for i = 1 
+	to 0x17 step 2</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; r = 
+	0x40+i, d = 0xf</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; i2c 
+	write r, d</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; r = 
+	0x41+i, d = 0xa</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; i2c 
+	write r, d</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; next</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; restore 
+	mpr121_init_data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; do</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; read r, 
+	d</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp;&nbsp;&nbsp; i2c 
+	write r, d</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; until 
+	r==0x5e</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; label 
+	mpr121_init_data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; data 
+	0x2b, 0x1, 0x2c, 0x1, 0x2d, 0x0, 0x2e, 0x0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; data 
+	0x2f, 0x1, 0x30, 0x1, 0x31, 0xff, 0x32, 0x2</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; data 
+	0x5d, 0x4, 0x7b, 0xb, 0x7d, 0x9c, 0x7e, 0x65</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; data 
+	0x7f, 0x8c, 0x5e, 0x8c</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	mpr121_poll addr, bits</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem read 
+	and return both bytes of the touch register</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim r as 
+	byte, r0 as byte, r1 as byte</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; r = 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c write 
+	r</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c read 
+	r0, r1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; bits = 
+	r1&lt;&lt;8|r0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">// 
+	***************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">// *** 
+	PCA9554, 8-bit I2C-bus I/O port ***</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">// 
+	***************************************</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	pca9554_init addr, mask, input</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	configure mask bits of the port for input</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, data as byte</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 3</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c write 
+	cmd</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c read 
+	data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 3, 
+	data = (data&amp;~mask)|(input&amp;mask)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c write 
+	cmd, data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	pca9554_write addr, mask, value</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem 
+	update mask bits of the output port to value</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, data as byte</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 1</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c write 
+	cmd</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c read 
+	data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 1, 
+	data = (data&amp;~mask)|(value&amp;mask)</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c write 
+	cmd, data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">//</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">sub 
+	pca9554_read addr, value</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; rem read 
+	the input port</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; dim cmd 
+	as byte, data as byte</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; cmd = 0</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c start 
+	addr</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c write 
+	cmd</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c read 
+	data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; i2c stop</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">&nbsp; value = 
+	data</font></span></p>
+	<p class="MsoNoSpacing" style="margin-top: 0; margin-bottom: 0">
+	<span style="font-family:&quot;Courier New&quot;"><font size="2">endsub</font></span></p>
+</blockquote>
+<hr>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

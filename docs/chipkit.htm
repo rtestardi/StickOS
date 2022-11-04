@@ -1,0 +1,384 @@
+﻿<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>CPUStick™ and StickOS™ -- Introduction to chipKIT</title>
+<!--mstheme--><link rel="stylesheet" type="text/css" href="_themes/rich2/rich1001.css"><meta name="Microsoft Theme" content="rich2 1001, default">
+</head>
+
+<body>
+
+<hr>
+<p><font size="2">The 
+chipKIT is a low cost development board that can be used with StickOS BASIC or using the 
+arduino-compatible MPIDE.</font><a target="_blank" href="images/max32.jpg"><img border="2" src="images/max32_small.jpg" xthumbnail-orig-image="images/max32.jpg" align="right"></a><a target="_blank" href="images/uno32.jpg"><img border="2" src="images/uno32_small.jpg" align="right" xthumbnail-orig-image="images/uno32.jpg"></a></p>
+<ul>
+	<li><a href="#intro"><font size="2">Introduction to StickOS BASIC 
+	Programming on the chipKIT</font></a></li>
+	<li><a href="#jump"><font size="2">Setting the chipKIT Jumpers</font></a></li>
+	<li><a href="#tera"><font size="2">Connecting to the chipKIT MCU with Tera Term</font></a></li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><a name="intro"></a></p>
+<hr>
+<p><b><font size="2">Introduction to 
+StickOS BASIC Programming on the chipKIT</font></b></p>
+<p><font size="2">Check your chipKIT jumpers: </font> <a href="#jump">
+<font size="2">Setting the chipKIT Jumpers</font></a></p>
+<p><font size="2">If you have not yet loaded StickOS BASIC on your chipKIT, see:
+<a href="bootloader.htm#cab">chipKIT avrdude Bootloader</a></font></p>
+<p><font size="2">If you have not yet connected to your chipKIT MCU with Tera Term, see:
+</font>
+<a href="#tera"><font size="2">Connecting to the chipKIT MCU with Tera Term</font></a></p>
+<p><font size="2">Start the Tera Term terminal emulator and connect to your 
+chipKIT.</font></p>
+<p><font size="2">You can access the StickOS BASIC online help thru the &quot;help&quot; 
+command:</font></p>
+<blockquote>
+	<p><font size="2" face="Courier New">Welcome to StickOS for Microchip 
+	PIC32MXx-F128H chipKIT Uno32 v1.84a!<br>
+	Copyright (c) 2008-2010; all rights reserved.<br>
+	https://github.com/rtestardi/StickOS<br>
+	support@cpustick.com<br>
+	(checksum 0x2fdf)<br>
+	&gt; <b>help</b><br>
+	for more information:<br>
+	help about<br>
+	help commands<br>
+	help modes<br>
+	help statements<br>
+	help blocks<br>
+	help devices<br>
+	help expressions<br>
+	help strings<br>
+	help variables<br>
+	help pins<br>
+	help zigflea<br>
+	<br>
+	see also:<br>
+	https://github.com/rtestardi/StickOS<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">First, let's get acquainted with the chipKIT pin names:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; help pins<br>
+	pin names:<br>
+	a0-a11, 0-13, 26-41, 43, rg2, rg3, rg9<br>
+	<br>
+	jumpers:<br>
+	jp5,jp6=master, jp4=rd4<br>
+	<br>
+	all pins support general purpose digital input/output<br>
+	a? = potential analog input pins (mV)<br>
+	3,5,6,9,10 = potential analog output (PWM) pins (mV)<br>
+	3,5,6,9,10 = potential servo output (PWM) pins (us)<br>
+	3,5,6,9,10 = potential frequency output pins (Hz)<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">This shows that the basic arduino-shield pin names are as 
+follows:</font></p>
+<blockquote>
+	<table border="1" width="400" id="table2" cellspacing="0">
+		<tr>
+			<td width="225"><font size="2">shield analog pins a0 - a11</font></td>
+			<td><b><font size="2">a0</font></b><font size="2"> - </font><b>
+			<font size="2">a11</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">shield digital pins 0 - 13</font></td>
+			<td><b><font size="2">0</font></b><font size="2"> - </font><b>
+			<font size="2">13</font></b></td>
+		</tr>
+		<tr>
+			<td width="225"><font size="2">shield digital pins 26-41</font></td>
+			<td><font size="2"><b>26</b> - <b>41</b></font></td>
+		</tr>
+	</table>
+</blockquote>
+<p><font size="2">Pins <b>a0</b> - <b>a11</b> can be used for analog input into 
+the MCU.&nbsp; Pins <b>0</b> - <b>13</b>, and <b>26</b> - <b>41</b> can be used for digital input or output 
+into or out of the MCU.&nbsp; In addition, digital pins <b>3</b>, <b>5</b>, <b>6</b>,
+<b>9</b>, and <b>10</b> can be used for analog output, 
+servo output, or frequency output out of the MCU.</font></p>
+<p><font size="2">In StickOS BASIC, MCU pins are bound to ordinary program 
+variables and then can be examined or manipulated, both in a BASIC program as 
+well as interactively from the command line, using any BASIC statements that can 
+access variables, such as &quot;<b><font face="Courier New">print</font></b>&quot; or &quot;<b><font face="Courier New">let</font></b>&quot;.</font></p>
+<p><font size="2">These &quot;pin variables&quot; are declared with the following 
+statement:</font></p>
+<blockquote>
+	<p><font size="2" face="Courier New"><b>dim</b> <i>varpin</i> <b>as pin</b>
+	<i>pinname</i> <b>for</b> (<b>digital</b>|<b>analog</b>|<b>servo</b>|<b>frequency</b>|<b>uart</b>) 
+	(<b>input</b>|<b>output</b>) \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	[<b>debounced</b>] [<b>inverted</b>] [<b>open_drain</b>]</font></p>
+</blockquote>
+<p><font size="2">This means you can examine analog input pin <b>a0</b> (where 
+you may have a pot attached), in 
+millivolts, like:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>dim pot as pin a0 for analog input<br>
+	</b>&gt; <b>print pot</b><br>
+	4125<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">You can examine digital input pin <b>1</b> (where you may have 
+a switch attached) like:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>dim switch as pin 1 for digital 
+	input</b><br>
+	&gt; <b>print switch</b><br>
+	1<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">You can manipulate digital output pin <b>2</b> (where you may 
+have an LED attached) like:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>dim led as pin 2 for digital 
+	output</b><br>
+	&gt; <b>let led=0<br>
+	</b>&gt; _</font></p>
+</blockquote>
+<p><font size="2">And for pins 3, 5, 6, 9, and 10 you can also use the 
+PWM functions of analog output (millivolts), servo output (microseconds), or 
+frequency output (Hz), like:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>dim motor as pin 3 for servo 
+	output<br>
+	</b>&gt; <b>let motor=1000</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Replace the keyword &quot;</font><font face="Courier New" size="2"><b>servo</b></font><font size="2">&quot; 
+with &quot;<b><font face="Courier New">analog</font></b>&quot; or &quot;<b><font face="Courier New">frequency</font></b>&quot; 
+for the other output pin types.</font></p>
+<p><font size="2">To clear variable and pin definitions (so they can be 
+redefined), do:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>clear</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">If we were to connect a buzzer to the board on pin 3, we could 
+make it sound 440 Hz with:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>dim buzzer as pin 3 for frequency output</b><br>
+	&gt; <b>let buzzer=440</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">The first line configures the MCU pin connected to the buzzer (<b>3</b>) 
+for frequency output, and the second line sets it generating a 440Hz tone.</font></p>
+<p><font size="2">And now let's turn it off again:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>let buzzer=0</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Pretty darn easy!</font></p>
+<p><font size="2">From the chipKIT schematic, in addition to the arduino-shield pins of <b>
+a0</b>-<b>a11</b>, <b>0</b>-<b>13</b>, <b>26</b>-<b>41</b>, there are a few other pins 
+connected to the internal components on the board.</font></p>
+<p><font size="2">These pins are as 
+follows:</font></p>
+<blockquote>
+	<table border="1" width="400" id="table1" cellspacing="0">
+		<tr>
+			<td width="225"><font size="2">auxiliary led</font></td>
+			<td><font size="2"><b>43</b></font></td>
+		</tr>
+		</table>
+</blockquote>
+<p><font size="2">Now let's make the auxiliary LED on the board blink.&nbsp; We can 
+write a trivial BASIC program to do this:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>new</b><br>
+	&gt; <b>10 dim led as pin 43 for digital output</b><br>
+	&gt; <b>20 while 1 do</b><br>
+	&gt; <b>30&nbsp;&nbsp; let led=!led</b><br>
+	&gt; <b>40&nbsp;&nbsp; sleep 500ms</b><br>
+	&gt; <b>50 endwhile</b><br>
+	&gt; <b>save</b><br>
+	&gt; <b>run</b><br>
+	_</font></p>
+</blockquote>
+<p><font size="2">The first command, &quot;new&quot;, clears any existing BASIC program.&nbsp; The next 
+5 lines of code are the program itself, which configures the MCU pin connected to the 
+auxiliary LED (pin <b>43</b>) as an output and binds it to the variable 
+&quot;led&quot;.&nbsp; From then on examination or modification of this variables is 
+reflected immediately at the corresponding MCU pin.&nbsp; Then, we enter a program infinite loop that 
+inverts the state of the auxiliary LED every 500ms!</font></p>
+<p><font size="2">The command &quot;save&quot; causes the program to be saved to non-volatile flash 
+memory (initially, new program lines and changed program lines are entered into 
+RAM, to preserve flash memory lifetime).&nbsp; The command &quot;run&quot; causes the 
+program to run, and the auxiliary LED should be blinking (in addition to the 
+heartbeat LED)!</font></p>
+<p><font size="2">Press &lt;Ctrl-C&gt; to stop the program:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2"><b>&lt;Ctrl-C&gt;</b><br>
+	STOP at line 40!<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">The program stopped at line 40.</font></p>
+<p><font size="2">At this point, you can make the auxiliary LED blink yourself!&nbsp; Enter the 
+following lines and watch the auxiliary LED:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>let led=!led</b><br>
+	&gt; <b>let led=!led</b><br>
+	&gt; <b>let led=!led</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Once you have entered a line, you can use the up-arrow cursor key to recall 
+previously entered lines.&nbsp; You can use the right-and-left arrow keys to 
+move the cursor and insert or delete (with backspace) characters.</font></p>
+<p><font size="2">It we want to change the program to blink faster, we need simply edit line 
+40, using the &quot;edit&quot; command as follows:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>edit 40</b><br>
+	&gt; <b>40 sleep 500 ms</b>_</font></p>
+</blockquote>
+<p><font size="2">Note that the cursor is at the end of the line; you can move it left to the 
+last &quot;0&quot; in &quot;500&quot; and backspace to erase it; then press &lt;Enter&gt;:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>40 sleep 50 ms</b><br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Now list the program with the &quot;list&quot; command:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>list</b><br>
+	&nbsp; 10 dim led as pin 43 for digital output<br>
+&nbsp; 20 while 1 do<br>
+&nbsp; 30&nbsp;&nbsp; let led = !led<br>
+&nbsp; 40&nbsp;&nbsp; sleep 50 ms<br>
+&nbsp; 50 endwhile<br>
+	end<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">And you can continue the changed program running from where it stopped 
+previously with the &quot;cont&quot; command:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>cont</b><br>
+	_</font></p>
+</blockquote>
+<p><font size="2">Notice the auxiliary LED now blinks 10x faster.</font></p>
+<p><font size="2">Again, press &lt;Ctrl-C&gt; to stop the program:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2"><b>&lt;Ctrl-C&gt;</b><br>
+	STOP at line 40!<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">As one final tweak, if we were to connect a switch to the 
+board from pin 2 to ground, we can make the auxiliary LED stop blinking whenever the 
+switch is pressed, with:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>5 dim switch as pin 2 for digital input 
+	inverted<br>
+	</b>&gt; <b>25 if !switch then<br>
+	</b>&gt; <b>35 endif<br>
+	</b>&gt; <b>list</b><br>
+	&nbsp; 5 dim switch as pin 2 for digital input inverted<br>
+&nbsp; 10 dim led as pin 43 for digital output<br>
+&nbsp; 20 while 1 do<br>
+&nbsp; 25 if !switch then<br>
+&nbsp; 30&nbsp;&nbsp; let led = !led<br>
+&nbsp; 35 endif<br>
+&nbsp; 40 sleep 50 ms<br>
+&nbsp; 50 endwhile<br>
+	end<br>
+	&gt; <b>run</b><br>
+	_</font></p>
+</blockquote>
+<p><font size="2">Line 5 configures the MCU pin connected to the switch (<b>2</b>) as an 
+input and binds it to the variable &quot;switch&quot; with an inverted sense (since the 
+circuit ties the MCU pin to ground when the switch is pressed).&nbsp; Line 25 
+says that if the switch is not pressed, do line 30 (which makes the auxiliary LED 
+blink).&nbsp; Line 35 ends the if condition started at line 25.</font></p>
+<p><font size="2">Notice the auxiliary LED now stops blinking when you press the 
+switch.</font></p>
+<p><font size="2">Again, press &lt;Ctrl-C&gt; to stop the program:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2"><b>&lt;Ctrl-C&gt;</b><br>
+	STOP at line 40!<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Finally, if we insert many lines in the program this way, it makes the 
+program look cleaner to then renumber the lines with the &quot;renumber&quot; command:</font></p>
+<blockquote>
+	<p><font face="Courier New" size="2">&gt; <b>renumber</b><br>
+	&gt; <b>list</b><br>
+	&nbsp; 10 dim switch as pin 2 for digital input inverted<br>
+&nbsp; 20 dim led as pin 43 for digital output<br>
+&nbsp; 30 while 1 do<br>
+&nbsp; 40&nbsp;&nbsp; if !switch then<br>
+&nbsp; 50&nbsp;&nbsp;&nbsp;&nbsp; let led = !led<br>
+&nbsp; 60&nbsp;&nbsp; endif<br>
+&nbsp; 70 sleep 50 ms<br>
+&nbsp; 80 endwhile<br>
+	end<br>
+	&gt; _</font></p>
+</blockquote>
+<p><font size="2">Notice that the lines are evenly numbered by 10 again.</font></p>
+<p><font size="2">For a whirlwind tour of StickOS BASIC, be sure to download the
+<a target="_blank" href="https://github.com/rtestardi/StickOS/downloads/quickref.v1.82.pdf">StickOS Quick 
+Reference</a> guide.</font></p>
+<p><font size="2">Also see the full online <a target="_blank" href="stickos.htm">StickOS User's Guide</a>, or 
+the <a target="_blank" href="downloads/stickos.v1.84.pdf">StickOS User's Guide</a> in PDF 
+format.</font></p>
+<p><font size="2">Have fun!</font></p>
+<p><font size="2"><a name="jump"></a></font></p>
+<hr>
+<p><b><font size="2">Setting the 
+chipKIT Jumpers</font></b></p>
+<p><font size="2">In general there is no need to ever move the SPI jumpers off the 
+&quot;master&quot; position; StickOS only supports master mode SPI.</font></p>
+<p><font size="2">On the Uno32, there is no need to ever move jumper JP4 off the 
+&quot;rd4&quot; position. </font></p>
+<p><font size="2">On the Uno32, move jumpers JP6/8 to the RG3/2 positions to 
+enable I2C on pins <b>a4</b> and <b>a5</b>; move them to the A4/A5 position to 
+enable analog inputs on those pins.</font></p>
+<p><a name="tera"></a></p>
+<hr>
+<p><b><font size="2">Connecting to the 
+chipKIT MCU with Tera Term</font></b></p>
+<p><font size="2">Note that by default, chipKIT boards automatically reset the 
+MCU when 
+the FTDI COM port is first opened by the host computer.&nbsp; This behavior can 
+be disabled (which is how I run) by cutting the trace under JP1 on the Uno32 or JP5 on the Max32, 
+and then installing a removable jumper.&nbsp; 
+If you have cut this trace, you will need to manually reset the board 
+immediately before running avrdude, below, or temporarily install the jumper on 
+the board. <i><b>&nbsp;If you have not cut the trace, then e</b></i></font><i><b><font size="2">very 
+time you subsequently connect the terminal emulator to the board, the MCU will 
+be reset.&nbsp; During the 4 seconds following reset, you <u>must not enter any input on the terminal emulator</u> or the 
+	bootloader will crash!&nbsp; After 4 seconds with no input from the terminal 
+	emulator, the bootloader will automatically transfer control to StickOS and 
+then you can 
+	then press 
+	&lt;Enter&gt; to get a command prompt.</font></b></i></p>
+<ol>
+	<li><font size="2">Connect your chipKIT to the PC via the USB cable</font></li>
+	<li><font size="2">Allow Windows to automatically install hardware</font></li>
+	<li><font size="2">Download Tera Term from: </font> <a target="_blank" href="http://logmett.com/">
+	<font size="2">http://logmett.com/</font></a></li>
+	<li><font size="2">(optional, since Tera Term has the same functionality built-in) Open 
+	Device Manager and determine the &quot;USB Serial Port&quot; COM port assigned to your 
+	chipKIT:<br>
+	<img border="0" src="images/chipki1.jpg"></font></li>
+	<li><font size="2">Launch Tera Term and select the &quot;serial&quot; port option and then the 
+	&quot;USB Serial Port&quot; COM port discovered above, and then &quot;OK&quot;:<br>
+	<img border="0" src="images/chipki2.jpg"></font></li>
+	<li><font size="2"><b><i>Remember</i></b></font><i><b><font size="2"> that if you have not cut the trace under JP1 
+	or JP5, above, then every time you connect the terminal 
+	emulator to the board, the MCU will be reset.&nbsp; During the 4 
+	seconds following reset, you <u>must not enter any input on the terminal emulator</u> or the 
+	bootloader will crash!&nbsp; After 4 seconds with no input from the terminal 
+	emulator, the bootloader will automatically transfer control to StickOS and 
+	then you can 
+	then press 
+	&lt;Enter&gt; to get a command prompt.</font></b></i></li>
+	<li><font size="2">Press &lt;Enter&gt; for a command prompt:<br>
+	</font><img border="0" src="images/chipki3.jpg"></li>
+</ol>
+<hr>
+
+</body>
+
+</html>

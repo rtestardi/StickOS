@@ -1,0 +1,49 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "basic", "basic.vcxproj", "{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		51JM128 Debug|Win32 = 51JM128 Debug|Win32
+		51JM128 Release|Win32 = 51JM128 Release|Win32
+		5211 Debug|Win32 = 5211 Debug|Win32
+		5211 Release|Win32 = 5211 Release|Win32
+		52221 Debug|Win32 = 52221 Debug|Win32
+		52221 Release|Win32 = 52221 Release|Win32
+		52233 Debug|Win32 = 52233 Debug|Win32
+		52233 Release|Win32 = 52233 Release|Win32
+		52259 Debug|Win32 = 52259 Debug|Win32
+		52259 Release|Win32 = 52259 Release|Win32
+		Badge Debug|Win32 = Badge Debug|Win32
+		Badge Release|Win32 = Badge Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.51JM128 Debug|Win32.ActiveCfg = 51JM128 Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.51JM128 Debug|Win32.Build.0 = 51JM128 Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.51JM128 Release|Win32.ActiveCfg = 51JM128 Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.51JM128 Release|Win32.Build.0 = 51JM128 Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.5211 Debug|Win32.ActiveCfg = 5211 Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.5211 Debug|Win32.Build.0 = 5211 Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.5211 Release|Win32.ActiveCfg = 5211 Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.5211 Release|Win32.Build.0 = 5211 Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52221 Debug|Win32.ActiveCfg = 52221 Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52221 Debug|Win32.Build.0 = 52221 Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52221 Release|Win32.ActiveCfg = 52221 Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52221 Release|Win32.Build.0 = 52221 Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52233 Debug|Win32.ActiveCfg = 52233 Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52233 Debug|Win32.Build.0 = 52233 Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52233 Release|Win32.ActiveCfg = 52233 Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52233 Release|Win32.Build.0 = 52233 Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52259 Debug|Win32.ActiveCfg = 52259 Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52259 Debug|Win32.Build.0 = 52259 Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52259 Release|Win32.ActiveCfg = 52259 Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.52259 Release|Win32.Build.0 = 52259 Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.Badge Debug|Win32.ActiveCfg = Badge Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.Badge Debug|Win32.Build.0 = Badge Debug|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.Badge Release|Win32.ActiveCfg = Badge Release|Win32
+		{945F9ACB-ADD5-4B2B-94C4-2404B6E90705}.Badge Release|Win32.Build.0 = Badge Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

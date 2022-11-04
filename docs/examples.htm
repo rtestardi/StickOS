@@ -1,0 +1,1116 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+
+<!-- #BeginTemplate "template.dwt" -->
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- #BeginEditable "doctitle" -->
+<title>CPUStick™ and StickOS® -- Examples</title>
+<!-- #EndEditable -->
+<link rel="File-List" href="examples_files/filelist.xml">
+
+<!--[if !mso]>
+<style>
+v\:*         { behavior: url(#default#VML) }
+o\:*         { behavior: url(#default#VML) }
+.shape       { behavior: url(#default#VML) }
+</style>
+<![endif]--><!--[if gte mso 9]>
+<xml><o:shapedefaults v:ext="edit" spidmax="1027"/>
+</xml><![endif]-->
+<!--mstheme--><link rel="stylesheet" type="text/css" href="_themes/rich2/rich1001.css"><meta name="Microsoft Theme" content="rich2 1001, default">
+</head>
+
+<body>
+
+<table border="0" cellspacing="6" width="971" height="661" cellpadding="0"><!-- MSTableType="layout" --><tr>
+	<td valign="top" bgcolor="#F0F0F0" width=191 height="658"><!-- MSCellType="DecArea" --><p style="text-align: center">
+	<img border="0" src="images/icon3.jpg" width="160" height="107"></p>
+	<p style="text-align: center"><b><font color="#FFFFFF">
+	<!--webbot bot="Navigation" S-Type="sequence" S-Orientation="vertical" S-Rendering="graphics" B-Include-Home="FALSE" B-Include-Up="FALSE" U-Page="sid:1006" startspan --><a href="index.htm"><img src="_derived/index.htm_cmp_rich2000_vbtn.gif" width="140" height="44" border="0" alt="Home"></a><br><a href="whatif.htm"><img src="_derived/whatif.htm_cmp_rich2000_vbtn.gif" width="140" height="44" border="0" alt="What if?"></a><br><a href="features.htm"><img src="_derived/features.htm_cmp_rich2000_vbtn.gif" width="140" height="44" border="0" alt="Features"></a><br><a href="mcus.htm"><img src="_derived/mcus.htm_cmp_rich2000_vbtn.gif" width="140" height="44" border="0" alt="MCUs"></a><br><img src="_derived/examples.htm_cmp_rich2000_vbtn_p.gif" width="140" height="44" border="0" alt="Examples"><br><a href="testimonies.htm"><img src="_derived/testimonies.htm_cmp_rich2000_vbtn.gif" width="140" height="44" border="0" alt="Testimonies"></a><br><a href="downloads.htm"><img src="_derived/downloads.htm_cmp_rich2000_vbtn.gif" width="140" height="44" border="0" alt="Downloads"></a><br><a href=""><img src="_derived/ext1058_cmp_rich2000_vbtn.gif" width="140" height="44" border="0" alt="Forum"></a><br><a href="purchase.htm"><img src="_derived/purchase.htm_cmp_rich2000_vbtn.gif" width="140" height="44" border="0" alt="Purchase!"></a><br><a href="contact.htm"><img src="_derived/contact.htm_cmp_rich2000_vbtn.gif" width="140" height="44" border="0" alt="Contact Us"></a><!--webbot bot="Navigation" i-checksum="60203" endspan -->
+	</font></b><p style="text-align: center">
+	<font size="2"><a target="_blank" href="stickos.htm">StickOS User's Guide</a></font><p style="text-align: center">
+<!--#if expr="! ${fsl} && ! ${mchp}" -->
+	<font size="2"><a target="_blank" href="cpustick.htm">CPUStick User's Guide</a></font><p style="text-align: center">
+<!--#endif -->
+	<font size="2">Copyright © 2008-2012 CPUStick.com;<br>
+all rights reserved.<br>Patent U.S. 8,117,587.</font><p style="text-align: center"><font size="2" color="#808080">&nbsp;</font>
+<font color="#FFFFFF"><a href="mailto:rtestardi@live.com"><font size="1" color="#808080">rtestardi@live.com</font></a></font></td>
+	<td width=750 valign="top" bgcolor="#FFFFFF">
+	<!-- MSCellType="ContentHead" --><!--webbot bot="Navigation" S-Type="banner" S-Orientation="horizontal" S-Rendering="graphics" startspan --><img src="_derived/examples.htm_cmp_rich2000_bnr.gif" width="750" height="58" border="0" alt="CPUStick™ and StickOS® -- Examples"><!--webbot bot="Navigation" i-checksum="161" endspan -->
+	
+	<hr>
+	<!-- #BeginEditable "body" -->
+	<p><font size="2">Examples:</font></p>
+	<ul>
+		<li><a href="#ex1"><font size="2">T</font></a><font size="2"><a href="#ex1">oaster 
+		Oven Temperature Profile Controller</a></font></li>
+		<li><font size="2"><a href="#ex2">LCD Digital Thermometer</a></font></li>
+		<li><font size="2"><a href="#ex3">ZigFlea™ Wireless 
+		Remote LED Dimmer</a></font></li>
+		<li><font size="2"><a href="#fslbot">FSLBOT Walking Robot</a></font></li>
+		<li><font size="2"><a href="#int">Get Intimate (and Interactive!) With 
+		Your MCU!</a></font></li>
+	</ul>
+	<p><a name="ex1"></a></p>
+	<hr>
+	<p><b>Toaster Oven Temperature 
+	Profile Controller</b></p>
+	<p><font size="2">A simple embedded system, like a 
+toaster oven temperature profile controller, can be brought online in record 
+time!</font></p>
+		<p>
+<!--[if gte vml 1]><v:group id="_x0000_s11844"
+ editas="canvas" alt="" style='width:372.75pt;height:210.75pt;
+ mso-position-horizontal-relative:char;mso-position-vertical-relative:line'
+ coordorigin="2449,4241" coordsize="7260,4140">
+ <o:lock v:ext="edit" aspectratio="t"/>
+ <v:shapetype id="_x0000_t75" coordsize="21600,21600" o:spt="75"
+  o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+  <v:stroke joinstyle="miter"/>
+  <v:formulas>
+   <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+   <v:f eqn="sum @0 1 0"/>
+   <v:f eqn="sum 0 0 @1"/>
+   <v:f eqn="prod @2 1 2"/>
+   <v:f eqn="prod @3 21600 pixelWidth"/>
+   <v:f eqn="prod @3 21600 pixelHeight"/>
+   <v:f eqn="sum @0 0 1"/>
+   <v:f eqn="prod @6 1 2"/>
+   <v:f eqn="prod @7 21600 pixelWidth"/>
+   <v:f eqn="sum @8 21600 0"/>
+   <v:f eqn="prod @7 21600 pixelHeight"/>
+   <v:f eqn="sum @10 21600 0"/>
+  </v:formulas>
+  <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+  <o:lock v:ext="edit" aspectratio="t"/>
+ </v:shapetype><v:shape id="_x0000_s11845" type="#_x0000_t75" style='position:absolute;
+  left:2449;top:4241;width:7260;height:4140' o:preferrelative="f" fillcolor="black">
+  <v:fill o:detectmouseclick="t"/>
+  <v:path o:extrusionok="t" o:connecttype="none"/>
+  <o:lock v:ext="edit" text="t"/>
+ </v:shape><v:rect id="_x0000_s11846" alt="" style='position:absolute;left:5020;
+  top:6480;width:1286;height:1783' fillcolor="green">
+  <v:fill rotate="t"/>
+  <v:textbox style='mso-next-textbox:#_x0000_s11846' inset="1.90639mm,.95319mm,1.90639mm,.95319mm">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table33">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><span style="font-size: 11pt">MCU<br>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; an0<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; an1<br>
+			USB</span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:rect><v:rect id="_x0000_s11847" alt="" style='position:absolute;left:5122;
+  top:4314;width:2703;height:1356' fillcolor="#969696" strokecolor="#969696"/>
+ <v:rect id="_x0000_s11848" alt="" style='position:absolute;left:5298;top:4476;
+  width:1680;height:1017' fillcolor="black" strokecolor="#969696">
+  <v:textbox style='mso-next-textbox:#_x0000_s11848' inset="1.90639mm,.95319mm,1.90639mm,.95319mm">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table32">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><font color="#FFFFFF" style="font-size: 11pt">
+			toaster oven</font></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:rect><v:oval id="_x0000_s11849" alt="" style='position:absolute;left:7241;
+  top:4565;width:336;height:339' fillcolor="black" strokecolor="#969696"/>
+ <v:oval id="_x0000_s11850" alt="" style='position:absolute;left:7241;top:5066;
+  width:336;height:339' fillcolor="black" strokecolor="#969696"/>
+ <v:rect id="_x0000_s11851" alt="" style='position:absolute;left:8921;top:6509;
+  width:672;height:1105' fillcolor="#969696" strokecolor="#969696"/>
+ <v:oval id="_x0000_s11852" alt="" style='position:absolute;left:9096;top:6686;
+  width:336;height:339' fillcolor="black" strokecolor="#969696"/>
+ <v:line id="_x0000_s11853" alt="" style='position:absolute' from="9184,6775"
+  to="9185,6848" strokecolor="#969696"/>
+ <v:line id="_x0000_s11854" alt="" style='position:absolute' from="9344,6775"
+  to="9345,6848" strokecolor="#969696"/>
+ <v:line id="_x0000_s11855" alt="" style='position:absolute' from="9257,6848"
+  to="9258,6937" strokecolor="#969696"/>
+ <v:oval id="_x0000_s11856" alt="" style='position:absolute;left:9096;top:7114;
+  width:336;height:338' fillcolor="black" strokecolor="#969696"/>
+ <v:line id="_x0000_s11857" alt="" style='position:absolute' from="9184,7187"
+  to="9185,7276" strokecolor="#969696"/>
+ <v:line id="_x0000_s11858" alt="" style='position:absolute' from="9344,7187"
+  to="9345,7276" strokecolor="#969696"/>
+ <v:line id="_x0000_s11859" alt="" style='position:absolute' from="9257,7276"
+  to="9258,7364" strokecolor="#969696"/>
+ <v:shapetype id="_x0000_t5" coordsize="21600,21600" o:spt="5" adj="10800"
+  path="m@0,l,21600r21600,xe">
+  <v:stroke joinstyle="miter"/>
+  <v:formulas>
+   <v:f eqn="val #0"/>
+   <v:f eqn="prod #0 1 2"/>
+   <v:f eqn="sum @1 10800 0"/>
+  </v:formulas>
+  <v:path gradientshapeok="t" o:connecttype="custom" o:connectlocs="@0,0;@1,10800;0,21600;10800,21600;21600,21600;@2,10800"
+   textboxrect="0,10800,10800,18000;5400,10800,16200,18000;10800,10800,21600,18000;0,7200,7200,21600;7200,7200,14400,21600;14400,7200,21600,21600"/>
+  <v:handles>
+   <v:h position="#0,topLeft" xrange="0,21600"/>
+  </v:handles>
+ </v:shapetype><v:shape id="_x0000_s11860" type="#_x0000_t5" alt="" style='position:absolute;
+  left:6592;top:6544;width:1356;height:1286;rotation:270' fillcolor="black"
+  strokecolor="#969696">
+  <v:textbox style='mso-next-textbox:#_x0000_s11860' inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table31">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><font color="#FFFFFF" style="font-size: 11pt">
+			op- amp</font></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s11861" alt="" style='position:absolute' from="6306,5154"
+  to="7153,6082" strokecolor="#969696" strokeweight="3pt">
+  <v:stroke startarrow="block" linestyle="thinThin"/>
+ </v:line><v:shape id="_x0000_s11862" alt="" style='position:absolute;left:7168;
+  top:6097;width:1095;height:751' coordsize="1302,886" path="m,c193,75,1008,303,1155,451,1302,599,941,796,885,886e"
+  filled="f" strokecolor="#969696">
+  <v:path arrowok="t"/>
+ </v:shape><v:shapetype id="_x0000_t202" coordsize="21600,21600" o:spt="202"
+  path="m,l,21600r21600,l21600,xe">
+  <v:stroke joinstyle="miter"/>
+  <v:path gradientshapeok="t" o:connecttype="rect"/>
+ </v:shapetype><v:shape id="_x0000_s11863" type="#_x0000_t202" alt="" style='position:absolute;
+  left:7153;top:5832;width:1344;height:250' filled="f" fillcolor="black"
+  stroked="f" strokecolor="#969696">
+  <v:textbox style='mso-next-textbox:#_x0000_s11863' inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table30">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><span style="font-size: 11pt">thermocouple</span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:shape id="_x0000_s11864" alt="" style='position:absolute;left:7810;
+  top:4373;width:1505;height:2475' coordsize="1791,2949" path="m,357c253,367,1213,,1502,432v289,432,183,1993,231,2517e"
+  filled="f" strokecolor="silver" strokeweight="3pt">
+  <v:path arrowok="t"/>
+ </v:shape><v:rect id="_x0000_s11865" alt="" style='position:absolute;left:8921;
+  top:4992;width:788;height:928' fillcolor="black" strokecolor="#969696">
+  <v:textbox style='mso-next-textbox:#_x0000_s11865' inset="1.90639mm,.95319mm,1.90639mm,.95319mm">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table29">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><font color="#FFFFFF" style="font-size: 11pt">
+			solid state relay</font></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:rect><v:shape id="_x0000_s11866" type="#_x0000_t202" alt="" style='position:absolute;
+  left:8029;top:4241;width:1344;height:250' filled="f" fillcolor="black"
+  stroked="f" strokecolor="#969696">
+  <v:textbox style='mso-next-textbox:#_x0000_s11866' inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table28">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><span style="font-size: 11pt">ac power</span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s11867" alt="" style='position:absolute;flip:x'
+  from="6306,7187" to="6627,7188" strokecolor="#969696">
+  <v:stroke endarrow="open"/>
+ </v:line><v:shape id="_x0000_s11868" alt="" style='position:absolute;left:6291;
+  top:5493;width:2630;height:2770' coordsize="3159,3296" path="m3159,v-71,132,-246,288,-427,790c2551,1292,2447,2724,2072,3010,1697,3296,825,2603,480,2506,135,2409,100,2446,,2430e"
+  filled="f" strokecolor="#969696">
+  <v:stroke startarrow="open"/>
+  <v:path arrowok="t"/>
+ </v:shape><v:shape id="_x0000_s11869" type="#_x0000_t202" alt="" style='position:absolute;
+  left:7153;top:8130;width:1344;height:251' filled="f" fillcolor="black"
+  stroked="f" strokecolor="#969696">
+  <v:textbox style='mso-next-textbox:#_x0000_s11869' inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table27">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><span style="font-size: 11pt">relay control</span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s11870" alt="" style='position:absolute' from="7401,4727"
+  to="7489,4815" strokecolor="#969696"/>
+ <v:line id="_x0000_s11871" alt="" style='position:absolute' from="7401,5242"
+  to="7489,5331" strokecolor="#969696"/>
+ <v:line id="_x0000_s11872" alt="" style='position:absolute' from="4465,7703"
+  to="5049,7704" strokecolor="#969696" strokeweight="3pt">
+  <v:stroke dashstyle="1 1"/>
+ </v:line><v:shape id="_x0000_s11873" type="#_x0000_t202" alt="" style='position:absolute;
+  left:2727;top:7025;width:1811;height:1076' filled="f" fillcolor="black"
+  stroked="f" strokecolor="#969696">
+  <v:textbox style='mso-next-textbox:#_x0000_s11873' inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table26">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><span style="font-size: 11pt">to host computer 
+			Hyper Terminal (during&nbsp; program development only)</span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape></v:group><![endif]--><![if !vml]><img width=500 height=285
+src="examples_files/image001.gif" v:shapes="_x0000_s11844 _x0000_s11845 _x0000_s11846 _x0000_s11847 _x0000_s11848 _x0000_s11849 _x0000_s11850 _x0000_s11851 _x0000_s11852 _x0000_s11853 _x0000_s11854 _x0000_s11855 _x0000_s11856 _x0000_s11857 _x0000_s11858 _x0000_s11859 _x0000_s11860 _x0000_s11861 _x0000_s11862 _x0000_s11863 _x0000_s11864 _x0000_s11865 _x0000_s11866 _x0000_s11867 _x0000_s11868 _x0000_s11869 _x0000_s11870 _x0000_s11871 _x0000_s11872 _x0000_s11873"><![endif]></p>
+		<p><i><b><font size="2">It’s as easy as... </font> </b></i></p>
+		<ol>
+			<li><font size="2">wire the MCU I/O pins to the embedded circuit</font><ol type="a">
+				<li><font size="2">wire MCU pin an0 to thermocouple op-amp output (I use 
+				an LM358)</font></li>
+				<li><font size="2">wire MCU pin an1 to solid state relay control input (I 
+				use a Teledyne STH24D25)</font></li>
+			</ol>
+			</li>
+			<li><font size="2">install the cpustick.inf file by saving it to a 
+			file, right-clicking on the file, and selecting &quot;Install&quot;; you can 
+			ignore warnings about an unsigned driver package -- the driver is 
+			straight from Microsoft, and only the INF file is unsigned; the INF 
+			file allows Windows to bind a human readable name, &quot;CPUStick&quot;, to 
+			the USB VID/PID presented to the host by StickOS</font></li>
+			<li><font size="2">connect a host computer to the USB interface on 
+			the MCU</font></li>
+			<li><font size="2">let the host computer automatically install the 
+			new hardware</font></li>
+			<li><font size="2">open a Hyper Terminal console window and connect to the 
+			MCU; press <b><font face="Courier New">&lt;Enter&gt;</font></b> for a 
+			command prompt</font></li>
+			<li><font size="2">configure the MCU I/O pins as appropriate</font><ol type="a">
+				<li><font size="2">configure pin an0 as an analog input</font></li>
+				<li><font size="2">configure pin an1 as a digital output</font></li>
+			</ol>
+			</li>
+			<li><font size="2">write and debug your BASIC control program, live on the 
+			MCU 
+			(see below)</font></li>
+			<li><font size="2">type “save”</font></li>
+			<li><font size="2">type “autorun on”</font></li>
+			<li><font size="2">turn the toaster oven full on (so that the relay can control it)</font></li>
+			<li><font size="2">type “reset”</font></li>
+			<li><font size="2">disconnect the host computer from the USB interface on the 
+			MCU</font></li>
+		</ol>
+		<p></p>
+<p><font size="2">The entire toaster oven temperature profile controller 
+BASIC control program is shown below:</font></p>
+		<img border="0" src="images/example1.JPG" width="702" height="527"><font size="2"><br>
+		<a target="_blank" href="text.htm#ex1">(see the examples in text format)</a></font><ul>
+			<li><font size="2">Line 10 declares two simple RAM variables named “target” and 
+			“secs” for use in the program, and initializes them to 0.</font></li>
+			<li><font size="2">Line 20 declares an analog input &quot;pin variable&quot; named 
+			“thermocouple” that is bound to pin an0, to read the thermocouple 
+			voltage, in millivolts</font></li>
+			<li><font size="2">Line 30 declares a digital output &quot;pin variable&quot; named “relay” 
+			that is bound to pin an1, to control the solid state relay.</font></li>
+			<li><font size="2">Line 40 declares the temperature target and delay time pairs for 
+			our temperature profile ramp.</font></li>
+			<li><font size="2">Lines 50 and 60 configure a timer interrupt to call the &quot;adjust&quot; 
+			subroutine asynchronously, every second, while the program runs.</font></li>
+			<li><font size="2">Lines 70 thru 100 set the target temperature profile while the 
+			program runs.</font></li>
+			<li><font size="2">Lines 110 and 120 end the program with the solid state relay 
+			control turned off.</font></li>
+			<li><font size="2">Lines 130 thru 190 use the declared pin variables to simply turn 
+			the solid state relay control off if the target temperature has been 
+			achieved, or on otherwise. </font> </li>
+		</ul>
+		<p><font size="2">Then: </font> </p>
+		<ul>
+			<li><font size="2">“save” saves the program to non-volatile flash memory.</font></li>
+			<li><font size="2">“autorun on” sets the program to run automatically when the 
+			MCU is powered up.</font></li>
+			<li><font size="2">Finally, “reset” resets the MCU as if it was just powered 
+			up. </font> </li>
+		</ul>
+		<p><font size="2">Note that if terse code were our goal, lines 60 and 130 thru 190 
+		could have all been replaced with the single statement: </font> </p>
+		<p><font face="Courier New" size="2">&gt; <b>60 on timer 0 do let relay = 
+		thermocouple&lt;target </b></font></p>
+		<p><font size="2"><a name="ex2"></a></font></p>
+		<hr>
+		<p><b>LCD Digital Thermometer</b></p>
+	<p><font size="2">With the 
+	advent of advanced serial peripherals based on the I2C or QSPI serial 
+	interfaces, embedded systems can take on a whole new level of real-world 
+	functionality!</font></p>
+	<p class="MsoNormal"><font size="2">An LCD digital thermometer, displaying 
+	both Celsius and Fahrenheit, can be brought online in minutes, with just a 
+	quick study of the I2C peripheral register or protocol definitions!&nbsp; The peripherals 
+	are:&nbsp;</font></p>
+	<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+		<li class="MsoNormal"><font face="Arial" size="2">
+		<a style="color: blue; text-decoration: underline; text-underline: single" target="_blank" href="http://focus.ti.com/docs/prod/folders/print/tmp102.html">Texas Instruments TMP102</a> temperature sensor, at I2C address 0x48</font></li>
+		<li class="MsoNormal"><font face="Arial" size="2">
+		<a style="color: blue; text-decoration: underline; text-underline: single" target="_blank" href="http://www.newhavendisplay.com/index.php?main_page=product_info&cPath=315&products_id=2411">NewHaven Display NHD-C0220BiZ-FS(RGB)-FBW-3VM</a> LCD display based on 
+		the ST7036 controller, at I2C address 0x3c<br>
+&nbsp;</font></li>
+	</ul>
+	<span style="font-size: 10.5pt; font-family: 'Times New Roman',serif"><!--[if gte vml 1]><v:group
+ id="_x0000_s11874" editas="canvas" style='width:378.75pt;height:172.5pt;
+ mso-position-horizontal-relative:char;mso-position-vertical-relative:line'
+ coordorigin="368,407" coordsize="8226,3746">
+ <o:lock v:ext="edit" aspectratio="t"/>
+ <v:shape id="_x0000_s11875" type="#_x0000_t75" style='position:absolute;
+  left:368;top:407;width:8226;height:3746' o:preferrelative="f">
+  <v:fill o:detectmouseclick="t"/>
+  <v:path o:extrusionok="t" o:connecttype="none"/>
+  <o:lock v:ext="edit" text="t"/>
+ </v:shape><v:rect id="_x0000_s11876" alt="" style='position:absolute;left:3105;
+  top:2264;width:1172;height:1726' fillcolor="green">
+  <v:textbox style='mso-next-textbox:#_x0000_s11876' inset="1.90639mm,.95319mm,1.90639mm,.95319mm">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table43">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><span style="mso-bidi-font-size: 8.0pt">
+			<o:p><span style="font-size: 11pt">&nbsp;</span></o:p></span><span style="mso-bidi-font-size: 12.0pt"><span style="font-size: 11pt">MCU<o:p><br>
+			<br>
+			</o:p>
+			<span style="mso-spacerun:yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>scl<o:p><br>
+			</o:p>
+			<span style="mso-spacerun:yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>sda<o:p><br>
+			</o:p>
+			USB</span><o:p></o:p></span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:rect><v:line id="_x0000_s11877" style='position:absolute' from="2534,3502"
+  to="3105,3503" strokeweight="3pt">
+  <v:stroke dashstyle="1 1"/>
+ </v:line><v:shape id="_x0000_s11878" type="#_x0000_t202" style='position:absolute;
+  left:645;top:2817;width:2036;height:1238' filled="f" stroked="f">
+  <v:textbox style='mso-next-textbox:#_x0000_s11878' inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table42">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal">
+			<span style="font-size: 11pt; mso-bidi-font-size: 12.0pt">to host 
+			computer<br>
+			Hyper Terminal<o:p><br>
+			</o:p>
+			(during<span style="mso-spacerun:yes">&nbsp; </span>program development 
+			only)<o:p></o:p></span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:line id="_x0000_s11879" style='position:absolute' from="4717,1596"
+  to="4929,1694"/>
+ <v:line id="_x0000_s11880" style='position:absolute;flip:x' from="4717,1694"
+  to="4929,1808"/>
+ <v:line id="_x0000_s11881" style='position:absolute' from="4717,1808" to="4929,1922"/>
+ <v:line id="_x0000_s11882" style='position:absolute;flip:x' from="4717,1922"
+  to="4929,2036"/>
+ <v:line id="_x0000_s11883" style='position:absolute' from="4717,2036" to="4929,2133"/>
+ <v:line id="_x0000_s11884" style='position:absolute;flip:x' from="4717,2133"
+  to="4929,2247"/>
+ <v:line id="_x0000_s11885" style='position:absolute' from="4717,2247" to="4929,2361"/>
+ <v:line id="_x0000_s11886" style='position:absolute;flip:x' from="4717,2361"
+  to="4929,2475"/>
+ <v:line id="_x0000_s11887" style='position:absolute' from="4717,2475" to="4929,2573"/>
+ <v:line id="_x0000_s11888" style='position:absolute;flip:x' from="4717,2573"
+  to="4929,2687"/>
+ <v:line id="_x0000_s11889" style='position:absolute' from="4717,1368" to="4718,1596"/>
+ <v:line id="_x0000_s11890" style='position:absolute' from="4603,1156" to="4831,1157"/>
+ <v:line id="_x0000_s11891" style='position:absolute' from="4717,1042" to="4718,1254"/>
+ <v:line id="_x0000_s11892" style='position:absolute' from="5092,1596" to="5304,1694"/>
+ <v:line id="_x0000_s11893" style='position:absolute;flip:x' from="5092,1694"
+  to="5304,1808"/>
+ <v:line id="_x0000_s11894" style='position:absolute' from="5092,1808" to="5304,1922"/>
+ <v:line id="_x0000_s11895" style='position:absolute;flip:x' from="5092,1922"
+  to="5304,2036"/>
+ <v:line id="_x0000_s11896" style='position:absolute' from="5092,2036" to="5304,2133"/>
+ <v:line id="_x0000_s11897" style='position:absolute;flip:x' from="5092,2133"
+  to="5304,2247"/>
+ <v:line id="_x0000_s11898" style='position:absolute' from="5092,2247" to="5304,2361"/>
+ <v:line id="_x0000_s11899" style='position:absolute;flip:x' from="5092,2361"
+  to="5304,2475"/>
+ <v:line id="_x0000_s11900" style='position:absolute' from="5092,2475" to="5304,2573"/>
+ <v:line id="_x0000_s11901" style='position:absolute;flip:x' from="5092,2573"
+  to="5304,2687"/>
+ <v:line id="_x0000_s11902" style='position:absolute' from="5092,1368" to="5093,1596"/>
+ <v:line id="_x0000_s11903" style='position:absolute' from="4978,1156" to="5190,1157"/>
+ <v:line id="_x0000_s11904" style='position:absolute' from="5092,1042" to="5093,1254"/>
+ <v:rect id="_x0000_s11905" alt="" style='position:absolute;left:5678;top:1547;
+  width:994;height:1075' fillcolor="#f9c">
+  <v:textbox style='mso-next-textbox:#_x0000_s11905' inset="3.6pt">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table41">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal">TMP<br>
+			102<br>
+			(0x48)</div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:rect><v:rect id="_x0000_s11906" alt="" style='position:absolute;left:6770;
+  top:537;width:1058;height:3453' fillcolor="#9cf">
+  <v:textbox style='mso-next-textbox:#_x0000_s11906' inset="3.6pt">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table40">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal">NHD-C0220<br>
+			BiZ</p>
+			<p class="MsoNormal">(0x3c)</div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:rect><v:shapetype id="_x0000_t32" coordsize="21600,21600" o:spt="32"
+  o:oned="t" path="m,l21600,21600e" filled="f">
+  <v:path arrowok="t" fillok="f" o:connecttype="none"/>
+  <o:lock v:ext="edit" shapetype="t"/>
+ </v:shapetype><v:shape id="_x0000_s11907" type="#_x0000_t32" style='position:absolute;
+  left:4277;top:3045;width:2493;height:1' o:connectortype="straight"/>
+ <v:shape id="_x0000_s11908" type="#_x0000_t32" style='position:absolute;
+  left:4277;top:3257;width:2493;height:1' o:connectortype="straight"/>
+ <v:shape id="_x0000_s11909" type="#_x0000_t32" style='position:absolute;
+  left:5939;top:2622;width:1;height:423' o:connectortype="straight">
+  <v:stroke endarrow="oval"/>
+ </v:shape><v:shape id="_x0000_s11910" type="#_x0000_t32" style='position:absolute;
+  left:6151;top:2622;width:16;height:635' o:connectortype="straight">
+  <v:stroke endarrow="oval"/>
+ </v:shape><v:shape id="_x0000_s11911" type="#_x0000_t32" style='position:absolute;
+  left:4717;top:2687;width:1;height:358' o:connectortype="straight">
+  <v:stroke endarrow="oval"/>
+ </v:shape><v:shape id="_x0000_s11912" type="#_x0000_t32" style='position:absolute;
+  left:5092;top:2687;width:16;height:570' o:connectortype="straight">
+  <v:stroke endarrow="oval"/>
+ </v:shape></v:group><![endif]--><![if !vml]><img width=505 height=230
+src="examples_files/image002.gif" v:shapes="_x0000_s11874 _x0000_s11875 _x0000_s11876 _x0000_s11877 _x0000_s11878 _x0000_s11879 _x0000_s11880 _x0000_s11881 _x0000_s11882 _x0000_s11883 _x0000_s11884 _x0000_s11885 _x0000_s11886 _x0000_s11887 _x0000_s11888 _x0000_s11889 _x0000_s11890 _x0000_s11891 _x0000_s11892 _x0000_s11893 _x0000_s11894 _x0000_s11895 _x0000_s11896 _x0000_s11897 _x0000_s11898 _x0000_s11899 _x0000_s11900 _x0000_s11901 _x0000_s11902 _x0000_s11903 _x0000_s11904 _x0000_s11905 _x0000_s11906 _x0000_s11907 _x0000_s11908 _x0000_s11909 _x0000_s11910 _x0000_s11911 _x0000_s11912"><![endif]></span><p class="MsoNormal">
+	<b><i><font size="2">It’s as easy as...</font></i></b></p>
+	<ol>
+		<li><font size="2" face="Arial">wire MCU to its embedded circuit</font><ol type="a">
+			<li><font size="2" face="Arial">wire MCU pin scl to the temperature 
+			sensor, LCD display, and pull-up resistor</font></li>
+			<li><font size="2" face="Arial">wire MCU pin sda to the temperature 
+			sensor, LCD display, and pull-up resistor</font></li>
+			<li><font size="2"><i>note that the COG ST7036 cannot sink more than 
+			about 10k ohm of pull-up!</i></font></li>
+		</ol>
+		</li>
+		<li><font size="2" face="Arial">connect a host computer to the USB 
+		interface on the MCU (see above)</font></li>
+		<li><font size="2" face="Arial">write and debug your BASIC control 
+		program, live on the MCU (see below)</font></li>
+		<li><font size="2" face="Arial">type “save”</font></li>
+		<li><font size="2" face="Arial">type “autorun on”</font></li>
+		<li><font size="2" face="Arial">type “run”</font></li>
+	</ol>
+	<p class="MsoNormal"><font size="2">The entire LCD digital thermometer BASIC 
+	control program is shown below:</font></p>
+	<img border="0" src="images/example2.JPG" width="751" height="670"><font size="2"><br>
+	<a target="_blank" href="text.htm#ex2">(see the examples in text format)</a><br>
+&nbsp;</font><ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+		<li class="MsoNormal"><font face="Arial" size="2">Line 10 declares four 
+		RAM variables: an integer to hold the current temperature in degrees C, 
+		two strings to represent the two lines of the display, and a third 
+		string used to blink an &quot;activity indicator&quot; on the display every two 
+		seconds.</font></li>
+		<li class="MsoNormal"><font face="Arial" size="2">Line 20 initializes 
+		the activity indicator string to contain a space and an asterisk; these 
+		characters will be alternated on the right hand side of the second 
+		display line every other second.</font></li>
+		<li class="MsoNormal"><font face="Arial" size="2">Line 30 initializes 
+		the LCD display by calling the &quot;initdisplay&quot; subroutine.</font></li>
+		<li class="MsoNormal"><font face="Arial" size="2">Lines 40-100 are the 
+		main program loop: </font>
+		<ul style="margin-top: 0in; margin-bottom: 0in" type="square">
+			<li class="MsoNormal"><font face="Arial" size="2">first, we get the 
+			current temperature by calling the &quot;gettemp&quot; subroutine,</font></li>
+			<li class="MsoNormal"><font face="Arial" size="2">then, we format a 
+			string for the first line of the display in degrees Celsius,</font></li>
+			<li class="MsoNormal"><font face="Arial" size="2">then, we format a 
+			string for the second line of the display in degrees Fahrenheit, and 
+			include the activity indicator, and</font></li>
+			<li class="MsoNormal"><font face="Arial" size="2">finally, we 
+			display both lines by calling the &quot;display&quot; subroutine.</font></li>
+		</ul>
+		</li>
+		<li class="MsoNormal"><font face="Arial" size="2">Lines 130-210 are the 
+		&quot;gettemp&quot; subroutine, which use the I2C protocol on the temperature 
+		sensor to extract degrees Celsius</font></li>
+		<li class="MsoNormal"><font face="Arial" size="2">Lines 230-330 are the 
+		&quot;display&quot; subroutine, which use the I2C protocol on the LCD display to 
+		display two lines of text</font></li>
+		<li class="MsoNormal"><font face="Arial" size="2">Lines 350-440 are the 
+		&quot;initdisplay&quot; subroutine, which use the I2C protocol to initialize the 
+		LCD display</font></li>
+		<li class="MsoNormal"><font face="Arial" size="2">Line 450 is read-only 
+		data used by the &quot;initdisplay&quot; subroutine to initialize the LCD display.</font></li>
+	</ul>
+	<p class="MsoNormal"><font size="2">Then:</font></p>
+	<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+		<li class="MsoNormal"><font face="Arial" size="2">“save” saves the 
+		program to non-volatile flash memory.</font></li>
+		<li class="MsoNormal"><font face="Arial" size="2">“autorun on” sets the 
+		program to run automatically when the MCU is powered up.</font></li>
+		<li class="MsoNormal"><font face="Arial" size="2">Finally, “run” runs 
+		the program.</font></li>
+	</ul>
+	<p class="MsoNormal"><font size="2">Here is the LCD digital thermometer in 
+	action:</font></p>
+	<p><img border="0" src="images/templcd.JPG" width="750" height="356"></p>
+		<p><font size="2"><a name="ex3"></a></font></p>
+		<hr>
+		<p><b>ZigFlea™ Wireless Remote LED Dimmer</b></p>
+	<p><font size="2">With the aid of an <i>MC13201 ZigFlea<font face="Times New Roman">™</font> Wireless 
+		Transceiver</i>, a simple wireless embedded system, like a 
+		remote LED dimmer, can be brought online just as easily as a local 
+		embedded system!</font></p>
+		<p><!--[if gte vml 1]><v:group
+ id="_x0000_s11913" editas="canvas" style='width:471.75pt;height:217.5pt;
+ mso-position-horizontal-relative:char;mso-position-vertical-relative:line'
+ coordorigin="2449,3981" coordsize="10445,4847">
+ <o:lock v:ext="edit" aspectratio="t"/>
+ <v:shape id="_x0000_s11914" type="#_x0000_t75" style='position:absolute;
+  left:2449;top:3981;width:10445;height:4847' o:preferrelative="f">
+  <v:fill o:detectmouseclick="t"/>
+  <v:path o:extrusionok="t" o:connecttype="none"/>
+  <o:lock v:ext="edit" text="t"/>
+ </v:shape><v:shapetype id="_x0000_t73" coordsize="21600,21600" o:spt="73"
+  path="m8472,l,3890,7602,8382,5022,9705r7200,4192l10012,14915r11588,6685l14767,12877r1810,-870l11050,6797r1810,-717xe">
+  <v:stroke joinstyle="miter"/>
+  <v:path o:connecttype="custom" o:connectlocs="8472,0;0,3890;5022,9705;10012,14915;21600,21600;16577,12007;12860,6080"
+   o:connectangles="270,270,180,180,90,0,0" textboxrect="8757,7437,13917,14277"/>
+ </v:shapetype><v:shape id="_x0000_s11915" type="#_x0000_t73" alt="Lightning Bolt: &nbsp;&#13;&#10;"
+  style='position:absolute;left:7285;top:4466;width:1504;height:2740;
+  rotation:270' fillcolor="black">
+  <v:textbox>
+<span LANG="EN">
+<p ALIGN="LEFT" DIR="LTR">&nbsp;</p>
+</span></v:textbox>
+ </v:shape><v:shape id="_x0000_s11916" type="#_x0000_t202" style='position:absolute;
+  left:7348;top:4566;width:1345;height:919' filled="f" stroked="f">
+  <v:textbox style='mso-next-textbox:#_x0000_s11916' inset="0,0,0,0">
+<span LANG="EN"><font style="font-size: 11pt">
+<p ALIGN="LEFT" DIR="LTR">2.4GHz zigflea wireless</p>
+</font></span></v:textbox>
+ </v:shape><v:line id="_x0000_s11917" style='position:absolute' from="7497,7357"
+  to="7713,7474"/>
+ <v:line id="_x0000_s11918" style='position:absolute;flip:x' from="7497,7474"
+  to="7713,7574"/>
+ <v:line id="_x0000_s11919" style='position:absolute' from="7497,7574" to="7713,7691"/>
+ <v:line id="_x0000_s11920" style='position:absolute;flip:x' from="7497,7691"
+  to="7713,7808"/>
+ <v:line id="_x0000_s11921" style='position:absolute' from="7497,7808" to="7713,7925"/>
+ <v:line id="_x0000_s11922" style='position:absolute;flip:x' from="7497,7925"
+  to="7713,8025"/>
+ <v:line id="_x0000_s11923" style='position:absolute' from="7497,8025" to="7713,8142"/>
+ <v:line id="_x0000_s11924" style='position:absolute;flip:x' from="7497,8142"
+  to="7713,8259"/>
+ <v:line id="_x0000_s11925" style='position:absolute' from="7497,8259" to="7713,8376"/>
+ <v:line id="_x0000_s11926" style='position:absolute;flip:x' from="7497,8376"
+  to="7713,8477"/>
+ <v:line id="_x0000_s11927" style='position:absolute' from="7497,7140" to="7498,7357"/>
+ <v:line id="_x0000_s11928" style='position:absolute' from="7497,8477" to="7498,8711"/>
+ <v:line id="_x0000_s11929" style='position:absolute' from="7264,8711" to="7713,8712"/>
+ <v:line id="_x0000_s11930" style='position:absolute' from="7381,8811" to="7596,8828"/>
+ <v:line id="_x0000_s11931" style='position:absolute' from="7381,6906" to="7596,6907"/>
+ <v:line id="_x0000_s11932" style='position:absolute' from="7497,6789" to="7498,7023"/>
+ <v:line id="_x0000_s11933" style='position:absolute' from="7131,7758" to="7580,7759">
+  <v:stroke endarrow="block"/>
+ </v:line><v:line id="_x0000_s11934" style='position:absolute' from="7131,7758"
+  to="7148,8025"/>
+ <v:line id="_x0000_s11935" style='position:absolute;flip:x' from="6816,8025"
+  to="7148,8026"/>
+ <v:line id="_x0000_s11936" style='position:absolute' from="11051,5418" to="11765,5419">
+  <v:stroke endarrow="block" endarrowwidth="wide" endarrowlength="long"/>
+ </v:line><v:line id="_x0000_s11937" style='position:absolute' from="11765,5301"
+  to="11766,5519"/>
+ <v:line id="_x0000_s11938" style='position:absolute' from="11765,5418" to="11981,5419"/>
+ <v:line id="_x0000_s11939" style='position:absolute' from="11981,5418" to="11997,5753"/>
+ <v:line id="_x0000_s11940" style='position:absolute' from="11765,5753" to="12213,5754"/>
+ <v:line id="_x0000_s11941" style='position:absolute' from="11881,5853" to="12097,5870"/>
+ <v:oval id="_x0000_s11942" style='position:absolute;left:11433;top:5184;
+  width:448;height:452' filled="f"/>
+ <v:shape id="_x0000_s11943" type="#_x0000_t202" style='position:absolute;
+  left:7796;top:7858;width:1477;height:351' filled="f" stroked="f">
+  <v:textbox style='mso-next-textbox:#_x0000_s11943' inset="0,0,0,0">
+<span LANG="EN"><font style="font-size: 11pt">
+<p ALIGN="LEFT" DIR="LTR">potentiometer</p>
+</font></span></v:textbox>
+ </v:shape><v:shape id="_x0000_s11944" type="#_x0000_t202" style='position:absolute;
+  left:11499;top:4850;width:631;height:385' filled="f" stroked="f">
+  <v:textbox style='mso-next-textbox:#_x0000_s11944' inset="0,0,0,0">
+<span LANG="EN"><font style="font-size: 11pt">
+<p ALIGN="LEFT" DIR="LTR">LED</p>
+</font></span></v:textbox>
+ </v:shape><v:rect id="_x0000_s11945" alt="" style='position:absolute;left:5355;
+  top:6672;width:1461;height:2022' fillcolor="green">
+  <v:fill rotate="t"/>
+  <v:textbox style='mso-next-textbox:#_x0000_s11945' inset="1.90639mm,.95319mm,1.90639mm,.95319mm">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table39">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><span style="font-size: 11pt">MCU &amp; <br>
+			MC13201<br>
+			#1<br>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; an0<br>
+			USB</span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:rect><v:shape id="_x0000_s11946" type="#_x0000_t202" alt="" style='position:absolute;
+  left:2731;top:7591;width:2059;height:1220' filled="f" fillcolor="black"
+  stroked="f" strokecolor="#969696">
+  <v:textbox style='mso-next-textbox:#_x0000_s11946' inset="0,0,0,0">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table38">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><span style="font-size: 11pt">to host computer 
+			Hyper Terminal (during&nbsp; program development only)</span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:shape><v:rect id="_x0000_s11947" alt="" style='position:absolute;left:9623;
+  top:4081;width:1461;height:2022' fillcolor="green">
+  <v:fill rotate="t"/>
+  <v:textbox style='mso-next-textbox:#_x0000_s11947' inset="1.90639mm,.95319mm,1.90639mm,.95319mm">
+<![if !mso]>
+<table cellpadding="0" cellspacing="0" width="100%" id="table37">
+	<tr>
+		<td><![endif]>
+		<div>
+			<p class="MsoNormal"><span style="font-size: 11pt">MCU &amp; MC13201<br>
+			#2<br>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dtin0</span></div>
+		<![if !mso]></td>
+	</tr>
+</table>
+<![endif]></v:textbox>
+ </v:rect><v:line id="_x0000_s11948" alt="" style='position:absolute' from="4691,8326"
+  to="5355,8327" strokecolor="#969696" strokeweight="3pt">
+  <v:stroke dashstyle="1 1"/>
+ </v:line></v:group><![endif]--><![if !vml]><img width=629 height=291
+src="examples_files/image003.gif" v:shapes="_x0000_s11913 _x0000_s11914 _x0000_s11915 _x0000_s11916 _x0000_s11917 _x0000_s11918 _x0000_s11919 _x0000_s11920 _x0000_s11921 _x0000_s11922 _x0000_s11923 _x0000_s11924 _x0000_s11925 _x0000_s11926 _x0000_s11927 _x0000_s11928 _x0000_s11929 _x0000_s11930 _x0000_s11931 _x0000_s11932 _x0000_s11933 _x0000_s11934 _x0000_s11935 _x0000_s11936 _x0000_s11937 _x0000_s11938 _x0000_s11939 _x0000_s11940 _x0000_s11941 _x0000_s11942 _x0000_s11943 _x0000_s11944 _x0000_s11945 _x0000_s11946 _x0000_s11947 _x0000_s11948"><![endif]></p>
+		<p><i><b><font size="2">It’s as easy as... </font> </b></i> </p>
+		<ol>
+			<li><font size="2">set the 2.4GHz zigflea wireless nodeid on each MCU</font></li>
+			<li><font size="2">wire MCU #1 to its embedded circuit</font><ol>
+				<li type="a"><font size="2">wire MCU #1 pin an0 to the potentiometer</font></li>
+			</ol>
+			</li>
+			<li><font size="2">wire MCU #2 to its embedded circuit</font><ol>
+				<li type="a"><font size="2">wire MCU #2 pin dtin0 to the LED</font></li>
+			</ol>
+			</li>
+			<li><font size="2">connect a host computer to the USB interface on 
+			MCU #1</font></li>
+			<li><font size="2">write and debug your BASIC control program, live on 
+			MCU #1 
+			(see below)</font></li>
+			<li><font size="2">use the 2.4GHz zigflea wireless transport to connect to 
+			MCU 
+			#2</font></li>
+			<li><font size="2">write and debug your BASIC control program, live on 
+			MCU #2 
+			(see below)</font></li>
+			<li><font size="2">run the program on MCU #2</font></li>
+			<li><font size="2">disconnect from MCU #2</font></li>
+			<li><font size="2">run the program on MCU #1</font></li>
+		</ol>
+		<p><font size="2">The entire debugging session, including the writing and running of 
+		both MCU’s BASIC control programs, is shown below:</font></p>
+		<img border="0" src="images/example3.JPG" width="751" height="504"><font size="2"><br>
+		<a target="_blank" href="text.htm#ex3">(see the examples in text format)</a></font><p>
+		<font size="2">Note that all of this debugging session is occurring on the Hyper 
+		Terminal connected to the USB interface on MCU #1!</font></p>
+		<p><font size="2">First we write the program on MCU #1.</font></p>
+		<ul>
+			<li><font size="2">Notice in line 10 that we declare a local pin variable named 
+			“potentiometer” to read the value of the potentiometer, through 
+			analog input pin an0, in millivolts.</font></li>
+			<li><font size="2">Then, in line 20, we declare a remote pin variable to control 
+			the LED on MCU #2 (through MCU #2’s local pin variable!); 
+			the “as remote on nodeid 2” indicates that the real variable 
+			declaration is found on MCU #2.</font></li>
+			<li><font size="2">Then we simply enter an infinite loop reading the value of the 
+			potentiometer (again, in millivolts) every 100ms, and writing it to 
+			the LED on MCU #2.</font></li>
+		</ul>
+		<p><font size="2">We then save the program to flash memory on MCU #1 and configure 
+		it to run automatically when the MCU powers up.</font></p>
+		<p><font size="2">Then we remotely connect to MCU #2 and write its program.</font></p>
+		<ul>
+			<li><font size="2">Notice in line 10 that we declare a local pin variable named 
+			“led” to control the LED, through analog output pin dtin0, in 
+			millivolts.</font></li>
+			<li><font size="2">Then we simply enter an infinite loop, waiting for our local pin 
+			variable to be written remotely from MCU #1 every 100ms!</font></li>
+		</ul>
+		<p><font size="2">We then save the program to flash memory on MCU #2 and configure 
+		it to run automatically when the MCU powers up.</font></p>
+		<p><font size="2">Finally, we run the program on MCU #2, disconnect from 
+		MCU 
+		#2 by pressing &lt;Ctrl-D&gt;, and run the program on MCU #1.</font></p>
+		<p><font size="2">At this point, adjusting the potentiometer on MCU #1 causes the 
+		LED brightness on MCU #2 to be correspondingly adjusted, after a 
+		100ms delay!!!</font></p>
+	<p><a name="fslbot"></a></p>
+	<hr>
+	<p><b>FSLBOT Walking Robot</b></p>
+	<p><font size="2">Running inside the TWR-MECH board of the FSLBOT, this 
+	program allows the robot to walk or stop or blink its mouth lights when the 
+	facial sensors are touched; the potentiometer controls the walking speed.</font></p>
+	<p><font size="2">See a short video:</font></p>
+	<p><a href="images/fslbot.mp4">
+	<img border="2" src="images/MOV08150.JPG" width="160" height="120"></a></p>
+	<p><font size="2">Use &quot;<font face="Courier New">auto</font>&quot; to load the 
+	program below and run with the potentiometer at mid-range.</font></p>
+	<p><font size="2">N.B. this program uses v1.90 features.</font></p>
+	<pre>
+// *** fslbot demo ***
+// touch mouth to blink leds
+// adjust potentiometer for walk speed
+// touch left/right cheek to take 6 steps leading from left/right
+// touch forehead to stop march
+//
+dim mpr121
+mpr121 = 0x5a  // i2c address
+dim ioex
+ioex = 0x38  // i2c address
+//
+dim blink, lit  // state of the mouth LEDs
+dim right, left  // counts of steps to take
+//
+// *** initialize our modules ***
+gosub mpr121_init
+gosub mouth_init
+//
+// *** configure the mpr121_isr ***
+dim isr as pin irq7* for digital input inverted
+on isr do gosub mpr121_isr
+//
+// *** configure the mouth_timer ***
+configure timer 1 for 300 ms
+on timer 1 do gosub mouth_timer
+//
+// *** configure the servo pins ***
+dim rfoot as pin dtin0 for servo output
+dim rhip as pin dtin1 for servo output
+dim lhip as pin dtin2 for servo output
+dim lfoot as pin dtin3 for servo output
+//
+// *** configure the walk speed potentiometer
+dim pot as pin an6 for analog input
+//
+// *** set the walk stride variables ***
+dim delay
+dim flower, fstart, fraise, ftip, hshift
+delay = 15
+flower = 600, fstart = 150, fraise = 230, ftip = 50, hshift = 250
+//
+// *** stand square ***
+gosub stand
+//
+// *** main loop -- just walk ***
+//
+while 1 do
+  if left>right&&left>0 then
+    // lead with the left foot
+    gosub left_step
+    left = left-2
+  elseif right>left&&right>0 then
+    // lead with the right foot
+    gosub right_step
+    right = right-2
+  else
+    gosub stand
+  endif
+  delay = pot*15/1650
+endwhile
+end
+//
+// *** walking subroutines ***
+//
+sub right_step
+  // step the right foot
+  lfoot = 0  // relax left foot
+  for rfoot = rfoot to 1500+flower step 10  // lean left
+    sleep delay ms
+  next
+  for lfoot = 1500+fstart to 1500+fraise step 10  // stand left
+    sleep delay ms
+  next
+  do   // take right step
+    if rfoot>1500+ftip then
+      rfoot = rfoot-10
+    endif
+    if rhip>1500-hshift then
+      rhip = rhip-10
+      lhip = rhip
+    endif
+    sleep delay ms
+  until rfoot<=1500+fstart&&rhip<=1500-hshift
+  for lfoot = lfoot to 1500 step -10  // fall back right
+    sleep delay ms
+  next
+endsub
+//
+sub left_step
+  // step the left foot
+  rfoot = 0  // relax right foot
+  for lfoot = lfoot to 1500-flower step -10  // lean right
+    sleep delay ms
+  next
+  for rfoot = 1500-fstart to 1500-fraise step -10  // stand right
+    sleep delay ms
+  next
+  do   // take left step
+    if lfoot<1500-ftip then
+      lfoot = lfoot+10
+    endif
+    if lhip<1500+hshift then
+      lhip = lhip+10
+      rhip = lhip
+    endif
+    sleep delay ms
+  until lfoot>=1500-fstart&&lhip>=1500+hshift
+  for rfoot = rfoot to 1500 step 10  // fall back left
+    sleep delay ms
+  next
+endsub
+//
+sub stand
+  // stand square
+  rfoot = 1500, rhip = 1500, lhip = 1500, lfoot = 1500
+endsub
+//
+// *** mouth subroutines ***
+//
+sub mouth_timer
+  dim r as byte, d as byte
+  // blink all bits if we're supposed to
+  if blink then
+    lit = ~lit
+    r = 1, d = lit
+    i2c start ioex
+    i2c write r, d
+    i2c stop
+  endif
+endsub
+//
+sub mouth_init
+  dim r as byte, d as byte
+  // configure bits for output
+  r = 3, d = 0
+  i2c start ioex
+  i2c write r, d
+  i2c stop
+endsub
+//
+// *** touch subroutines ***
+//
+sub mpr121_isr
+  dim bits
+  // get the touch value and respond appropriately
+  gosub mpr121_poll bits
+  if bits&128 then
+    // print "mouth"
+    blink = !blink
+  endif
+  if bits&64 then
+    // print "forehead"
+    left = 0, right = 0
+  endif
+  if bits&32 then
+    // print "left cheek"
+    left = 6, right = 5
+  endif
+  if bits&16 then
+    // print "right cheek"
+    right = 6, left = 5
+  endif
+endsub
+//
+sub mpr121_poll bits
+  dim r as byte, r0 as byte, r1 as byte
+  // read and return both bytes of the touch register
+  i2c start mpr121
+  r = 0
+  i2c write r
+  i2c read r0
+  r = 1
+  i2c write r
+  i2c read r1
+  i2c stop
+  bits = r1<<8|r0
+endsub
+//
+sub mpr121_init
+  dim i
+  dim r as byte, d as byte
+  // just follow AN3944: MPR121 Quick Start Guide
+  i2c start mpr121
+  for i = 1 to 0x17 step 2
+    r = 0x40+i, d = 0xf
+    i2c write r, d
+    r = 0x41+i, d = 0xa
+    i2c write r, d
+  next
+  restore mpr121
+  do
+    read r, d
+    i2c write r, d
+  until r==0x5e
+  i2c stop
+  label mpr121
+  data 0x2b, 0x1, 0x2c, 0x1, 0x2d, 0x0, 0x2e, 0x0
+  data 0x2f, 0x1, 0x30, 0x1, 0x31, 0xff, 0x32, 0x2
+  data 0x5d, 0x4, 0x7b, 0xb, 0x7d, 0x9c, 0x7e, 0x65
+  data 0x7f, 0x8c, 0x5e, 0x8c
+endsub</pre>
+	<pre>
+<a name="int"></a></pre><hr>
+	<p>
+<b><font size="3" face="Arial">Get Intimate (and Interactive!) With Your MCU!</font></b></p>
+	<p>
+<font face="Arial" size="2">The following advanced examples show how you can use StickOS 
+MCU register variables 
+to talk directly to MCU peripheral registers, either interactively thru the 
+command line or thru a BASIC program!</font></p>
+	<p>
+<font size="2">N.B. these examples use v1.90 features; use &quot;<b><font face="Courier New">let</font></b>&quot; 
+keywords below for earlier versions of StickOS.</font></p>
+	<p>
+<font face="Arial" size="2">All you need to know is the register address and 
+register definition and you can interact even with peripherals like the MCF52259 
+Random Number Generator, that StickOS otherwise knows nothing 
+about:</font></p>
+	<blockquote>
+		<pre>Welcome to StickOS for Freescale MCF52259 v1.92c!
+Copyright (c) 2008-2010; all rights reserved.
+https://github.com/rtestardi/StickOS
+support@cpustick.com
+(checksum 0x1d7)
+&gt; <i><b>rem configure the random number generator (rng) registers</b></i>
+&gt; <b>dim rngcr at address 0x401f0000</b>
+&gt; <b>dim rngsr at address 0x401f0004</b>
+&gt; <b>dim rngout at address 0x401f000c</b>
+&gt;
+&gt; <i><b>rem check if the rng is running?</b></i>
+&gt; <b>print hex rngsr, rngout</b>
+0x10000 <span style="background-color: #FFFF00">0x0</span>
+&gt;
+&gt; <i><b>rem turn on the rng</b></i>
+&gt; <b>rngcr = 0x01</b>
+&gt;
+&gt; <i><b>rem now check the rng again!</b></i>
+&gt; <b>print hex rngsr, rngout</b>
+0x1010e <span style="background-color: #FFFF00">0xf3e56c84</span>
+&gt; <b>print hex rngsr, rngout</b>
+0x10108 <span style="background-color: #FFFF00">0xfe7ac1db</span>
+&gt; <b>print hex rngsr, rngout</b>
+0x10108 <span style="background-color: #FFFF00">0x8b0f444e</span>
+&gt; _</pre>
+	</blockquote>
+	<p><font size="2">As another example, you can even program ISR's by 
+	configuring the MCF52259 Programmable Interrupt Timer 1 (PIT1), </font>
+<font face="Arial" size="2">that StickOS otherwise does not use</font><font size="2">, by hand, like:</font></p>
+	<blockquote>
+		<p><font face="Courier New" size="2">&gt; <i><b>list</b></i><br>
+		10 dim ppmrh at address 0x<b></b></b>4000000c<br>
+		20 dim pcsr1 as short at address 0x40160000<br>
+		30 dim pmr1 as short at address 0x40160002<br>
+		40 ppmrh = ppmrh&amp;~0x10 // enable pit1 clocks<br>
+		50 pmr1 = 1220 // configure pit1 for 1 Hz<br>
+		60 pcsr1 = 0xf7b // 32k prescale, reload, pit enable<br>
+		70 on pcsr1&amp;0x4 do gosub isr // pit1 interrupt flag<br>
+		80 halt<br>
+		100 sub isr<br>
+		110 pcsr1 = pcsr1|0x4 // clear the interrupt flag<br>
+		120 print &quot;isr at&quot;, seconds, &quot;seconds&quot;<br>
+		130 endsub<br>
+		end<br>
+		&gt; <i><b>run</b></i><br>
+		<span style="background-color: #FFFF00">isr at 974 seconds<br>
+		isr at 975 seconds<br>
+		isr at 976 seconds<br>
+		isr at 977 seconds<br>
+		isr at 978 seconds</span><br>
+		&lt;Ctrl-C&gt;<br>
+		STOP at line 80!<br>
+		&gt; _</font></p>
+	</blockquote>
+	<p><font size="2">This makes for a trivial and interactive (and maybe even 
+	fun!) way to learn and discover peripheral operation of the MCU!&nbsp; Of course, you can do the same to learn and discover external i2c and spi 
+	peripherals as well -- <i>interactive rocks!</i> :-)</font></p>
+	<p class="MsoNormal"><font size="2">[Note that you can trivially crash your 
+	MCU by accessing registers incorrectly, so be sure to set up your safemode 
+	pin attached to the “autorun disable” switch before you autorun any program 
+	that uses MCU register variables, and save your changes often!]</font><br>
+	</p>
+	<!-- #EndEditable -->
+<hr style="height: 4px">
+
+<p></p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-0814092712345002";
+/* 728x90, created 10/8/10 */
+google_ad_slot = "7009325670";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+	<p><span style="visibility: hidden">keywords: rich testardi microcontroller hobby 
+	rapid prototype breadboard middle-school high-school university software development 
+	environment sde stickosbasic.com</span></td>
+
+	</tr>
+	<tr>
+		<td width="191"></td>
+		<td height="3" width="750"></td>
+	</tr>
+</table>
+
+</body>
+
+<!-- #EndTemplate -->
+
+</html>

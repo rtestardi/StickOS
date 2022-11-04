@@ -1,0 +1,154 @@
+﻿<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>CPUStick™ and StickOS™ -- Bootloader Instructions</title>
+<!--mstheme--><link rel="stylesheet" type="text/css" href="_themes/rich2/rich1001.css"><meta name="Microsoft Theme" content="rich2 1001, default">
+</head>
+
+<body>
+
+<hr>
+<p><font size="2">Bootloaders:</font></p>
+<ul>
+	<li><a href="#cab"><font size="2">chipKIT avrdude Bootloader</font></a></li>
+	<li><font size="2"><a href="#cub">avrdude USB Bootloader (CUI32Stem)</a></font></li>
+	<li><a href="#mhb"><font size="2">Microchip HID Bootloader</font></a></li>
+	<li><a href="#fdb"><font size="2">Freescale DemoKit/Badge Board MST 
+	Bootloader</font></a></li>
+</ul>
+<p><font size="2"><b><a name="cab"></a></b></font></p>
+<hr>
+<p><font size="2"><b>chipKIT 
+avrdude Bootloade</b>r</font></p>
+<p><font size="2">Note that by default, chipKIT boards automatically reset the 
+MCU when 
+the FTDI COM port is first opened by the host computer.&nbsp; This behavior can 
+be disabled (which is how I run) by cutting the trace under JP1 on the Uno32 or JP5 on the Max32, 
+and then installing a removable jumper.&nbsp; 
+If you have cut this trace, you will need to manually reset the board 
+immediately before running avrdude, below, or temporarily install the jumper on 
+the board. <i><b>&nbsp;If you have not cut the trace, then e</b></i></font><i><b><font size="2">very 
+time you subsequently connect the terminal emulator to the board, the MCU will 
+be reset.&nbsp; During the 4 seconds following reset, you <u>must not enter any input on the terminal emulator</u> or the 
+	bootloader will crash!&nbsp; After 4 seconds with no input from the terminal 
+	emulator, the bootloader will automatically transfer control to StickOS and 
+then you can 
+	then press 
+	&lt;Enter&gt; to get a command prompt.</font></b></i></p>
+<ol>
+	<li><font size="2">Download the <a href="downloads/avrdude.exe">avrdude 
+	program for Windows</a> and the 
+	<a target="_blank" href="downloads/avrdude.conf">avrdude 
+	configuration file</a> and possibly the <a href="downloads/libusb0.dll">
+	libusb0.dll</a> (.EXE, .CONF, .DLL for chipKIT Uno32 and Max32)</font></li>
+	<li><font size="2">Connect the board to the host computer.</font></li>
+	<li><font size="2">Determine the COM port used by the FTDI chip:<br>
+	<img border="0" src="images/bootlo2.jpg"></font></li>
+	<li><font size="2">Download the appropriate avrdude bootloader image file 
+	from the <a target="_blank" href="downloads.htm">CPUStick™ and StickOS® -- 
+	Downloads</a> page.</font></li>
+	<li><font size="2">Reset the board (only needed if you have cut the trace 
+	under JP1 or JP5, above), and then immediately invoke the command below.</font></li>
+	<li><font size="2">In a command prompt, invoke avrdude as follows, with your 
+	particular COM port and avrdude bootloader image file specified:<br><br>
+	<font face="Courier New"><b>&nbsp;&nbsp;&nbsp; avrdude -C avrdude.conf -c stk500v2 -p pic32-360 
+	-P </b><i>COMX</i><b> -U flash:w:</b><i>StickOS.XXX.hex<br>
+	<br>
+	</i></font><i>Note that if you receive a flash verification error from 
+	avrdude, you likely have an old bootloader running on a new chip -- the old 
+	bootloader is incompatible with PIC32's with date codes beyond 1101 or so, 
+	as the PIC32 flash timing requirements actually changed in newer silicon, 
+	and so it fails to write flash correctly!&nbsp; See </i>
+	<a target="_blank" href="history.htm">StickOS Revision 
+	History and Known Bugs</a><i> (the same bug affected StickOS, but StickOS 
+	has been fixed as of v1.92 -- but the bootloader can be broken 
+	independently).</i></font></li>
+	<li><font size="2">StickOS should be running, with the heartbeat led 
+	blinking slowly.</font></li>
+	<li><font size="2">Remember to configure your terminal emulator for XON/XOFF 
+	flow control since behind the FTDI COM port is a traditional UART on the 
+	MCU!</font></li>
+	<li><font size="2"><b><i>Remember</i></b></font><i><b><font size="2"> that if you have not cut the trace under JP1 
+	or JP5, above, then every time you subsequently connect the terminal 
+	emulator to the board, the MCU will be reset.&nbsp; During the 4 
+	seconds following reset, you <u>must not enter any input on the terminal emulator</u> or the 
+	bootloader will crash!&nbsp; After 4 seconds with no input from the terminal 
+	emulator, the bootloader will automatically transfer control to StickOS and 
+	then you can 
+	then press 
+	&lt;Enter&gt; to get a command prompt.</font></b></i></li>
+</ol>
+<p><a name="cub"></a></p>
+<hr>
+<p><b><font size="2">avrdude USB Bootloader (CUI32Stem, etc.)</font></b></p>
+<ol>
+	<li><font size="2">Before connecting the board to a Windows USB host 
+	computer, install the stk500v2.inf file by saving it to a file, 
+	right-clicking on the file, and selecting &quot;Install&quot;; you can ignore warnings 
+	about an unsigned driver package -- the driver is straight from Microsoft, 
+	and only the INF file itself is unsigned. The INF file allows Windows to 
+	bind a human readable name, &quot;Stk500v2&quot;, to the USB VID/PID presented to the 
+	host by the avrdude bootloader. The latest version of the stk500v2.inf file 
+	can always be found at: <a href="https://github.com/rtestardi/StickOS/Stk500v2.inf">https://github.com/rtestardi/StickOS/Stk500v2.inf</a></font></li>
+	<li><font size="2">On boards with a PRG switch, hold down the PRG switch 
+	while powering up the board to permanently enter the bootloader.</font></li>
+	<li><font size="2">Continue <a href="#cab">here</a>.</font></li>
+	<li><font size="2">The source and binary for the bootloader is here: </font>
+	<a href="https://github.com/rtestardi/PIC32-CDC-ACM-Stk500v2-Bootloader">
+	<font size="2">
+	https://github.com/rtestardi/PIC32-CDC-ACM-Stk500v2-Bootloader</font></a></li>
+</ol>
+<p><b><font size="2"><a name="mhb"></a></font></b></p>
+<hr>
+<p><b><font size="2">Microchip HID 
+Bootloader</font></b></p>
+<ol>
+	<li><font size="2">Download the <a href="downloads/HIDBootLoader.exe">Microchip HIDBootLoader 
+	for Windows</a> (.EXE, for CUI32 and UBW32).</font></li>
+	<li><font size="2">Connect the board to the host computer while holding down 
+	the PROG or PRG button on the board.</font></li>
+	<li><font size="2">Launch the Microchip HIDBootLoader 
+	for Windows; verify that the device is attached:<br>
+	<img border="0" src="images/bootlo1.jpg"></font></li>
+	<li><font size="2">Download the appropriate StickOS HID bootloader image 
+	file from the <a target="_blank" href="downloads.htm">CPUStick™ and StickOS® 
+	-- Downloads</a> page.</font></li>
+	<li><font size="2">Press &quot;Open Hex File&quot; and browse to the HID bootloader 
+	image file.</font></li>
+	<li><font size="2">Press &quot;Program/Verify&quot;.</font></li>
+	<li><font size="2">Disconnect the board from the host computer and reconnect 
+	it while not holding down any buttons on the board.</font></li>
+	<li><font size="2">StickOS should be running, with the heartbeat led 
+	blinking slowly.</font></li>
+</ol>
+<p><b><font size="2"><a name="fdb"></a></font></b></p>
+<hr>
+<p><b><font size="2">Freescale DemoKit/Badge 
+Board MST Bootloader</font></b></p>
+<ol>
+	<li><font size="2">For the Badge Board, enter bootloader mode by connecting 
+	the board to the host computer and then pressing F4;<br>
+	for the DemoKit, enter bootloader mode by pressing SW1 and then connecting 
+	the board to the host computer.</font></li>
+	<li><font size="2">Verify that a new USB MST removable disk shows up on your 
+	host computer:<br>
+	<img border="0" src="images/bootlo3.jpg"></font></li>
+	<li><font size="2">Download the appropriate MST bootloader image file from 
+	the <a target="_blank" href="downloads.htm">CPUStick™ and StickOS® -- 
+	Downloads</a> page.</font></li>
+	<li><font size="2">Drag and drop the S19 file to the new removable disk 
+	exposed by the board.</font></li>
+	<li><font size="2">Once the Explorer window responds, the firmware should be 
+	updated.</font></li>
+	<li><font size="2">Disconnect the board from the host computer and reconnect 
+	it while not pressing or holding down any buttons on the board.</font></li>
+	<li><font size="2">StickOS should be running, with the heartbeat led 
+	blinking slowly.</font></li>
+</ol>
+<hr>
+
+</body>
+
+</html>
